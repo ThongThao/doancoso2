@@ -122,7 +122,7 @@
                                             <i class="las la-minus"></i><span>Thêm Phân Loại</span>
                                         </a>
                              </li>                            
-                            
+                    
                           </ul>
                       </li>
                       <li class=" ">
@@ -468,7 +468,7 @@
     function ChangeToSlug()
         {
             var slug;
-         
+         //fffffff
             //Lấy text từ thẻ input title 
             slug = $('.slug').val();
             slug = slug.toLowerCase();
