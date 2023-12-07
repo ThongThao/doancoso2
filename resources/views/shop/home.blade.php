@@ -10,10 +10,6 @@
             <div class="single-slider swiper-slide animation-style-01" style="background-image: url('public/ericshop/images/slider/ERICBanner.png');">
                 <div class="container">
                     <div class="slider-content">
-                        <h5 class="sub-title">Nhập: <span class="text-primary">SALE100K</span> <br> Giảm 100K cho mọi đơn hàng</h5>
-                        <h2 class="main-title">Ngày đặc biệt!</h2>
-                        <p>Nhập: <span class="text-primary">SALE10</span> để được giảm 10%!</p>
-
                         <ul class="slider-btn" >
                             <li><a href="{{URL::to('/store')}}" class="btn btn-round btn-primary">Bắt đầu mua sắm</a></li>
                         </ul>
