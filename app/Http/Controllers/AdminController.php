@@ -41,7 +41,8 @@ class AdminController extends Controller
         
         $total_revenue = Bill::whereNotIn('Status',[99])->sum('TotalBill');
         $total_sell = BillInfo::join('bill','bill.idBill','=','billinfo.idBill')->whereNotIn('Status',[99])->sum('QuantityBuy');
-        return view("admin.dashboard")->with(compact('total_revenue','total_sell'));
+        $total_bill = Bill::count();
+        return view("admin.dashboard")->with(compact('total_revenue','total_sell','total_bill'));
     }
 
     // Chuyển đến trang hồ sơ cá nhân
