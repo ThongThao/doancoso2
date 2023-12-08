@@ -203,6 +203,5 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-    // Thống kê doanh thu theo ngày đã chọn
    
 }
