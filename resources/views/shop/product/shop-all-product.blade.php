@@ -25,7 +25,37 @@
             <div class="col-lg-9">
 
                 <div class="shop-top-bar d-sm-flex align-items-center justify-content-between mt-3">
-                       
+                   
+                    <div class="top-bar-sorter">
+                        <div class="sorter-wrapper d-flex align-items-center">
+                            <label>Sắp xếp theo:</label>
+                            <div class="select-input">
+                                <span class="select-input__sort" <?php if(isset($_GET['sort_by'])){ echo 'data-sort='
+                                    . '&sort_by=' .$_GET['sort_by']; }else echo "data-sort='&sort_by=new'" ; ?>
+                                    >
+                                    <?php
+                                        if(isset($_GET['sort_by'])){
+                                            if($_GET['sort_by'] == 'new') echo 'Mới Nhất';
+                                            else if($_GET['sort_by'] == 'old') echo 'Cũ Nhất';
+                                            else if($_GET['sort_by'] == 'bestsellers') echo 'Bán Chạy';
+                                            else if($_GET['sort_by'] == 'featured') echo 'Nổi Bật';
+                                            else if($_GET['sort_by'] == 'price_desc') echo 'Giá, Cao đến Thấp';
+                                            else if($_GET['sort_by'] == 'price_asc') echo 'Giá, Thấp đến Cao';
+                                        }else echo 'Mới Nhất';
+                                    ?>
+                                </span><i class="select-input__icon fa fa-angle-down"></i>
+                                <ul class="select-input__list">
+                                    <li class="select-input__item" data-sort="&sort_by=new">Mới Nhất</li>
+                                    <li class="select-input__item" data-sort="&sort_by=old">Cũ Nhất</li>
+                                    <li class="select-input__item" data-sort="&sort_by=bestsellers">Bán Chạy</li>
+                                    <li class="select-input__item" data-sort="&sort_by=featured">Nổi Bật</li>
+                                    <li class="select-input__item" data-sort="&sort_by=price_desc">Giá, Cao đến Thấp
+                                    </li>
+                                    <li class="select-input__item" data-sort="&sort_by=price_asc">Giá, Thấp đến Cao</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="top-bar-page-amount">
                         <p>Có: {{$count_pd}} sản phẩm</p>
                     </div>
