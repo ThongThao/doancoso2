@@ -1899,7 +1899,7 @@ select {
   border-radius: 50%;
   position: absolute;
   left: 0;
-  border: 1px solid #f379a7;
+  border: 1px solid #000000;
   -webkit-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   transition: all 0.3s linear;
@@ -1922,7 +1922,7 @@ select {
   top: 0;
   width: 20px;
   height: 20px;
-  background-color: #f379a7;
+  background-color: #000000;
   opacity: 0;
   -webkit-transform: scale(0.5);
   -ms-transform: scale(0.5);
@@ -2547,7 +2547,7 @@ blockquote p {
   width: 20px;
   height: 20px;
   line-height: 20px;
-  background: #f379a7;
+  background: #000000;
   border-radius: 100%;
   text-align: center;
   font-weight: 400;
@@ -2630,7 +2630,7 @@ blockquote p {
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu .product-cart .single-cart-box .cart-img .pro-quantity {
   border-radius: 100%;
   color: #ffffff;
-  background-color: #f379a7;
+  background-color: #000000;
   font-size: 12px;
   line-height: 23px;
   min-width: 27px;
@@ -2673,7 +2673,7 @@ blockquote p {
   display: inline-block;
   font-size: 14px;
   line-height: 20px;
-  color: #f379a7;
+  color: #ff0000;
   font-weight: 500;
   margin-right: 3px;
 }
@@ -2712,7 +2712,7 @@ blockquote p {
 }
 
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu .product-total .cart-total li span {
-  color: #f379a7;
+  color: #ff0000;
   display: block;
   float: right;
 }
@@ -2729,8 +2729,8 @@ blockquote p {
 }
 
 .header-meta-info .header-account .header-account-list.mini-cart .dropdown-menu .product-btn .btn:hover {
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #8c8c8c;
+  border-color: #e6e6e6;
 }
 
 .header-meta-info .header-account .header-account-list.mobile-menu-trigger button {
@@ -5435,12 +5435,12 @@ blockquote p {
 /*  4.14 - Cart CSS
 /*----------------------------------------*/
 .cart-table .table thead {
-  background-color: rgba(249, 140, 140, 0.8);
+  background-color: rgb(193 193 193 / 80%);
 }
 
 .cart-table .table thead tr th {
   background-color: #fff;
-  border: 1px solid rgba(249, 140, 140, 0.1) !important;
+  border: 1px solid rgb(0 0 0 / 64%) !important;
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
@@ -5464,7 +5464,7 @@ blockquote p {
 }
 
 .cart-table .table tbody tr td {
-  border: 1px solid rgba(249, 140, 140, 0.8);
+  border: 1px solid rgb(0 0 0 / 64%);
   text-align: center;
   vertical-align: middle;
   padding: 15px;
@@ -5560,13 +5560,13 @@ blockquote p {
 }
 
 .cart-btn .btn:hover {
-  border-color: #f379a7;
-  background-color: #f379a7;
+  border-color: #000000;
+  background-color: #000000;
   color: #ffffff;
 }
 
 .cart-btn .btn.btn-primary {
-  border-color: #f379a7;
+  border-color: #000;
   color: #ffffff;
 }
 
@@ -7493,7 +7493,7 @@ blockquote p {
   align-items: center;
   font-size: 1.8rem;
   margin-bottom: 20px;
-  color: #f379a7;
+  color: #000000;
 }
 
 .container__address-content-hd-icon {
@@ -9705,8 +9705,8 @@ div.dataTables_wrapper div.dataTables_filter input {
 .pagination > .active > span:focus {
   z-index: 3;
   color: #fff;
-  background-color: #f379a7;
-  border-color: #f379a7;
+  background-color: #000;
+  border-color: rgb(190 190 190 / 25%);
   cursor: default;
 }
 .pagination > .disabled > span,
