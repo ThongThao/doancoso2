@@ -38,23 +38,10 @@ class AdminController extends Controller
     public function show_dashboard(){
         $this->checkLogin();
         $this->checkPostion();
-        $start_this_month = Carbon::now()->startOfMonth()->toDateString(); 
         
         $total_revenue = Bill::whereNotIn('Status',[99])->sum('TotalBill');
         $total_sell = BillInfo::join('bill','bill.idBill','=','billinfo.idBill')->whereNotIn('Status',[99])->sum('QuantityBuy');
-
-        $list_topProduct = Product::join('productimage','productimage.idProduct','=','product.idProduct')
-            ->join('billinfo','billinfo.idProduct','=','product.idProduct')
-            ->join('bill','bill.idBill','=','billinfo.idBill')->whereNotIn('Status',[99])
-            ->whereBetween('bill.created_at', [$start_this_month,now()])
-            ->select('ProductName','ImageName')
-            ->selectRaw('sum(QuantityBuy) as Sold')
-            ->groupBy('ProductName','ImageName')->orderBy('Sold','DESC')->take(6)->get();
-
-        $list_topProduct_AllTime = Product::join('productimage','productimage.idProduct','=','product.idProduct')
-            ->whereRaw('Sold > 0')->orderBy('Sold','DESC')->take(5)->get();
-
-        return view("admin.dashboard")->with(compact('total_revenue','total_sell','list_topProduct','list_topProduct_AllTime'));
+        return view("admin.dashboard")->with(compact('total_revenue','total_sell'));
     }
 
     // Chuyển đến trang hồ sơ cá nhân

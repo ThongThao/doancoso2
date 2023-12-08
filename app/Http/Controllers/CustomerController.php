@@ -206,9 +206,6 @@ class CustomerController extends Controller
                 });
             }
 
-            //whereRaw("MATCH (ProductName) AGAINST (?)", Product::fullTextWildcards($keyword)) //
-            // $list_pd_query = Product::whereRaw("MATCH (ProductName) AGAINST (? IN BOOLEAN MODE)", Product::fullTextWildcards($keyword));
-
             if(isset($_GET['brand'])) $brand_arr = explode(",",$_GET['brand']);
             if(isset($_GET['category'])) $category_arr = explode(",",$_GET['category']);
 
