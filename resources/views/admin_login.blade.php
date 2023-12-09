@@ -45,14 +45,14 @@
                                     <div class="row">
                                        <div class="col-lg-12">
                                           <div class="floating-label form-group">
-                                             <input class="floating-input form-control" type="text" placeholder=" " name="AdminUser" required>
-                                             <label>Tên Đăng Nhập</label>
+                                             <input class="floating-input form-control" type="text" placeholder="Tên Đăng Nhập " name="AdminUser" required>
+                                           
                                           </div>
                                        </div>
                                        <div class="col-lg-12">
                                           <div class="floating-label form-group">
-                                             <input class="floating-input form-control" type="password" placeholder=" " name="AdminPass" required>
-                                             <label>Mật Khẩu</label>
+                                             <input class="floating-input form-control" type="password" placeholder="Mật khẩu " name="AdminPass" required>
+                                   
                                           </div>
                                        </div>
                                     </div>
@@ -61,9 +61,7 @@
                                  </form>
                               </div>
                            </div>
-                           <div class="col-lg-5 content-right">
-                              <img src="public/admin/images/login/01.png" class="img-fluid image-right" alt="">
-                           </div>
+                           
                         </div>
                      </div>
                   </div>
