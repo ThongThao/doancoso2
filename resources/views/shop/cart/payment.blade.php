@@ -388,9 +388,6 @@
                 return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "." + c : c;
             });
         }
-
-        // Rest of your existing JavaScript code...
-
     });
 </script>
 

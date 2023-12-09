@@ -29,24 +29,9 @@
 
                 <!--Shop Top Bar Start-->
                 <div class="shop-top-bar d-sm-flex align-items-center justify-content-between mt-3">
-                    <div class="top-bar-btn">
-                        <ul class="nav" role="tablist">
-                            <li class="nav-item"><a class="nav-link grid active" data-toggle="tab" href="#grid" role="tab"></a></li>
-                            <li class="nav-item"><a class="nav-link list" data-toggle="tab" href="#list" role="tab"></a></li>
-                        </ul>
-                    </div>
                     <div class="top-bar-sorter">
                         <div class="sorter-wrapper d-flex align-items-center">
                             <label>Sắp xếp theo:</label>
-                            <!-- <select class="sorter wide" name="SortBy" id="SortBy">
-                                <option value="&sort_by=new">Mới Nhất</option>
-                                <option value="&sort_by=old">Cũ Nhất</option>
-                                <option value="&sort_by=bestsellers">Bán Chạy</option>
-                                <option value="&sort_by=featured">Nổi Bật</option>
-                                <option value="&sort_by=sale">Đang SALE</option>
-                                <option value="&sort_by=price_desc">Giá, Cao đến Thấp</option>
-                                <option value="&sort_by=price_asc">Giá, Thấp đến Cao</option>
-                            </select> -->
                             <div class="select-input">
                                 <span class="select-input__sort"
                                     <?php
