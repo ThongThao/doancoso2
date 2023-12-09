@@ -536,7 +536,8 @@ pre {
 
 .row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  flex-direction:row;
   margin-right: -15px;
   margin-left: -15px; }
 
