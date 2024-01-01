@@ -251,9 +251,14 @@ class CartController extends Controller
     }
 
     // Xóa 1 sản phẩm trong giỏ hàng
+
     public function delete_pd_cart($idCart){
-        $this->checkCart();
-        Cart::destroy($idCart);
+        Cart::find($idCart)->delete();
+        if (Cart::count() > 0) {
+            return redirect()->back();
+        } else {
+            return Redirect::to('empty-cart')->send();
+        }
     }
 
     // Xóa giỏ hàng

@@ -160,7 +160,7 @@
                                         @else <a href="#" role="button" data-toggle="dropdown"><i
                                                 class="icon-users"></i></a> @endif
                                         <ul class="dropdown-menu">
-                                            <li><a href="{{URL::to('/account')}}">Tài khoản của tôi</a></li>
+                                            <li><a href="{{URL::to('/account')}}">Quản lý tài khoản</a></li>
                                             <li><a href="{{URL::to('/ordered')}}">Đơn mua</a></li>
                                             <li><a href="{{URL::to('/logout')}}">Đăng xuất</a></li>
                                         </ul>
@@ -211,8 +211,7 @@
                                                                 ',', '.')}}đ</span>
                                                         </div>
                                                     </div>
-                                                    <a class="del-icon delete-pd-cart" data-id="{{$cart->idCart}}"
-                                                        data-token="{{csrf_token()}}"><i class="fa fa-trash"></i></a>
+                                                
                                                 </div>
                                                 @endforeach
                                             </li>
@@ -618,21 +617,7 @@
 
 
 
-            // Xoá 1 sp trong giỏ hàng
-            $('.delete-pd-cart').on('click', function () {
-                var idCart = $(this).data("id");
-                var _token = $(this).data("token");
-
-                $.ajax({
-                    url: APP_URL + '/delete-pd-cart/' + idCart,
-                    method: 'DELETE',
-                    data: { idCart: idCart, _token: _token },
-                    success: function (data) {
-                        location.reload();
-                    }
-                });
-            });
-
+           
             // Gợi ý tìm kiếm sản phẩm
             $('#search-input').on('keyup', function () {
                 var value = $(this).val();

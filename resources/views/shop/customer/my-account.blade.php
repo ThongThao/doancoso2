@@ -1,5 +1,6 @@
 @extends('shop_layout')
 @section('content')
+<?php use Illuminate\Support\Facades\Session; ?>
 
 <!--Page Banner Start-->
 <div class="page-banner" style="background-image: url(public/ericshop/images/oso.png);">
@@ -36,6 +37,17 @@
             </div>
             <div class="col-xl-9 col-md-8">
                 <div class="tab-content my-account-tab mt-30" id="pills-tabContent">
+                <?php
+                            $message = Session::get('message');
+                            $error = Session::get('error');
+                            if($message){
+                                echo '<span class="text-success">'.$message.'</span>';
+                                Session::put('message', null);
+                            }else if($error){
+                                echo '<span class="text-danger">'.$error.'</span>';
+                                Session::put('error', null);
+                            }
+                        ?>  
                     <div class="tab-pane fade show active" id="pills-account">
                         <div class="tab-content my-account-tab" id="pills-tabContent">
                             <div class="tab-pane fade active show">
@@ -45,8 +57,9 @@
                                             <h4 class="account-title" style="margin-bottom: 0;">Hồ Sơ Của Tôi</h4>
                                             <h5 style="color: #666;">Quản lý thông tin hồ sơ để bảo mật tài khoản</h5>
                                         </div>
-                                        <form id="form-edit-profile" style="display:flex; padding: 0;" enctype="multipart/form-data">
-                                            @csrf
+                                      
+                                            <form method="POST" action="{{URL::to('/edit-profile')}}" id="form-edit-profile" style="display:flex; padding: 0;" enctype="multipart/form-data">
+                                             @csrf
                                             <div class="col-md-8 mt-10">
                                                 <div class="account-address">
                                                     <div class="profile__info-body-left-item">
@@ -54,14 +67,16 @@
                                                         <span class="profile__info-body-left-item-text ml-20">{{$customer->username}}</span>
                                                     </div>
                                                     <div class="form-group mb-30">
-                                                        <span for="CustomerName" class="profile__info-body-left-item-title" style="margin: 0 28px 0 52px;">Họ Và Tên</span>
-                                                        <input id="CustomerName" name="CustomerName" class="ml-30" style="width:65%;" type="text" value="{{$customer->CustomerName}}">
+                                                        <span for="fname"  class="profile__info-body-left-item-title" style="margin: 0 28px 0 52px;">Họ Và Tên</span>
+                                                        <input id="fname" name="CustomerName" class="ml-30" style="width:65%;" type="text" value="{{$customer->CustomerName}}">
+                                                        <span class="text-danger"></span>
                                                     </div>
                                                     <div class="form-group mb-30">
-                                                        <span class="profile__info-body-left-item-title" style="margin-left: 52px;">Số Điện Thoại</span>
-                                                        <input class="ml-30" style="width:65%;" name="PhoneNumber" id="PhoneNumber" type="text" value="{{$customer->PhoneNumber}}">
+                                                        <span  for="nmphone"  class="profile__info-body-left-item-title" style="margin-left: 52px;">Số Điện Thoại</span>
+                                                        <input class="ml-30" style="width:65%;" name="PhoneNumber" id="nmphone" type="text" value="{{$customer->PhoneNumber}}">
+                                                        <span class="text-danger"></span>
                                                     </div>
-                                                    <button class="btn btn-primary edit-profile" style="float: right;"><i class="fa fa-edit"></i> Sửa Hồ Sơ</button>
+                                                    <button type="submit" class="btn btn-primary edit-profile" style="float: right;"><i class="fa fa-edit"></i> Sửa Hồ Sơ</button>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 mt-10 d-flex align-items-center justify-content-center" style="border-left: solid 1px #efefef; margin: 0 12px;">
@@ -90,62 +105,18 @@
 </div>
 <!--My Account End-->
 
-<script src="{{asset('public/ericshop/js/jquery.validate.min.js')}}"></script>
-
 <script>
-    window.scrollBy(0,300);
-
     $(document).ready(function(){  
-        $('.edit-profile').on('click',function(){
-            $("#form-edit-profile").validate({
-                rules: {
-                    CustomerName: {
-                        required: true,
-                        minlength: 5
-                    },
-                    PhoneNumber: {
-                        required: true,
-                        minlength: 10,
-                        maxlength: 12
-                    }
-                },
-
-                messages: {
-                    CustomerName: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập họ và tên tối thiểu 5 ký tự"
-                    },
-                    PhoneNumber: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập số điện thoại tối thiểu 10 chữ số",
-                        maxlength: "Nhập số điện thoại tối đa 12 chữ số"
-                    }
-                },
-
-                submitHandler: function(form) {
-                    let formData = new FormData($('#form-edit-profile')[0]);
-                    if($('input[type=file]')[0].files[0]){
-                        let file = $('input[type=file]')[0].files[0];
-                        formData.append('file', file, file.name);
-                    }
-
-                    $.ajax({
-                        url: APP_URL + '/edit-profile',
-                        type: 'POST',   
-                        contentType: false,
-                        processData: false,   
-                        cache: false,        
-                        data: formData,
-                        success:function(data){
-                            location.reload();
-                        }
-                    });
-                }
-            });
+        Validator({
+            form: "#form-profile-edit",
+            errorSelector: ".text-danger",
+            parentSelector: ".form-group",
+            rules:[
+            Validator.isRequired("#fname"),
+            Validator.isRequired("#nmphone")
+            ]
         });
     });
-
-  
 </script>
 
 @endsection

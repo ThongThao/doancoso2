@@ -36,7 +36,7 @@ Route::get('/cart','CartController@show_cart');
 Route::get('/empty-cart','CartController@empty_cart');
 Route::get('/success-order','CartController@success_order');
 Route::get('/payment','CartController@payment');
-Route::delete('/delete-pd-cart/{idCart}','CartController@delete_pd_cart');
+Route::get('/delete-pd-cart/{idCart}','CartController@delete_pd_cart');
 Route::get('/delete-cart','CartController@delete_cart');
 Route::post('/add-to-cart','CartController@add_to_cart');
 Route::post('/buy-now','CartController@buy_now');
@@ -68,6 +68,7 @@ Route::get('/login','CustomerController@login');
 Route::get('/register','CustomerController@register');
 Route::get('/logout','CustomerController@logout');
 Route::get('/change-password','CustomerController@change_password');
+Route::get('/wishlist','CustomerController@wishlist');
 Route::get('/compare','CustomerController@compare');
 Route::get('/search','CustomerController@search');
 Route::delete('/delete-address/{idAddress}','CustomerController@delete_address');
@@ -78,6 +79,7 @@ Route::post('/edit-address/{idAddress}','CustomerController@edit_address');
 Route::post('/fetch-address','CustomerController@fetch_address');
 Route::post('/edit-profile','CustomerController@edit_profile');
 Route::post('/submit-change-password','CustomerController@submit_change_password');
+Route::post('/add-to-wishlist','CustomerController@add_to_wishlist');
 Route::post('/submit-compare','CustomerController@submit_compare');
 
 //Admin
@@ -151,10 +153,6 @@ use App\Http\Controllers\AboutUsController;
 
 Route::get('/about_us','AboutUsController@about');
 
-//contact
-use App\Http\Controllers\ContactController;
-Route::get('/contact','ContactController@contact');
-Route::post('/contact', 'ContactController@send')->name('contact.send');
 
 
 

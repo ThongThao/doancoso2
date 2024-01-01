@@ -29,7 +29,8 @@
                         <th class="price">Giá</th>
                         <th class="quantity">Số Lượng</th>
                         <th class="total">Tổng</th>
-                        <th class="remove">Xóa</th>
+                        <th class="total">Xóa</th>
+                  
                     </tr>
                 </thead>
                 <tbody>
@@ -66,10 +67,36 @@
                         <td class="total">
                             <span class="total-amount">{{number_format($pd_cart->Total,0,',','.')}}đ</span>
                         </td>
+                        
                         <td class="remove">
-                            <a class="view-hover delete-pd-cart" data-id="{{$pd_cart->idCart}}" data-token="{{csrf_token()}}"><i class="fa fa-trash"></i></a>
+                                        <div class="d-flex align-items-center list-action">
+                                        <a class="badge bg-warning mr-2" data-toggle="modal" data-target="#modal-delete-{{$pd_cart->idCart}}" data-placement="top" title="" data-original-title="Xoá"
+                                            style="cursor:pointer;"><i class="fa fa-trash"></i></a>
+                                    </div>
                         </td>
+                        
+                        
                     </tr>
+                    
+                    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" id="modal-delete-{{$pd_cart->idCart}}"  aria-hidden="true">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Thông báo</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Bạn có muốn xóa sản phẩm này không?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Trở về</button>
+                                            <a href="{{URL::to('/delete-pd-cart/'.$pd_cart->idCart)}}" type="button" class="btn btn-primary">Xác nhận</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     @endforeach
                 </tbody>
             </table>
@@ -110,51 +137,7 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12 mt-30 h2" style="color:#222;">CÓ THỂ BẠN SẼ THÍCH</div>
-            <div class="col-lg-12">
-                <?php $id_pds = json_decode($recommend_pds) ?>
-                <div class="row">
-                    @foreach($id_pds as $key => $id_pd)
-                    <?php $product = App\Http\Controllers\CartController::get_product($id_pd); ?>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-product">
-                            <div class="product-image">
-                                <?php $image = json_decode($product->ImageName)[0];?>
-                                <a href="{{URL::to('/shop-single/'.$product->ProductSlug)}}">
-                                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
-                                </a>
-                                @if($product->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>;
-                                @endif
-
-                                <div class="action-links">
-                                    <ul>
-                                        <li><a class="add-to-wishlist" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a></li>
-                                        <li><a class="quick-view-pd" data-id="{{$product->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i class="icon-eye"></i></a></li> 
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-content text-center">
-                                <!-- <ul class="rating">
-                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
-                                </ul> -->
-                                <h4 class="product-name"><a href="{{URL::to('/shop-single/'.$product->ProductSlug)}}">{{$product->ProductName}}</a></h4>
-                                <div class="price-box">
-                                   
-                                        <span class="current-price">{{number_format($product->Price,0,',','.')}}đ</span>
-                        
-                                </div>
-                            </div>
-                        </div>
-                    </div>                 
-                    @endforeach
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 <!--Cart End-->

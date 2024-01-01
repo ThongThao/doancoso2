@@ -41,17 +41,17 @@
                             ?>  
                             <div class="form-group mt-15">
                                 <label for="username">Tên tài khoản</label>
-                                <input id="username" type="text" name="username">
+                                <input id="username" type="text" name="username" required>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">
                                 <label for="passsword">Mật khẩu</label>
-                                <input id="password" type="password" name="password">
+                                <input id="password" type="password" name="password" class="form-control" required>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">
                                 <label for="repassword">Xác nhận mật khẩu</label>
-                                <input id="repassword" type="password" name="repassword">
+                                <input id="repassword" type="password" name="repassword"  class="form-control" required>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">

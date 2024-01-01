@@ -100,16 +100,19 @@ class CustomerController extends Controller
         }
 
         // Sửa hồ sơ
-        public function edit_profile(Request $request){
-            $this->checkLogin();
-            $data = $request->all();
 
+        public function edit_profile(Request $request){
+            $data = $request->all();
             $customer = Customer::find(Session::get('idCustomer'));
             $customer->PhoneNumber = $data['PhoneNumber'];
             $customer->CustomerName = $data['CustomerName'];
-
+            $customer->CustomerName = $data['CustomerName'];
             $customer->save();
+            Session::put('PhoneNumber', $data['PhoneNumber']);
+            Session::put('CustomerName', $data['CustomerName']);
+            return redirect()->back()->with('message', 'Sửa hồ sơ thành công');
         }
+    
 
         // Đổi mật khẩu
         public function submit_change_password(Request $request){
@@ -118,11 +121,13 @@ class CustomerController extends Controller
 
             $customer = Customer::find(Session::get('idCustomer'));
 
-            if($customer->password == md5($data['password'])){
+            if(md5($data['password']) != $customer->password){
+                return redirect()->back()->with('error', 'Nhập mật khẩu cũ không đúng');
+            }else{
                 $customer->password = md5($data['newpassword']);
                 $customer->save();
-                echo $output = 'Đổi mật khẩu thành công';
-            }else echo $output = 'Nhập mật khẩu cũ không đúng';
+                return redirect()->back()->with('message', 'Đổi mật khẩu thành công');
+            }
         }
 
         // Thêm địa chỉ nhận hàng

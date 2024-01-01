@@ -37,12 +37,12 @@
                                 ?>
                             <div class="form-group mt-15">
                                 <label for="username">Tên tài khoản</label>
-                                <input id="username" type="text" name="username">
+                                <input id="username" type="text" name="username" required>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">
                                 <label for="passsword">Mật khẩu</label>
-                                <input id="password" type="password" name="password">
+                                <input id="password" type="password" name="password" required>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group mt-15">

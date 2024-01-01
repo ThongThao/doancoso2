@@ -256,27 +256,6 @@
     </ul>
 </div>
 
-                    <!--Sidebar Product End-->
-
-
-
-                    <!--Sidebar Tags Start-->
-                    <!-- <div class="sidebar-tags">
-                        <h3 class="widget-title">Tags</h3>
-
-                        <ul class="tags-list">
-                            <li><a href="#">black</a></li>
-                            <li><a href="#">blue</a></li>
-                            <li><a href="#">fiber</a></li>
-                            <li><a href="#">gold</a></li>
-                            <li><a href="#">gray</a></li>
-                            <li><a href="#">green</a></li>
-                            <li><a href="#">I</a></li>
-                            <li><a href="#">leather</a></li>
-                        </ul>
-                    </div> -->
-                    <!--Sidebar Tags End-->
-
 
                 </div>
             </div>

@@ -48,6 +48,7 @@
                                             <th class="date">Ngày đặt</th>
                                             <th class="status">Trạng thái</th>
                                             <th class="total">Tổng tiền</th>
+                                            <th class="total">Xem chi tiết</th>
                                         </tr>
                                     </thead>
                                     <tbody>             
@@ -65,11 +66,14 @@
                                             <td>{{number_format($bill->TotalBill,0,',','.')}}đ</td>
 
                                             <form action="{{URL::to('/confirm-bill/'.$bill->idBill)}}" method="POST"> @csrf
-                                          
+                                            <td class="d-flex justify-content-center">
+                                                <a class="view-hover h3 mr-2" href="{{URL::to('/ordered-info/'.$bill->idBill)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
+                                            </td>
                                             </form>
                                         </tr>
                                         @endforeach
                                     </tbody>
+                                  
                                 </table>
                             <!-- </div> -->
                         </div>

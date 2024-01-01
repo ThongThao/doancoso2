@@ -1,6 +1,8 @@
 @extends('shop_layout')
 @section('content')
 
+<?php use Illuminate\Support\Facades\Session; ?>
+
 <!--Page Banner Start-->
 <div class="page-banner" style="background-image: url(public/ericshop/images/oso.png);">
     <div class="container">
@@ -37,6 +39,17 @@
             </div>
             <div class="col-xl-9 col-md-8">
                 <div class="tab-content my-account-tab mt-30" id="pills-tabContent">
+                <?php
+                            $message = Session::get('message');
+                            $error = Session::get('error');
+                            if($message){
+                                echo '<span class="text-success">'.$message.'</span>';
+                                Session::put('message', null);
+                            }else if($error){
+                                echo '<span class="text-danger">'.$error.'</span>';
+                                Session::put('error', null);
+                            }
+                        ?>    
                     <div class="tab-pane fade show active" id="pills-password">
                         <div class="my-account-address account-wrapper">
                             <div class="row">
@@ -44,24 +57,30 @@
                                     <h4 class="account-title" style="margin-bottom: 0;">Đổi Mật Khẩu</h4>
                                     <h5 style="color: #666;">Quản lý thông tin hồ sơ để bảo mật tài khoản</h5>
                                 </div>
-                                <form id="form-change-password">
+                                <form method="POST" action="{{URL::to('/submit-change-password')}}" id="form-changepassword">
                                     @csrf
                                     <div class="text-primary mt-2 alert-password"></div>
                                     <div class="col-md-12">
                                         <div class="account-address mt-30">
                                             <div class="form-group mb-30">
-                                                <span class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Cũ</span>
-                                                <input name="password" id="password" type="password" style="width: 70%">
+                                            <label for="cpass" class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Cũ:</label>
+
+                                                <input name="password" id="cpass" type="password" style="width: 70%">
+                                                <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group mb-30">
-                                                <span class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Mới</span>
-                                                <input name="newpassword" id="newpassword" type="password" style="width: 70%">
+                                            <label for="npass" class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Mật Khẩu Mới:</label>
+                                             
+                                                <input name="newpassword" id="npass" type="password" style="width: 70%">
+                                                <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group mb-30">
-                                                <span class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Nhập Lại Mật Khẩu</span>
-                                                <input name="renewpassword" id="renewpassword" type="password" style="width: 70%">
+                                            <label for="vpass" class="profile__info-body-left-item-title d-inline-block" style="width: 20%; margin-right:9%;">Nhập Lại Mật Khẩu:</label>
+                                                
+                                                <input name="renewpassword" id="vpass" type="password" style="width: 70%">
+                                                <span class="text-danger"></span>
                                             </div>
-                                            <input class="btn btn-primary change-password" type="submit" style="float: right;" value="Lưu">
+                                            <input class="btn btn-primary" type="submit" style="float: right;" value="Lưu">
                                         </div>
                                     </div>
                                 </form>
@@ -75,67 +94,22 @@
 </div>
 <!--My Account End-->
 
-<script src="{{asset('public/ericshop/js/jquery.validate.min.js')}}"></script>
-
 <script>
-    window.scrollBy(0,300);
-
     $(document).ready(function(){  
-        $('.change-password').on('click',function(){
-            $("#form-change-password").validate({
-                rules: {
-                    password: {
-                        required: true,
-                        minlength: 8
-                    },
-                    newpassword: {
-                        required: true,
-                        minlength: 8
-                    },
-                    renewpassword: {
-                        required: true,
-                        minlength: 8,
-                        equalTo: "#newpassword"
-                    }
-                },
-
-                messages: {
-                    password: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập mật khẩu cũ tối thiểu 8 ký tự"
-                    },
-                    newpassword: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập mật khẩu mới tối thiểu 8 ký tự"
-                    },
-                    renewpassword: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập lại mật khẩu mới tối thiểu 8 ký tự",
-                        equalTo: "Nhập lại mật khẩu không trùng khớp"
-                    }
-                },
-
-                submitHandler: function(form) {
-                    let formData = new FormData($('#form-change-password')[0]);
-
-                    $.ajax({
-                        url: APP_URL + '/submit-change-password',
-                        type: 'POST',   
-                        contentType: false,
-                        processData: false,   
-                        cache: false,        
-                        data: formData,
-                        success:function(data){
-                            $('.alert-password').html(data);
-                            $('#password').val("");
-                            $('#newpassword').val("");
-                            $('#renewpassword').val("");
-                        }
-                    });
-                }
-            });
+        Validator({
+            form: "#form-changepassword",
+            errorSelector: ".text-danger",
+            parentSelector: ".form-group",
+            rules:[
+            Validator.isRequired("#cpass"),
+            Validator.isRequired("#npass"),
+            Validator.isRequired("#vpass"),  
+            Validator.isPassword("#npass"),
+            Validator.isRePassword("#vpass",function(){
+                return  document.querySelector("#form-changepassword #npass").value;
+            })
+            ]
         });
     });
 </script>
-
 @endsection

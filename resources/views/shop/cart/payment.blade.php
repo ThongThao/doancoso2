@@ -2,11 +2,7 @@
 @section('content')
 
 <?php use Illuminate\Support\Facades\Session; ?>
-@if(Session::has('error'))
-    <div class="alert alert-danger">
-        {{ Session::get('error') }}
-    </div>
-@endif
+
 <form method="POST" action="{{URL::to('/submit-payment')}}" id="payment-form">
     @csrf
 <!--Page Banner Start-->
@@ -107,6 +103,12 @@
                             <span>Thanh toán khi nhận hàng</span>
                         </label>
                     </li>
+                    <li class="cus-radio payment-radio">
+                        <input type="radio" name="checkout" value="vnpay" id="vnpay" >
+                        <label for="vnpay">
+                            <span>VNPay</span>
+                        </label>
+                    </li>
                 </ul>                   
             </div>
             <div class="col-lg-12">
@@ -119,26 +121,27 @@
                             <tbody>
                                 <tr>
                                     <td>Tổng tiền hàng</td>
-                                    <td class="text-right">{{ number_format(floatval($Total), 0, ',', '.') }}đ
-</td>
+                                    <td class="text-right">{{number_format($Total,0,',','.')}}đ</td>
                                 </tr>
                                 @if($Total < 1000000) @php $ship = '30000'; $total_bill = $Total + $ship; @endphp
                                 @else @php $ship = 'Miễn phí'; $total_bill = $Total; @endphp @endif
                                 <tr class="shipping">
                                     <td>Phí vận chuyển (Miễn phí vận chuyển cho đơn hàng trên 1.000.000đ)</td>
                                     <td class="text-right">
-                                            @if($ship > 0) {{number_format(floatval($ship),0,',','.')}}đ
+                                            @if($ship > 0) {{number_format((float)$ship,0,',','.')}}đ
                                             @else {{$ship}} @endif
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td width="70%">Thành tiền</td>
-                                    <td class="text-right totalBill">{{number_format(floatval($total_bill),0,',','.')}}đ</td>
+                                    <td class="text-right totalBill">{{number_format($total_bill,0,',','.')}}đ</td>
                                 </tr>
 
                                 <input type="hidden" class="subtotal" value="{{$Total}}">
                                 <input type="hidden" name="TotalBill" class="totalBillVal" value="{{$total_bill}}">    
+                                <input type="hidden" name="Voucher" class="Voucher" value="">    
+                                <input type="hidden" name="idVoucher" class="idVoucher" value="0">                                
                             </tbody>
                         </table>
                     </div>
@@ -250,7 +253,7 @@
                     $('.list-address').html(data);
 
                     // Ajax xóa địa chỉ nhận hàng
-                    $('.dlt-address').on('click',function(){
+                    $('.dlt-address').click( function(){
                         var idAddress = $(this).data("id");
                         var _token = $('input[name="_token"]').val();
           
@@ -265,10 +268,11 @@
                     });
 
                     // Ajax validate form && sửa địa chỉ nhận hàng
-                    $('.edit-address').on('click',function(){
+                    $('.edit-address').click( function(){
                         $('#form-edit-address #CustomerName').val($(this).data("name"));
                         $('#form-edit-address #PhoneNumber').val($(this).data("phone"));
                         $('#form-edit-address #Address').val($(this).data("address"));
+                        
                         var idAddress = $(this).data("id");
 
                         $("#form-edit-address").validate({
@@ -388,8 +392,9 @@
                 return i > 0 && c !== "." && (a.length - i) % 3 === 0 ? "." + c : c;
             });
         }
+
+      
     });
 </script>
-
 
 @endsection
