@@ -22,6 +22,7 @@
       <link rel="shortcut icon" href="{{asset('public/admin/images/favicon.ico')}}" />
       <link rel="stylesheet" href="{{asset('public/admin/css/backend-plugin.min.css')}}">
       <link rel="stylesheet" href="{{asset('public/admin/css/backend.css?v=1.0.0')}}">
+      
       <link rel="stylesheet" href="{{asset('public/admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
       <link rel="stylesheet" href="{{asset('public/admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
       <link rel="stylesheet" href="{{asset('public/admin/vendor/remixicon/fonts/remixicon.css')}}">
@@ -35,18 +36,18 @@
     <!-- loader END -->
     <!-- Wrapper Start -->
     <div class="wrapper">
+
       
       <div class="iq-sidebar  sidebar-default ">
           <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
               <a href="{{URL::to('/dashboard')}}" class="header-logo">
-                <img src="{{asset('public/admin/images/logo.png')}}" class="img-fluid rounded-normal light-logo" alt="logo">
+              <img src="{{asset('public/admin/images/logo.png')}}" class="img-fluid rounded-normal light-logo" alt="logo">
                   <h5 class="logo-title light-logo ml-2">Admin</h5>
               </a>
               <div class="iq-menu-bt-sidebar ml-0">
                   <i class="las la-bars wrapper-menu" style="cursor:pointer;"></i>
               </div>
           </div>
-
           <?php
             $position = Session::get('Position');
             
@@ -57,13 +58,17 @@
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                       <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
                           <a href="{{URL::to('/dashboard')}}" class="svg-icon">                        
-                              
+                          <svg  class="svg-icon" id="p-dash1" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line>
+                              </svg>
                               <span class="ml-4">Thống Kê Doanh Thu</span>
                           </a>
                       </li>
                       <li class=" ">
                           <a href="#purchase" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash5" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                              </svg>
                               <span class="ml-4">Quản Lý Đơn Hàng</span>
                              
                           </a>
@@ -102,7 +107,9 @@
                       </li>
                       <li class=" ">
                           <a href="#product" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash2" width="20" height="20"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Sản Phẩm</span>
                               
                           </a>
@@ -121,13 +128,27 @@
                                         <a href="{{URL::to('/manage-attr-value')}}">
                                             <i class="las la-minus"></i><span>Thêm Phân Loại</span>
                                         </a>
-                             </li>                            
+                             </li> 
+                             <li class="{{ Request::is('manage-sale') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/manage-sale')}}">
+                                            <i class="las la-minus"></i><span>Khuyến Mãi</span>
+                                        </a>
+                            </li>                           
+                            <li class="{{ Request::is('manage-voucher') ? 'active' : '' }}">
+                                        <a href="{{URL::to('/manage-voucher')}}">
+                                            <i class="las la-minus"></i><span>Mã Giảm Giá</span>
+                                        </a>
+                            </li>
+                                                      
                     
                           </ul>
+
                       </li>
                       <li class=" ">
                           <a href="#category" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash3" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Danh Mục</span>
                              
                           </a>
@@ -146,7 +167,9 @@
                       </li>
                       </li><li class=" ">
                           <a href="#brand" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                             
+                          <svg class="svg-icon" id="p-dash3" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Thương Hiệu</span>
                              
                           </a>
@@ -165,7 +188,9 @@
                       </li>
                       <li class=" ">
                           <a href="#people" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Người Dùng</span>
                               
                           </a>
@@ -189,7 +214,9 @@
                       </li>
                       <li class=" ">
                           <a href="#myaccount" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Tài Khoản</span>
                               
                           </a>
@@ -214,7 +241,9 @@
                       
                                   <li class=" ">
                           <a href="#otherpage" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                            
+                          <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Tin Tức</span>
                              
                           </a>
@@ -246,6 +275,9 @@
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                       <li class=" ">
                           <a href="#purchase" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                          <svg class="svg-icon" id="p-dash5" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                              </svg>
                               <span class="ml-4">Quản Lý Đơn Hàng</span>
                           </a>
                           <ul id="purchase" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
@@ -283,7 +315,9 @@
                       </li>
                       <li class=" ">
                           <a href="#myaccount" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                              
+                          <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Tài Khoản</span>
                               
                           </a>
@@ -307,7 +341,9 @@
                       </li>
                       <li class=" ">
                           <a href="#otherpage" class="collapsed" data-toggle="collapse" aria-expanded="false">
-                             
+                          <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                              </svg>
                               <span class="ml-4">Quản Lý Tin Tức</span>
                              
                           </a>
@@ -372,9 +408,8 @@
                                       </form>
                                   </div>
                               </li>
-                              <li class="nav-item nav-icon dropdown">
-                                  <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2"
-                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <li class="nav-item nav-icon">
+                                  <a href="{{URL::to('/admin/chat')}}" class="search-toggle position-relative" title="Hộp thoại tư vấn" onclick="clearChatBadge()">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                           stroke-linejoin="round" class="feather feather-mail">
@@ -383,7 +418,7 @@
                                           </path>
                                           <polyline points="22,6 12,13 2,6"></polyline>
                                       </svg>
-                                      <span class="bg-primary"></span>
+                                      <span id="chat-unread-badge" class="badge badge-danger position-absolute" style="top: 8px; right: -8px; min-width: 18px; height: 18px; font-size: 10px; display: none; line-height: 18px; border-radius: 50%; padding: 0; animation: pulse 2s infinite;">0</span>
                                   </a>
                               </li>
                               <li class="nav-item nav-icon dropdown">
@@ -403,7 +438,7 @@
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        
-                                        <img src="{{asset('public/admin/images/user/12.png')}}" class="img-fluid rounded" alt="user">
+                                        <img src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" class="img-fluid rounded" alt="user">
                                        
                                   </a>
                                   <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -413,7 +448,7 @@
                                                   <img src="{{asset('public/admin/images/page-img/profile-bg.jpg')}}" alt="profile-bg"
                                                       class="rounded-top img-fluid mb-4">
                                                  
-                                                  <img src="{{asset('public/admin/images/user/12.png')}}" alt="profile-img"
+                                                  <img src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" alt="profile-img"
                                                       class="rounded profile-img img-fluid avatar-70">
                                                   
                                               </div>
@@ -496,8 +531,177 @@
                 //In slug ra textbox có id “slug”
             $('#convert_slug').val(slug);
         }
+
+// Global variables for auto-update
+let lastUnreadCount = 0;
+let chatBadgeUpdateInterval = null;
+
+// Global Chat Unread Count Update with change detection
+function updateChatUnreadBadge() {
+    fetch('{{ url('admin/api/chat/unread-count') }}')
+        .then(r => r.json())
+        .then(data => {
+            const badge = document.getElementById('chat-unread-badge');
+            if (badge) {
+                const count = data.unread_count || 0;
+                
+                // Detect changes and show notification
+                if (count > lastUnreadCount && lastUnreadCount > 0) {
+                    showNewChatNotification(count - lastUnreadCount);
+                }
+                lastUnreadCount = count;
+                
+                if (count > 0) {
+                    badge.textContent = count > 99 ? '99+' : count;
+                    badge.style.display = 'inline-block';
+                    
+                    // Add flash effect for new messages
+                    badge.style.animation = 'none';
+                    badge.offsetHeight; // Trigger reflow
+                    badge.style.animation = 'pulse 2s infinite, flash 0.5s ease-in-out';
+                } else {
+                    badge.style.display = 'none';
+                    badge.style.animation = 'pulse 2s infinite';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error updating chat badge:', error);
+        });
+}
+
+// Show notification for new chat messages
+function showNewChatNotification(newCount) {
+    // Browser notification
+    if (Notification.permission === 'granted') {
+        new Notification(`${newCount} tin nhắn mới`, {
+            body: 'Bạn có tin nhắn mới từ khách hàng',
+            icon: '{{ asset("admin/images/chat-icon.png") }}',
+            tag: 'new-chat-messages'
+        });
+    }
+    
+    // Toast notification
+    showChatToast(`Có ${newCount} tin nhắn mới`, 'Bạn có tin nhắn mới từ khách hàng');
+}
+
+// Show toast notification
+function showChatToast(title, message) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        font-size: 14px;
+        max-width: 300px;
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    toast.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 5px;">${title}</div>
+        <div style="font-size: 12px; opacity: 0.9;">${message}</div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 3000);
+}
+
+// Clear badge when clicking chat icon
+function clearChatBadge() {
+    const badge = document.getElementById('chat-unread-badge');
+    if (badge) {
+        badge.style.display = 'none';
+    }
+}
+
+// Expose to global scope so chat page can access it
+window.updateChatUnreadBadge = updateChatUnreadBadge;
+window.clearChatBadge = clearChatBadge;
+
+// Add CSS for animations
+const style = document.createElement('style');
+style.textContent = `
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+    }
+}
+
+@keyframes flash {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+#chat-unread-badge {
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
+`;
+document.head.appendChild(style);
+
+// Start auto-update with faster frequency (every 5 seconds)
+function startChatAutoUpdate() {
+    // Clear existing interval if any
+    if (chatBadgeUpdateInterval) {
+        clearInterval(chatBadgeUpdateInterval);
+    }
+    
+    // Update badge every 5 seconds for faster response
+    chatBadgeUpdateInterval = setInterval(updateChatUnreadBadge, 5000);
+    
+    console.log('Chat auto-update started (5 second intervals)');
+}
+
+// Stop auto-update (useful for chat page to prevent conflicts)
+function stopChatAutoUpdate() {
+    if (chatBadgeUpdateInterval) {
+        clearInterval(chatBadgeUpdateInterval);
+        chatBadgeUpdateInterval = null;
+        console.log('Chat auto-update stopped');
+    }
+}
+
+// Expose functions globally
+window.startChatAutoUpdate = startChatAutoUpdate;
+window.stopChatAutoUpdate = stopChatAutoUpdate;
+
+// Start auto-update
+startChatAutoUpdate();
+
+// Initial load
+document.addEventListener('DOMContentLoaded', function() {
+    updateChatUnreadBadge();
+});
 </script>
 
 </body>
 </html>
-

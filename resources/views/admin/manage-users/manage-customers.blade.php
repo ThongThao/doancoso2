@@ -29,7 +29,7 @@
                             <tr>
                                 @if($customer->Avatar)
                                 <td class="text-center"><img class="rounded img-fluid avatar-40"
-                                        src="public/ericshop/images/customer/{{$customer->Avatar}}" alt="profile"></td>
+                                        src="public/storage/admin/images/customer/{{$customer->Avatar}}" alt="profile"></td>
                                 @else
                                 <td class="text-center"><img class="rounded img-fluid avatar-40"
                                         src="public/ericshop/images/customer/1.png" alt="profile"></td>

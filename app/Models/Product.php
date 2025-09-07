@@ -41,4 +41,22 @@ class Product extends Model
 
        return $query;
    }
+
+   // Relationship with ProductReview
+   public function reviews()
+   {
+       return $this->hasMany(\App\Models\ProductReview::class, 'product_id', 'idProduct');
+   }
+
+   // Get average rating
+   public function averageRating()
+   {
+       return $this->reviews()->where('is_approved', true)->avg('rating') ?: 0;
+   }
+
+   // Get total reviews count
+   public function totalReviews()
+   {
+       return $this->reviews()->where('is_approved', true)->count();
+   }
 }

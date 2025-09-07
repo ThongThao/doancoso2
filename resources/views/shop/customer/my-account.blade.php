@@ -68,13 +68,20 @@
                                                 <div class="profile__info-body-right-avatar">
                                                     <div class="profile-img-edit">
                                                         <div class="crm-profile-img-edit">
-        
-                                                            <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/admin/images/user/12.png"> 
-                                                           
+                                                            @if($customer->Avatar != null)
+                                                            <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/storage/admin/images/customer/{{$customer->Avatar}}">
+                                                            @else <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/kidoldash/images/user/1.png"> @endif
+                                                            <div class="crm-p-image bg-primary">
+                                                                <label for="Avatar" style="cursor:pointer;"><span class="ti-pencil upload-button d-block"></span></label>
+                                                                <input type="file" class="file-upload" id="Avatar" name="Avatar" onchange="loadPreview(this)" accept="image/*">
+                                                            </div>
                                                         </div>                                          
                                                     </div>
                                                     <div class="text-danger alert-img mt-3 ml-3 mr-3"></div>
-                                                   
+                                                    <div class="mt-30">
+                                                        <span class="profile__info-body-right-avatar-condition-item">Dung lượng file tối đa 2MB</span>
+                                                        <span class="profile__info-body-right-avatar-condition-item">Định dạng: .JPEG, .PNG</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </form>
@@ -96,56 +103,127 @@
     window.scrollBy(0,300);
 
     $(document).ready(function(){  
-        $('.edit-profile').on('click',function(){
-            $("#form-edit-profile").validate({
-                rules: {
-                    CustomerName: {
-                        required: true,
-                        minlength: 5
-                    },
-                    PhoneNumber: {
-                        required: true,
-                        minlength: 10,
-                        maxlength: 12
+        $('.edit-profile').on('click',function(e){
+            e.preventDefault();
+            console.log('Edit profile button clicked');
+            
+            // Validate form manually
+            let isValid = true;
+            let errors = [];
+            
+            // Validate CustomerName
+            let customerName = $('#CustomerName').val();
+            if(!customerName || customerName.length < 5) {
+                isValid = false;
+                errors.push('Họ và tên phải có ít nhất 5 ký tự');
+            }
+            
+            // Validate PhoneNumber
+            let phoneNumber = $('#PhoneNumber').val();
+            if(!phoneNumber || phoneNumber.length < 10 || phoneNumber.length > 12) {
+                isValid = false;
+                errors.push('Số điện thoại phải có từ 10-12 chữ số');
+            }
+            
+            if(!isValid) {
+                alert(errors.join('\n'));
+                return false;
+            }
+            
+            // If validation passes, submit form
+            console.log('Form validation passed, submitting...');
+            let formData = new FormData($('#form-edit-profile')[0]);
+            
+            // Debug: Log form data
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
+            
+            if($('#Avatar')[0] && $('#Avatar')[0].files[0]){
+                let file = $('#Avatar')[0].files[0];
+                formData.append('Avatar', file, file.name);
+                console.log('Avatar file added:', file.name);
+            }
+
+            $.ajax({
+                url: '{{url("/edit-profile")}}',
+                type: 'POST',   
+                contentType: false,
+                processData: false,   
+                cache: false,        
+                data: formData,
+                beforeSend: function() {
+                    console.log('Sending request...');
+                },
+                success:function(data){
+                    console.log('Success response:', data);
+                    if(data.success) {
+                        alert('Cập nhật hồ sơ thành công!');
+                        location.reload();
+                    } else {
+                        alert('Lỗi: ' + data.message);
                     }
                 },
-
-                messages: {
-                    CustomerName: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập họ và tên tối thiểu 5 ký tự"
-                    },
-                    PhoneNumber: {
-                        required: "Vui lòng nhập trường này",
-                        minlength: "Nhập số điện thoại tối thiểu 10 chữ số",
-                        maxlength: "Nhập số điện thoại tối đa 12 chữ số"
-                    }
-                },
-
-                submitHandler: function(form) {
-                    let formData = new FormData($('#form-edit-profile')[0]);
-                    if($('input[type=file]')[0].files[0]){
-                        let file = $('input[type=file]')[0].files[0];
-                        formData.append('file', file, file.name);
-                    }
-
-                    $.ajax({
-                        url: APP_URL + '/edit-profile',
-                        type: 'POST',   
-                        contentType: false,
-                        processData: false,   
-                        cache: false,        
-                        data: formData,
-                        success:function(data){
-                            location.reload();
-                        }
-                    });
+                error: function(xhr, status, error) {
+                    console.log('Error:', error);
+                    console.log('Status:', status);
+                    console.log('Response:', xhr.responseText);
+                    alert('Có lỗi xảy ra: ' + error);
                 }
             });
         });
+        
+        // Keep the old validation code as backup
+        $("#form-edit-profile").validate({
+            rules: {
+                CustomerName: {
+                    required: true,
+                    minlength: 5
+                },
+                PhoneNumber: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 12
+                }
+            },
+
+            messages: {
+                CustomerName: {
+                    required: "Vui lòng nhập trường này",
+                    minlength: "Nhập họ và tên tối thiểu 5 ký tự"
+                },
+                PhoneNumber: {
+                    required: "Vui lòng nhập trường này",
+                    minlength: "Nhập số điện thoại tối thiểu 10 chữ số",
+                    maxlength: "Nhập số điện thoại tối đa 12 chữ số"
+                }
+            },
+
+            submitHandler: function(form) {
+                // This is now handled by the click event above
+                return false;
+            }
+        });
     });
 
-  
+    function loadPreview(input){
+        var data = $(input)[0].files; //this file data
+        $.each(data, function(index, file){
+            if(/(\.|\/)(gif|jpeg|png|jpg|svg)$/i.test(file.type) && file.size < 2000000 ){
+                var fRead = new FileReader();
+                fRead.onload = (function(file){
+                    return function(e) {
+                        $('.replace-avt').attr('src', e.target.result);
+                    };
+                })(file);
+                fRead.readAsDataURL(file);
+                $('.alert-img').html($('#Avatar').val().replace(/^.*[\\\/]/, ''));
+            }else{
+                document.querySelector('#Avatar').value = '';
+                $('.alert-img').html("Tệp hình ảnh phải có định dạng .gif, .jpeg, .png, .jpg, .svg dưới 2MB");
+            }
+        });
+    }
 </script>
 
 @endsection

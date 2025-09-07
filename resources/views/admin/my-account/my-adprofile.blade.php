@@ -23,7 +23,11 @@
                         <div class="d-flex align-items-center mb-3">
                             <div class="profile-img position-relative">
                           
-                                    <img src="public/admin/images/user/12.png" class="img-fluid rounded avatar-110" alt="profile-image">
+                                    @if(Session::get('Avatar') != NULL)
+                                        <img src="public/storage/admin/images/user/<?php echo Session::get('Avatar')?>" class="img-fluid rounded avatar-110" alt="profile-image">
+                                    @else
+                                        <img src="public/admin/images/user/12.png" class="img-fluid rounded avatar-110" alt="profile-image">
+                                    @endif
                            
                             </div>
                             <div class="ml-3">

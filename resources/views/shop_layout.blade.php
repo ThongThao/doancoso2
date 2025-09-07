@@ -8,7 +8,7 @@
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('public/ericshop/images/shortlogo.png')}}">
 
@@ -142,7 +142,7 @@
                                 <div class="header-search">
                                     <form type="GET" action="{{URL::to('/search')}}">
                                         <input type="text" name="keyword" id="search-input"
-                                            placeholder="Tìm kiếm sản phẩm " autocomplete="off">
+                                            placeholder="Tìm kiếm " autocomplete="off">
                                         <button class="search-btn"><i class="icon-search"></i></button>
                                     </form>
                                 </div>
@@ -154,7 +154,7 @@
                                         @if(Session::get('idCustomer'))
                                         @if(Session::get('AvatarCus') != '')
                                         <a href="#" role="button" data-toggle="dropdown"><img style="border-radius:50%;"
-                                                width="70px" height="24px"
+                                                width="140px" height="50px"
                                                 src="{{asset('public/storage/admin/images/customer/'.Session::get('AvatarCus'))}}"
                                                 alt=""></a>
                                         @else <a href="#" role="button" data-toggle="dropdown"><i
@@ -469,7 +469,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-widget">
                                 <a class="footer-logo" href="#"><img
-                                        src="{{asset('public/ericshop/images/logo/logo.png')}}" alt=""></a>
+                                        src="{{asset('public/ericshop/images/logoo.png')}}" alt=""></a>
                                 <div class="footer-widget-text">
                                     <p>Nếu bạn chưa từng đi giày thể thao thì bạn hãy nên thử đi một lần, tôi tin rằng
                                         bạn sẽ rất “bảnh” nếu biết chọn lấy 1 đôi giày tốt. </p>
@@ -745,6 +745,1118 @@
             });
         });
     </script>
-</body>
 
-</html>
+    <!-- Chat widget start -->
+    <style>
+      /* Chat Widget Animations */
+      @keyframes slideUp {
+        from { transform: translateY(100%); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+      }
+      
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(13, 110, 253, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(13, 110, 253, 0); }
+      }
+      
+      @keyframes messageSlide {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      /* Widget Container */
+      #chat-widget {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 10001;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      
+      /* Chat Button */
+      #chat-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border: none;
+        box-shadow: 0 8px 25px rgba(0,0,0,.15);
+        cursor: pointer;
+        font-size: 24px;
+        transition: all 0.3s ease;
+        animation: pulse 2s infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 35px rgba(0,0,0,.25);
+      }
+      
+      /* Chat Box */
+      #chat-box {
+        display: none;
+        position: fixed;
+        right: 20px;
+        bottom: 100px;
+        width: 380px;
+        height: 520px;
+        background: #fff;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,.15);
+        z-index: 10000;
+        animation: slideUp 0.3s ease;
+        border: 1px solid rgba(0,0,0,.1);
+      }
+      
+      /* Chat Header */
+      #chat-header {
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        font-weight: 600;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 10px rgba(0,0,0,.1);
+      }
+      
+      #chat-header .logo {
+        width: 32px;
+        height: 32px;
+        background: rgba(255,255,255,.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+      }
+      
+      #chat-close {
+        background: rgba(255,255,255,.2);
+        border: none;
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      #chat-close:hover {
+        background: rgba(255,255,255,.3);
+        transform: scale(1.1);
+      }
+      
+      /* Messages Area */
+      #chat-messages {
+        height: 360px;
+        overflow-y: auto;
+        padding: 20px;
+        background: #f8f9fa;
+        scroll-behavior: smooth;
+      }
+      
+      #chat-messages::-webkit-scrollbar {
+        width: 6px;
+      }
+      
+      #chat-messages::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+      }
+      
+      #chat-messages::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+      }
+      
+      #chat-messages::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+      }
+      
+      /* Input Area */
+      #chat-input {
+        display: flex;
+        gap: 12px;
+        padding: 20px;
+        border-top: 1px solid #e9ecef;
+        background: #fff;
+        align-items: flex-end;
+      }
+      
+      #chat-input input {
+        flex: 1;
+        border: 2px solid #e9ecef;
+        border-radius: 25px;
+        padding: 12px 18px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+        resize: none;
+        max-height: 60px;
+      }
+      
+      #chat-input input:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      
+      #chat-input button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      
+      #chat-input button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+      
+      #chat-input button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      
+      /* Message Styles */
+      .chat-message {
+        display: flex;
+        margin-bottom: 16px;
+        align-items: flex-start;
+        animation: messageSlide 0.3s ease;
+      }
+      
+      .chat-message.user {
+        flex-direction: row-reverse;
+      }
+      
+      .chat-message.admin {
+        flex-direction: row;
+      }
+      
+      /* Avatar Styles */
+      .chat-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        margin: 0 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      }
+      
+      .chat-avatar.admin {
+        color: #fff;
+      }
+      
+      .chat-avatar.user {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: #fff;
+      }
+      
+      .chat-avatar img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      
+      /* Content Styles */
+      .chat-content {
+        max-width: 75%;
+        word-wrap: break-word;
+      }
+      
+      .chat-bubble {
+        padding: 12px 18px;
+        border-radius: 20px;
+        font-size: 14px;
+        line-height: 1.4;
+        position: relative;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        margin-bottom: 4px;
+      }
+      
+      .chat-bubble.admin {
+        background: #fff;
+        border: 1px solid #e9ecef;
+        color: #333;
+        border-bottom-left-radius: 6px;
+      }
+      
+      .chat-bubble.user {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-bottom-right-radius: 6px;
+      }
+      
+      .chat-time {
+        font-size: 11px;
+        color: #6c757d;
+        margin-top: 2px;
+        opacity: 0.8;
+      }
+      
+      .chat-message.user .chat-time {
+        text-align: right;
+        color: rgba(255,255,255,.7);
+      }
+      
+      .chat-message.admin .chat-time {
+        text-align: left;
+      }
+      
+      /* Welcome Message */
+      .chat-welcome {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6c757d;
+        font-size: 14px;
+        animation: fadeIn 0.5s ease;
+      }
+      
+      .chat-welcome-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        color: #667eea;
+        animation: pulse 2s infinite;
+      }
+      
+      .chat-welcome h4 {
+        color: #495057;
+        margin-bottom: 8px;
+        font-weight: 600;
+      }
+      
+      /* Typing Indicator */
+      .typing-indicator {
+        display: flex;
+        align-items: center;
+        padding: 12px 18px;
+        background: #fff;
+        border-radius: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.08);
+        border-bottom-left-radius: 6px;
+      }
+      
+      .typing-dots {
+        display: flex;
+        gap: 4px;
+      }
+      
+      .typing-dots span {
+        width: 8px;
+        height: 8px;
+        background: #6c757d;
+        border-radius: 50%;
+        animation: typing 1.4s infinite;
+      }
+      
+      .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+      .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+      
+      @keyframes typing {
+        0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+        30% { transform: translateY(-10px); opacity: 1; }
+      }
+      
+      @keyframes flash {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+      }
+      
+      @keyframes newMessage {
+        0% { transform: translateX(-10px); opacity: 0; }
+        100% { transform: translateX(0); opacity: 1; }
+      }
+      
+      .chat-message.new {
+        animation: newMessage 0.4s ease;
+      }
+      
+      /* Unread Badge */
+      .chat-unread-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: #dc3545;
+        color: white;
+        border-radius: 50%;
+        min-width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        border: 2px solid white;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        animation: pulse 2s infinite, bounceIn 0.5s ease;
+      }
+      
+      @keyframes bounceIn {
+        0% { transform: scale(0); opacity: 0; }
+        60% { transform: scale(1.3); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes fastPulse {
+        0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.8); }
+        50% { box-shadow: 0 0 0 8px rgba(220, 53, 69, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+      }
+      
+      #chat-button {
+        position: relative;
+      }
+      
+      /* Responsive */
+      @media (max-width: 768px) {
+        #chat-widget {
+          right: 15px;
+          bottom: 15px;
+        }
+        
+        #chat-box {
+          right: 15px;
+          bottom: 85px;
+          width: calc(100vw - 30px);
+          max-width: 350px;
+        }
+        
+        #chat-button {
+          width: 56px;
+          height: 56px;
+          font-size: 20px;
+        }
+      }
+    </style>
+
+    <div id="chat-widget">
+      <button id="chat-button">
+        💬
+        <span id="chat-unread-count" class="chat-unread-badge" style="display: none;">0</span>
+      </button>
+    </div>
+
+    <div id="chat-box">
+      <div id="chat-header">
+        <div style="display: flex; align-items: center;">
+          <div class="logo">
+            <img src="{{asset('public/admin/images/logo.png')}}" alt="Logo" style="width: 20px; height: 20px;">
+          </div>
+          <div>
+            <div style="font-weight: 600;">Tư vấn khách hàng</div>
+            <div style="font-size: 12px; opacity: 0.8;" id="chat-status">Chúng tôi thường phản hồi ngay</div>
+          </div>
+        </div>
+        <button id="chat-close">✖</button>
+      </div>
+      <div id="chat-messages"></div>
+      <div id="chat-input">
+        <input id="chat-text" type="text" placeholder="Nhập tin nhắn..." maxlength="1000" />
+        <button id="chat-send" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M2 21L23 12L2 3V10L17 12L2 14V21Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+      <input type="hidden" id="chat-thread-id" />
+      <input type="hidden" id="chat-guest-token" />
+      <input type="hidden" id="chat-customer-id" value="{{ Session::get('idCustomer') }}" />
+      <input type="hidden" id="chat-opened" value="0" />
+      <input type="hidden" id="csrf" value="{{ csrf_token() }}" />
+      <input type="hidden" id="apiBase" value="{{ url('api') }}" />
+      <input type="hidden" id="assetBase" value="{{ url('/') }}" />
+      
+    </div>
+
+    <script>
+      (function(){
+        const btn = document.getElementById('chat-button');
+        const box = document.getElementById('chat-box');
+        const closeBtn = document.getElementById('chat-close');
+        const sendBtn = document.getElementById('chat-send');
+        const messagesDiv = document.getElementById('chat-messages');
+        const statusDiv = document.getElementById('chat-status');
+        const apiBase = document.getElementById('apiBase').value;
+        const csrf = document.getElementById('csrf').value;
+        let customerId = document.getElementById('chat-customer-id').value || (document.getElementById('idCustomer') ? document.getElementById('idCustomer').value : null) || null;
+        const textInput = document.getElementById('chat-text');
+        const threadInput = document.getElementById('chat-thread-id');
+        const tokenInput = document.getElementById('chat-guest-token');
+        const opened = document.getElementById('chat-opened');
+        
+        let lastMessageCount = 0;
+        let lastMessageId = 0;
+        let isTyping = false;
+        let typingTimeout = null;
+        let refreshInterval = null;
+        let fastPollInterval = null;
+        let messageCache = [];
+        let isConnected = false;
+        let unreadCount = 0;
+        let chatIsOpen = false;
+        const unreadBadge = document.getElementById('chat-unread-count');
+
+        // Restore guest token if exists
+        try {
+          const savedToken = localStorage.getItem('guest_token');
+          if (savedToken && !tokenInput.value) tokenInput.value = savedToken;
+        } catch (e) {}
+
+        // Enable/disable send button based on input
+        textInput.addEventListener('input', function() {
+          const hasText = this.value.trim().length > 0;
+          sendBtn.disabled = !hasText;
+          sendBtn.style.opacity = hasText ? '1' : '0.6';
+        });
+
+        // Enter to send
+        textInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey && this.value.trim()) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+
+        // Update unread badge with debug logging
+        function updateUnreadBadge(count) {
+          console.log('updateUnreadBadge called with count:', count, 'chatIsOpen:', chatIsOpen);
+          
+          const wasVisible = unreadBadge.style.display !== 'none';
+          const countChanged = unreadCount !== count;
+          
+          unreadCount = count;
+          if (count > 0 && !chatIsOpen) {
+            console.log('Showing badge with count:', count);
+            unreadBadge.textContent = count > 99 ? '99+' : count;
+            unreadBadge.style.display = 'flex';
+            
+            if (!wasVisible) {
+              // First time showing - use bounce animation
+              unreadBadge.style.animation = 'fastPulse 1s infinite, bounceIn 0.3s ease';
+              console.log('Badge shown for first time');
+            } else if (countChanged) {
+              // Count changed - quick flash
+              unreadBadge.style.animation = 'fastPulse 1s infinite, bounceIn 0.2s ease';
+              console.log('Badge count changed');
+            } else {
+              // Normal pulse
+              unreadBadge.style.animation = 'fastPulse 1s infinite';
+              console.log('Badge normal pulse');
+            }
+          } else {
+            console.log('Hiding badge - count:', count, 'chatIsOpen:', chatIsOpen);
+            unreadBadge.style.display = 'none';
+          }
+        }
+        
+        // Clear unread badge
+        function clearUnreadBadge() {
+          console.log('Clearing unread badge');
+          unreadCount = 0;
+          unreadBadge.style.display = 'none';
+        }
+        
+        // Test function to force show badge (for debugging)
+        function testBadge() {
+          console.log('Testing badge...');
+          updateUnreadBadge(5); // Force show with count 5
+        }
+        
+        // Make test function global for console access
+        window.testBadge = testBadge;
+        window.getUnreadCount = getUnreadCount;
+        
+        function showBox(){ 
+          box.style.display = 'block';
+          chatIsOpen = true;
+          clearUnreadBadge(); // Clear badge when opening chat
+          textInput.focus();
+        }
+        
+        function hideBox(){ 
+          box.style.display = 'none';
+          chatIsOpen = false;
+          if (refreshInterval) {
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+          }
+        }
+        
+        function showTyping() {
+          if (isTyping) return;
+          isTyping = true;
+          
+          const typingDiv = document.createElement('div');
+          typingDiv.className = 'typing-indicator';
+          typingDiv.id = 'typing-indicator';
+          typingDiv.innerHTML = `
+            <div class="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <span style="margin-left: 8px; font-size: 12px; color: #6c757d;">Admin đang soạn tin...</span>
+          `;
+          
+          messagesDiv.appendChild(typingDiv);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function hideTyping() {
+          const typingDiv = document.getElementById('typing-indicator');
+          if (typingDiv) {
+            typingDiv.remove();
+          }
+          isTyping = false;
+        }
+        
+        // Create message element (reusable function)
+        function createMessageElement(from, content, timestamp = null) {
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `chat-message ${from}`;
+          
+          const avatar = document.createElement('div');
+          avatar.className = `chat-avatar ${from}`;
+          
+          if (from === 'admin') {
+            avatar.innerHTML = '<img src="{{asset("public/admin/images/logo.png")}}" alt="Admin">';
+          } else {
+            avatar.textContent = customerId ? 'B' : 'G';
+          }
+          
+          const contentDiv = document.createElement('div');
+          contentDiv.className = 'chat-content';
+          
+          const bubble = document.createElement('div');
+          bubble.className = `chat-bubble ${from}`;
+          bubble.textContent = content;
+          
+          const timeDiv = document.createElement('div');
+          timeDiv.className = 'chat-time';
+          timeDiv.textContent = timestamp || new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
+          
+          contentDiv.appendChild(bubble);
+          contentDiv.appendChild(timeDiv);
+          
+          if (from === 'admin') {
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+          } else {
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(avatar);
+          }
+          
+          return messageDiv;
+        }
+        
+        function appendMessage(from, content, timestamp = null){
+          hideTyping();
+          const messageElement = createMessageElement(from, content, timestamp);
+          messagesDiv.appendChild(messageElement);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        // Show notification for new messages
+        function showNewMessageNotification() {
+          // Visual flash effect
+          const flash = document.createElement('div');
+          flash.style.cssText = `
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(102, 126, 234, 0.1);
+            pointer-events: none;
+            animation: flash 0.5s ease;
+          `;
+          messagesDiv.style.position = 'relative';
+          messagesDiv.appendChild(flash);
+          
+          setTimeout(() => flash.remove(), 500);
+          
+          // Play sound if possible
+          try {
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmEfCjiR2e/NeSsFJXjI7+CQQAoUXrTp66hVFApGn+DyvmEfCjiS2e/Nep');
+            audio.volume = 0.3;
+            audio.play().catch(() => {});
+          } catch(e) {}
+        }
+
+        function openThread(autoMessage){
+          if (threadInput.value) { return Promise.resolve(); }
+          return fetch(apiBase + '/chat/open', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf },
+            body: JSON.stringify({ customer_id: customerId ? parseInt(customerId) : null, guest_token: tokenInput.value || null })
+          }).then(r=>r.json()).then(data=>{
+            threadInput.value = data.thread_id;
+            if (data.guest_token) {
+              tokenInput.value = data.guest_token;
+              try { localStorage.setItem('guest_token', data.guest_token); } catch (e) {}
+            }
+            refreshMessages();
+          }).catch(error => {
+            console.error('Error opening thread:', error);
+            // Show welcome message on error
+            messagesDiv.innerHTML = '';
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'chat-welcome';
+            welcomeDiv.innerHTML = '<div class="chat-welcome-icon">💬</div><div>Chào mừng bạn đến với EricShop!<br>Hãy để lại tin nhắn, chúng tôi sẽ phản hồi sớm nhất.</div>';
+            messagesDiv.appendChild(welcomeDiv);
+          });
+        }
+
+        // Fast polling for new messages only
+        function checkNewMessages() {
+          const id = threadInput.value; if (!id) return;
+          
+          const url = lastMessageId > 0 
+            ? `${apiBase}/chat/${id}/messages?since=${lastMessageId}`
+            : `${apiBase}/chat/${id}/messages`;
+            
+          fetch(url)
+            .then(r => {
+              if (!r.ok) throw new Error('Network error');
+              return r.json();
+            })
+            .then(data => {
+              if (!isConnected) {
+                isConnected = true;
+                statusDiv.textContent = 'Trực tuyến';
+              }
+              
+              if (data.messages && data.messages.length > 0) {
+                let hasNewMessages = false;
+                
+                data.messages.forEach(m => {
+                  // Check if message already exists in cache (including temp messages)
+                  const existsInCache = messageCache.find(cached => 
+                    cached.id === m.id || 
+                    (cached.temp && cached.message === m.message && Math.abs(new Date(cached.created_at) - new Date(m.created_at)) < 5000)
+                  );
+                  
+                  // Check if message already exists in DOM
+                  const existsInDOM = messagesDiv.querySelector(`[data-message-id="${m.id}"]`);
+                  
+                  if (!existsInCache && !existsInDOM) {
+                    messageCache.push(m);
+                    hasNewMessages = true;
+                    
+                    const timestamp = m.created_at ? 
+                      new Date(m.created_at).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'}) : null;
+                    
+                    // Add message with animation
+                    const messageElement = createMessageElement(m.sender_admin_id ? 'admin' : 'user', m.message, timestamp);
+                    messageElement.classList.add('new');
+                    messageElement.setAttribute('data-message-id', m.id);
+                    messagesDiv.appendChild(messageElement);
+                    
+                    // Remove animation class after animation completes
+                    setTimeout(() => messageElement.classList.remove('new'), 400);
+                    
+                    // Update last message ID
+                    if (m.id > lastMessageId) {
+                      lastMessageId = m.id;
+                    }
+                    
+                    // Show notification for admin messages
+                    if (m.sender_admin_id) {
+                      if (chatIsOpen) {
+                        showNewMessageNotification();
+                      } else {
+                        // Immediate increment unread count for admin messages when chat is closed
+                        const newCount = unreadCount + 1;
+                        updateUnreadBadge(newCount);
+                        showNewMessageNotification();
+                        
+                        // Also trigger chat button animation
+                        btn.style.animation = 'none';
+                        btn.offsetHeight; // Trigger reflow
+                        btn.style.animation = 'pulse 2s infinite, bounceIn 0.3s ease';
+                      }
+                    }
+                  } else if (existsInCache && existsInCache.temp) {
+                    // Replace temp message with real message
+                    const tempIndex = messageCache.findIndex(cached => cached.id === existsInCache.id);
+                    if (tempIndex !== -1) {
+                      messageCache[tempIndex] = m; // Replace with real message
+                      
+                      // Update DOM element
+                      const tempElement = messagesDiv.querySelector(`[data-temp-id="${existsInCache.id}"]`);
+                      if (tempElement) {
+                        tempElement.removeAttribute('data-temp-id');
+                        tempElement.setAttribute('data-message-id', m.id);
+                      }
+                      
+                      // Update last message ID
+                      if (m.id > lastMessageId) {
+                        lastMessageId = m.id;
+                      }
+                    }
+                  }
+                });
+                
+                if (hasNewMessages) {
+                  // Smooth scroll to bottom
+                  messagesDiv.scrollTo({
+                    top: messagesDiv.scrollHeight,
+                    behavior: 'smooth'
+                  });
+                  
+                  // Update message count
+                  lastMessageCount = messageCache.length;
+                }
+              }
+            })
+            .catch(error => {
+              console.error('Error checking new messages:', error);
+              if (isConnected) {
+                isConnected = false;
+                statusDiv.textContent = 'Mất kết nối';
+              }
+            });
+        }
+        
+        // Get unread count from server
+        function getUnreadCount() {
+          const id = threadInput.value; 
+          if (!id) {
+            console.log('No thread ID, skipping unread count check');
+            return;
+          }
+          if (chatIsOpen) {
+            console.log('Chat is open, skipping unread count check');
+            return;
+          }
+          
+          console.log('Fetching unread count for thread:', id);
+          fetch(apiBase + '/chat/' + id + '/unread-count')
+            .then(r => {
+              console.log('Unread count response status:', r.status);
+              return r.json();
+            })
+            .then(data => {
+              console.log('Unread count data:', data);
+              if (data.unread_count !== undefined) {
+                console.log('Updating badge with count:', data.unread_count);
+                updateUnreadBadge(data.unread_count);
+              }
+            })
+            .catch(error => {
+              console.error('Error getting unread count:', error);
+            });
+        }
+        
+        // Full refresh for initial load
+        function refreshMessages(){
+          const id = threadInput.value; if (!id) return;
+          
+          statusDiv.textContent = 'Đang tải...';
+          
+          fetch(apiBase + '/chat/' + id + '/messages')
+            .then(r => {
+              if (!r.ok) throw new Error('Network error');
+              return r.json();
+            })
+            .then(data => {
+              isConnected = true;
+              statusDiv.textContent = 'Trực tuyến';
+              
+              if (data.messages) {
+                // Clear and rebuild cache
+                messageCache = data.messages;
+                lastMessageCount = data.messages.length;
+                
+                // Find highest message ID
+                lastMessageId = data.messages.length > 0 
+                  ? Math.max(...data.messages.map(m => m.id || 0))
+                  : 0;
+                
+                // Clear and rebuild UI
+              messagesDiv.innerHTML = '';
+                
+                if (data.messages.length > 0) {
+                  data.messages.forEach(m => {
+                    const timestamp = m.created_at ? 
+                      new Date(m.created_at).toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'}) : null;
+                    const messageElement = createMessageElement(m.sender_admin_id ? 'admin' : 'user', m.message, timestamp);
+                    messagesDiv.appendChild(messageElement);
+                });
+              } else {
+                  showWelcomeMessage();
+                }
+                
+                // Scroll to bottom
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                
+                // Get unread count if chat is closed
+                if (!chatIsOpen) {
+                  getUnreadCount();
+                }
+              }
+            })
+            .catch(error => {
+              console.error('Error fetching messages:', error);
+              isConnected = false;
+              statusDiv.textContent = 'Lỗi kết nối';
+              if (messagesDiv.children.length === 0) {
+                showWelcomeMessage();
+              }
+            });
+        }
+        
+        function showWelcomeMessage() {
+              const welcomeDiv = document.createElement('div');
+              welcomeDiv.className = 'chat-welcome';
+          welcomeDiv.innerHTML = `
+            <div class="chat-welcome-icon">💬</div>
+            <h4>Chào mừng bạn đến với EricShop!</h4>
+            <div>Hãy để lại tin nhắn, chúng tôi sẽ phản hồi sớm nhất có thể.</div>
+          `;
+              messagesDiv.appendChild(welcomeDiv);
+        }
+
+        function sendMessage(){
+          const id = threadInput.value; if (!id) return;
+          const msg = textInput.value.trim(); if (!msg) return;
+          
+          // Disable send button temporarily
+          sendBtn.disabled = true;
+          sendBtn.style.opacity = '0.6';
+          
+          // Create temporary unique ID for optimistic message
+          const tempId = 'temp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+          
+          // Add to cache immediately with temp ID to prevent duplicates
+          const optimisticMessage = {
+            id: tempId,
+            message: msg,
+            sender_admin_id: null,
+            created_at: new Date().toISOString(),
+            temp: true // Mark as temporary
+          };
+          messageCache.push(optimisticMessage);
+          
+          // Show message immediately (optimistic UI)
+          const messageElement = createMessageElement('user', msg);
+          messageElement.setAttribute('data-temp-id', tempId);
+          messagesDiv.appendChild(messageElement);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+          
+          textInput.value = '';
+          statusDiv.textContent = 'Đang gửi...';
+          
+          fetch(apiBase + '/chat/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf },
+            body: JSON.stringify({ 
+              thread_id: parseInt(id), 
+              message: msg, 
+              customer_id: customerId ? parseInt(customerId) : null, 
+              guest_token: tokenInput.value || null 
+            })
+          })
+          .then(r => {
+            if (!r.ok) throw new Error('Send failed');
+            return r.json();
+          })
+          .then(data => {
+            statusDiv.textContent = 'Đã gửi';
+            
+            // Remove temp message from cache
+            messageCache = messageCache.filter(m => m.id !== tempId);
+            
+            // If server returns the message, update cache with real ID
+            if (data.message && data.message.id) {
+              messageCache.push(data.message);
+              lastMessageId = Math.max(lastMessageId, data.message.id);
+              
+              // Update the DOM element with real ID
+              const tempElement = messagesDiv.querySelector(`[data-temp-id="${tempId}"]`);
+              if (tempElement) {
+                tempElement.removeAttribute('data-temp-id');
+                tempElement.setAttribute('data-message-id', data.message.id);
+              }
+            }
+            
+            // Show typing indicator after a delay
+            setTimeout(() => {
+              if (Math.random() > 0.7) { // 30% chance to show typing
+                showTyping();
+                setTimeout(hideTyping, 2000 + Math.random() * 3000);
+              }
+            }, 1000);
+          })
+          .catch(error => {
+            console.error('Error sending message:', error);
+            statusDiv.textContent = 'Lỗi gửi tin nhắn';
+            
+            // Remove the optimistic message and from cache
+            messageCache = messageCache.filter(m => m.id !== tempId);
+            const tempElement = messagesDiv.querySelector(`[data-temp-id="${tempId}"]`);
+            if (tempElement) {
+              tempElement.remove();
+            }
+          })
+          .finally(() => {
+            // Re-enable send button
+            sendBtn.disabled = false;
+            sendBtn.style.opacity = '1';
+            
+            setTimeout(() => {
+              statusDiv.textContent = 'Trực tuyến';
+            }, 2000);
+          });
+        }
+
+        // Start fast polling system
+        function startFastPolling() {
+          // Stop existing intervals
+          stopPolling();
+          
+          // Fast polling for new messages every 1 second (balanced)
+          fastPollInterval = setInterval(checkNewMessages, 1000);
+          
+          // Regular refresh every 30 seconds to ensure sync
+          refreshInterval = setInterval(refreshMessages, 30000);
+          
+          console.log('Fast polling started (1s for new messages, 30s full refresh)');
+        }
+        
+        function stopPolling() {
+          if (fastPollInterval) {
+            clearInterval(fastPollInterval);
+            fastPollInterval = null;
+          }
+          if (refreshInterval) {
+            clearInterval(refreshInterval);
+            refreshInterval = null;
+          }
+        }
+
+        if (btn) btn.addEventListener('click', function(){ 
+          showBox(); 
+          if (opened.value==='0'){ 
+            opened.value='1'; 
+            openThread(false).then(() => {
+              // Initial load then start fast polling
+            refreshMessages();
+              startFastPolling();
+            }); 
+          }
+        });
+        
+        if (closeBtn) closeBtn.addEventListener('click', function(){ 
+          hideBox(); 
+          stopPolling();
+          // Start checking unread count when chat is closed
+          setTimeout(getUnreadCount, 1000);
+        });
+        
+        if (sendBtn) sendBtn.addEventListener('click', function(){ 
+          openThread(false).then(sendMessage); 
+        });
+        
+        // Optimize polling based on visibility
+        document.addEventListener('visibilitychange', function() {
+          if (document.hidden) {
+            // Slower polling when tab is hidden
+            stopPolling();
+            if (box.style.display === 'block') {
+              fastPollInterval = setInterval(checkNewMessages, 2000); // 2 seconds when hidden
+            }
+          } else {
+            // Resume fast polling when tab is visible
+            if (box.style.display === 'block') {
+              startFastPolling();
+            }
+          }
+        });
+        
+        // Reconnection logic
+        let reconnectAttempts = 0;
+        function attemptReconnect() {
+          if (reconnectAttempts < 5 && box.style.display === 'block') {
+            reconnectAttempts++;
+            statusDiv.textContent = `Đang kết nối lại... (${reconnectAttempts}/5)`;
+            
+            setTimeout(() => {
+              checkNewMessages();
+              if (!isConnected) {
+                attemptReconnect();
+              } else {
+                reconnectAttempts = 0;
+              }
+            }, 2000 * reconnectAttempts); // Exponential backoff
+          } else {
+            statusDiv.textContent = 'Mất kết nối';
+          }
+        }
+        
+        // Monitor connection and auto-reconnect
+        setInterval(() => {
+          if (box.style.display === 'block' && !isConnected && reconnectAttempts === 0) {
+            attemptReconnect();
+          }
+        }, 10000);
+        
+        // Initial check for unread count when page loads
+        setTimeout(() => {
+          console.log('Initial unread count check...');
+          if (!chatIsOpen && threadInput.value) {
+            getUnreadCount();
+          } else {
+            console.log('Waiting for thread to be opened...');
+            // Retry after 3 seconds if no thread yet
+            setTimeout(() => {
+              if (!chatIsOpen && threadInput.value) {
+                console.log('Delayed initial unread count check...');
+                getUnreadCount();
+              }
+            }, 3000);
+          }
+        }, 1000);
+
+        // Background polling for unread count when chat is closed
+        let backgroundPolling = setInterval(() => {
+          if (!chatIsOpen && threadInput.value) {
+            console.log('Background polling - checking unread count...');
+            getUnreadCount();
+          }
+        }, 8000); // Check every 8 seconds when chat is closed
+      })();
+    </script>
+    <!-- Chat widget end -->
+
+</body>

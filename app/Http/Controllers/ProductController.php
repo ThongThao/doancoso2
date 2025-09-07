@@ -10,6 +10,8 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\SaleProduct;
+use App\Models\Voucher;
 use App\Models\Attribute;
 use App\Models\AttributeValue   ;
 use App\Models\ProductAttriBute;
@@ -62,8 +64,47 @@ class ProductController extends Controller
             return view("admin.product.edit-product")->with(compact('product','list_category','list_brand','list_attribute','list_pd_attr','name_attribute'));
         }
 
+
         // Chuyển đến trang quản lý khuyến mãi
-       
+        public function manage_sale(){
+            $list_sale = SaleProduct::join('product','product.idProduct','=','saleproduct.idProduct')
+                ->join('productimage','productimage.idProduct','=','product.idProduct')->get();
+
+            $count_sale = SaleProduct::count();
+            return view("admin.product.sale.manage-sale")->with(compact('list_sale','count_sale'));
+        }
+
+        // Chuyển đến trang thêm khuyến mãi
+        public function add_sale(){
+            $list_product = Product::join('productimage','productimage.idProduct','=','product.idProduct')->get();
+            return view("admin.product.sale.add-sale")->with(compact('list_product'));
+        }
+
+        // Chuyển đến trang sửa khuyến mãi
+        public function edit_sale($idSale, $idProduct){
+            $sale_product = SaleProduct::join('product','product.idProduct','=','saleproduct.idProduct')
+                ->join('productimage','productimage.idProduct','=','product.idProduct')->where('idSale',$idSale)->first();
+            
+            return view("admin.product.sale.edit-sale")->with(compact('sale_product'));
+        }
+
+        // Chuyển đến trang quản lý mã giảm giá
+        public function manage_voucher(){
+            $list_voucher = Voucher::whereNotIn('idVoucher',[0])->get();
+            $count_voucher = Voucher::whereNotIn('idVoucher',[0])->count();
+            return view("admin.product.voucher.manage-voucher")->with(compact('list_voucher','count_voucher'));
+        }
+
+        // Chuyển đến trang thêm mã giảm giá
+        public function add_voucher(){
+            return view("admin.product.voucher.add-voucher");
+        }
+
+        // Chuyển đến trang sửa mã giảm giá
+        public function edit_voucher($idVoucher){
+            $voucher = Voucher::find($idVoucher);
+            return view("admin.product.voucher.edit-voucher")->with(compact('voucher'));
+        }       
 
         // Thêm sản phẩm
         public function submit_add_product(Request $request){
@@ -221,7 +262,116 @@ class ProductController extends Controller
             $product->save();
         }
 
-        // Thêm khuyến mãi
+         // Thêm khuyến mãi
+         public function submit_add_sale(Request $request){
+            $data = $request->all();
+
+            foreach($data['chk_product'] as $chk_product){
+                $check_time_sale = SaleProduct::join('product','product.idProduct','=','saleproduct.idProduct')
+                ->where('saleproduct.idProduct', $chk_product)->orderBy('SaleEnd', 'desc')->first();
+
+                if($check_time_sale && $check_time_sale['SaleEnd'] >= $data['SaleStart']){
+                    return redirect()->back()->with('error', 'Thêm khuyến mãi thất bại, sản phẩm '.$check_time_sale['ProductName'].' đã có khuyến mãi trong thời gian trên.<br>Vui lòng thêm khuyến mãi sau ngày '.$check_time_sale['SaleEnd'].'.');
+                }else{
+                    $data_all = array(
+                        'SaleName' => $data['SaleName'],
+                        'SaleStart' => $data['SaleStart'],
+                        'SaleEnd' => $data['SaleEnd'],
+                        'Percent' => $data['Percent'],
+                        'idProduct' => $chk_product,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    );
+                    SaleProduct::insert($data_all);
+                }
+            }
+            return redirect()->back()->with('message', 'Thêm khuyến mãi thành công');
+        }
+
+        // Sửa khuyến mãi
+        public function submit_edit_sale(Request $request, $idSale, $idProduct){
+            $saleproduct = SaleProduct::find($idSale);
+            $data = $request->all();
+            $saleproduct->SaleName = $data['SaleName'];
+            $saleproduct->SaleStart = $data['SaleStart'];
+            $saleproduct->SaleEnd = $data['SaleEnd'];
+            $saleproduct->Percent = $data['Percent'];
+
+            $count_check = SaleProduct::where('idProduct',$idProduct)->whereNotIn('idSale',[$idSale])->count();
+
+            if($count_check >= 1){
+                $check_time_sale = SaleProduct::join('product','product.idProduct','=','saleproduct.idProduct')
+                ->where('saleproduct.idProduct',$idProduct)->whereNotIn('idSale',[$idSale])->get();
+            
+                foreach($check_time_sale as $check){
+                    if(($check['SaleStart'] <= $data['SaleStart'] && $data['SaleStart'] <= $check['SaleEnd']) || ($check['SaleStart'] <= $data['SaleEnd'] && $data['SaleEnd'] <= $check['SaleEnd'])){
+                        return redirect()->back()->with('error', 'Sửa khuyến mãi thất bại, sản phẩm này đã có khuyến mãi trong thời gian '.$check['SaleStart'].' đến '.$check['SaleEnd'].'.');
+                    }else if(($data['SaleStart'] <= $check['SaleStart'] && $check['SaleStart'] <= $data['SaleEnd']) || ($data['SaleStart'] <= $check['SaleEnd'] && $check['SaleEnd'] <= $data['SaleEnd'])){
+                        return redirect()->back()->with('error', 'Sửa khuyến mãi thất bại, sản phẩm này đã có khuyến mãi trong thời gian '.$check['SaleStart'].' đến '.$check['SaleEnd'].'.');
+                    }
+                }
+            }
+            $saleproduct->save();
+            return redirect()->back()->with('message', 'Sửa khuyến mãi thành công');
+        }
+
+        // Xóa khuyến mãi
+        public function delete_sale($idSale){
+            SaleProduct::find($idSale)->delete();
+            return redirect()->back();
+        }
+
+        // Thêm mã giảm giá
+        public function submit_add_voucher(Request $request){
+            $data = $request->all();
+
+            $select_voucher = Voucher::where('VoucherCode', $data['VoucherCode'])->first();
+
+            if($select_voucher){
+                return redirect()->back()->with('error', 'Mã giảm giá này đã tồn tại');
+            }else{
+                $voucher = new Voucher();
+                $voucher->VoucherName = $data['VoucherName'];
+                $voucher->VoucherQuantity = $data['VoucherQuantity'];
+                $voucher->VoucherCondition = $data['VoucherCondition'];
+                $voucher->VoucherNumber = $data['VoucherNumber'];
+                $voucher->VoucherCode = $data['VoucherCode'];
+                $voucher->VoucherStart = $data['VoucherStart'];
+                $voucher->VoucherEnd = $data['VoucherEnd'];
+                $voucher->save();
+
+                return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
+            }
+        }
+
+        // Sửa mã giảm giá
+        public function submit_edit_voucher(Request $request, $idVoucher){
+            $data = $request->all();
+
+            $select_voucher = Voucher::where('VoucherCode', $data['VoucherCode'])->whereNotIn('idVoucher',[$idVoucher])->first();
+
+            if($select_voucher){
+                return redirect()->back()->with('error', 'Mã giảm giá này đã tồn tại');
+            }else{
+                $voucher = Voucher::find($idVoucher);
+                $voucher->VoucherName = $data['VoucherName'];
+                $voucher->VoucherQuantity = $data['VoucherQuantity'];
+                $voucher->VoucherCondition = $data['VoucherCondition'];
+                $voucher->VoucherNumber = $data['VoucherNumber'];
+                $voucher->VoucherCode = $data['VoucherCode'];
+                $voucher->VoucherStart = $data['VoucherStart'];
+                $voucher->VoucherEnd = $data['VoucherEnd'];
+                $voucher->save();
+
+                return redirect()->back()->with('message', 'Sửa mã giảm giá thành công');
+            }
+        }
+
+        // Xóa khuyến mãi
+        public function delete_voucher($idVoucher){
+            Voucher::destroy($idVoucher);
+            return redirect()->back();
+        }
       
     /* ---------- End Admin ---------- */
 
@@ -315,6 +465,11 @@ class ProductController extends Controller
 
             return view("shop.product.shop-all-product")->with(compact('list_category','list_brand','list_pd','count_pd','top_bestsellers_pd'));
         }
+   // Lấy thời gian khuyến mãi của 1 sản phẩm
+   public static function get_sale_pd($idProduct){
+    $get_sale_pd = SaleProduct::where('idProduct',$idProduct)->whereRaw('SaleStart < NOW()')->whereRaw('SaleEnd > NOW()')->first();
+    return $get_sale_pd;
+}
 
         // Hiện modal quick view sản phẩm
         public function quick_view_pd(Request $request){

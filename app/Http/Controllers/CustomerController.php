@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Customer;
 use App\Models\AddressCustomer;
+use App\Models\WishList;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -57,6 +58,18 @@ class CustomerController extends Controller
             return view("shop.customer.change-password")->with(compact('list_category','list_brand'));
         }
 
+        // Chuyển đến trang danh sách yêu thích
+
+        // Chuyển đến trang so sánh sản phẩm
+        public function compare(Request $request){
+            $list_category = Category::get();
+            $list_brand = Brand::get();
+            $products = explode(",",$request->product);
+            $list_compare = Product::join('productimage','productimage.idProduct','product.idProduct')
+                ->whereIn('product.idProduct', $products)->get();
+
+            return view("shop.customer.compare")->with(compact('list_category','list_brand','list_compare'));
+        }
 
         // Đăng ký tài khoản
         public function submit_register(Request $request){
@@ -86,6 +99,7 @@ class CustomerController extends Controller
             
             if($login){
                 Session::put('idCustomer', $login->idCustomer);
+                Session::put('AvatarCus', $login->Avatar);
                 return Redirect::to('/home');
             }else{
                 return redirect()->back()->with('message', 'Mật khẩu hoặc tài khoản không đúng');
@@ -104,11 +118,36 @@ class CustomerController extends Controller
             $this->checkLogin();
             $data = $request->all();
 
-            $customer = Customer::find(Session::get('idCustomer'));
-            $customer->PhoneNumber = $data['PhoneNumber'];
-            $customer->CustomerName = $data['CustomerName'];
+            try {
+                $customer = Customer::find(Session::get('idCustomer'));
+                if(!$customer) {
+                    return response()->json(['success' => false, 'message' => 'Không tìm thấy khách hàng']);
+                }
 
-            $customer->save();
+                $customer->PhoneNumber = $data['PhoneNumber'];
+                $customer->CustomerName = $data['CustomerName'];
+
+                if ($request->hasFile('Avatar')){
+                    $get_image = $request->file('Avatar');
+        
+                    $get_name_image = $get_image->getClientOriginalName();
+                    $name_image = current(explode('.',$get_name_image));
+                    $new_image = $name_image.rand(0,99).'.'.$get_image->getClientOriginalExtension();
+                    $get_image->storeAs('public/admin/images/customer',$new_image);
+                    $customer->Avatar = $new_image; 
+                    Session::put('AvatarCus', $new_image);
+        
+                    $get_old_img = Customer::where('idCustomer', Session::get('idCustomer'))->first();
+                    if($get_old_img && $get_old_img->Avatar) {
+                        Storage::delete('public/admin/images/customer/'.$get_old_img->Avatar);
+                    }
+                }
+
+                $customer->save();
+                return response()->json(['success' => true, 'message' => 'Cập nhật hồ sơ thành công']);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()]);
+            }
         }
 
         // Đổi mật khẩu
@@ -180,6 +219,9 @@ class CustomerController extends Controller
             $this->checkLogin();
             AddressCustomer::destroy($idAddress);
         }
+
+        // Thêm vào danh sách yêu thích
+       
         // Tìm kiếm sản phẩm
         public function search(){
             $keyword = $_GET['keyword'];
@@ -205,6 +247,9 @@ class CustomerController extends Controller
                     $list_pd_query->orWhere('BrandName','like','%'.$keyword.'%')->orWhere('CategoryName','like','%'.$keyword.'%'); 
                 });
             }
+
+            //whereRaw("MATCH (ProductName) AGAINST (?)", Product::fullTextWildcards($keyword)) //
+            // $list_pd_query = Product::whereRaw("MATCH (ProductName) AGAINST (? IN BOOLEAN MODE)", Product::fullTextWildcards($keyword));
 
             if(isset($_GET['brand'])) $brand_arr = explode(",",$_GET['brand']);
             if(isset($_GET['category'])) $category_arr = explode(",",$_GET['category']);
@@ -235,6 +280,7 @@ class CustomerController extends Controller
                 else if($_GET['sort_by'] == 'old') $list_pd_query->orderBy('created_at','asc');
                 else if($_GET['sort_by'] == 'bestsellers') $list_pd_query->orderBy('Sold','desc');
                 else if($_GET['sort_by'] == 'featured') $list_pd_query->whereBetween('product.created_at',[$sub30days,now()])->orderBy('Sold','desc');
+                else if($_GET['sort_by'] == 'sale') $list_pd_query->join('saleproduct','saleproduct.idProduct','=','product.idProduct')->whereRaw('SaleStart < NOW()')->whereRaw('SaleEnd > NOW()')->orderBy('created_at','desc');
                 else if($_GET['sort_by'] == 'price_desc') $list_pd_query->orderBy('Price','desc');
                 else if($_GET['sort_by'] == 'price_asc') $list_pd_query->orderBy('Price','asc');
             }

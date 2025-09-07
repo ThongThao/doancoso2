@@ -107,6 +107,12 @@
                             <span>Thanh toán khi nhận hàng</span>
                         </label>
                     </li>
+                    <li class="cus-radio payment-radio">
+                        <input type="radio" name="checkout" value="vnpay" id="vnpay" >
+                        <label for="vnpay">
+                            <span>VNPay</span>
+                        </label>
+                    </li>
                 </ul>                   
             </div>
             <div class="col-lg-12">
@@ -246,6 +252,9 @@
                 url: "{{url('/fetch-address')}}",
                 method: 'POST',
                 data:{_token:_token},
+                xhrFields: {
+                    withCredentials: true
+                },
                 success:function(data){
                     $('.list-address').html(data);
 
@@ -258,6 +267,9 @@
                             url: APP_URL + '/delete-address/'+idAddress,
                             method: 'DELETE',
                             data: {idAddress:idAddress,_token:_token},
+                            xhrFields: {
+                                withCredentials: true
+                            },
                             success:function(data){
                                 fetch_address();
                             }
@@ -313,6 +325,9 @@
                                     url: APP_URL + '/edit-address/'+idAddress,
                                     method: 'POST',
                                     data: {idAddress:idAddress,CustomerName:CustomerName,PhoneNumber:PhoneNumber,Address:Address,_token:_token},
+                                    xhrFields: {
+                                        withCredentials: true
+                                    },
                                     success:function(data){
                                         $('#EditAddressModal').modal('hide');
                                         fetch_address();
@@ -366,9 +381,12 @@
                 var _token = $('input[name="_token"]').val();
 
                 $.ajax({
-                    url: APP_URL + '/insert-address',
-                    method: 'POST',
+                    url: "{{ url('/insert-address') }}",
+                                        method: 'POST',
                     data: {CustomerName:CustomerName,PhoneNumber:PhoneNumber,Address:Address,_token:_token},
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     success:function(data){
                         $('#AddressModal').modal('hide');
                         fetch_address();

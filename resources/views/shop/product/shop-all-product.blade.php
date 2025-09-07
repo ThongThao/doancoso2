@@ -70,29 +70,52 @@
                             <div class="col-lg-4 col-sm-6">
                                 <div class="single-product">
                                     <div class="product-image">
-                                        <?php $image = json_decode($pd->ImageName)[0]; ?>
+                                        <?php $image = json_decode($pd->ImageName)[0];?>
                                         <a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">
                                             <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
                                         </a>
 
+                                        <?php
+                                            $SalePrice = $pd->Price;  
+                                            $get_time_sale = ProductController::get_sale_pd($pd->idProduct); 
+                                        ?>
+
+                                        @if($get_time_sale)
+                                            <?php $SalePrice = $pd->Price - ($pd->Price/100) * $get_time_sale->Percent; ?>
+                                            <div class="product-countdown">
+                                                <div data-countdown="{{$get_time_sale->SaleEnd}}"></div>
+                                            </div>
+                                            @if($pd->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>
+                                            @else <span class="sticker-new label-sale">-{{$get_time_sale->Percent}}%</span>
+                                            @endif
+                                        @elseif($pd->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>;
+                                        @endif
+
                                         <div class="action-links">
                                             <ul>
-                                                <li><a class="add-to-wishlist" data-id="{{$pd->idProduct}}"
-                                                        data-tooltip="tooltip" data-placement="left"
-                                                        title="Thêm vào danh sách yêu thích"><i
-                                                            class="icon-heart"></i></a></li>
-                                                <li><a class="quick-view-pd" data-id="{{$pd->idProduct}}"
-                                                        data-tooltip="tooltip" data-placement="left"
-                                                        title="Xem nhanh"><i class="icon-eye"></i></a></li>
+                                                <!-- <li><a class="AddToCart-Single" data-id="{{$pd->idProduct}}" data-PriceNew="{{$SalePrice}}" data-token="{{csrf_token()}}" data-tooltip="tooltip" data-placement="left" title="Thêm vào giỏ hàng"><i class="icon-shopping-bag"></i></a></li> -->
+                                                <li><a class="add-to-compare" data-idcat="{{$pd->idCategory}}" id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="So sánh"><i class="icon-sliders"></i></a></li>
+                                                <li><a class="add-to-wishlist" data-id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a></li>
+                                                <li><a class="quick-view-pd" data-id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i class="icon-eye"></i></a></li> 
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="product-content text-center">
-                                        <h4 class="product-name"><a
-                                                href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">{{$pd->ProductName}}</a>
-                                        </h4>
+                                        <!-- <ul class="rating">
+                                            <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                            <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                            <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                            <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                            <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                        </ul> -->
+                                        <h4 class="product-name"><a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">{{$pd->ProductName}}</a></h4>
                                         <div class="price-box">
-                                            <span class="current-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                            @if($SalePrice < $pd->Price)
+                                                <span class="old-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                                <span class="current-price">{{number_format(round($SalePrice,-3),0,',','.')}}đ</span>
+                                            @else
+                                                <span class="current-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -104,38 +127,63 @@
                         @foreach($list_pd as $key => $pd)
                         <div class="single-product product-list">
                             <div class="product-image">
-                                <?php $image = json_decode($pd->ImageName)[0]; ?>
+                                <?php $image = json_decode($pd->ImageName)[0];?>
                                 <a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">
                                     <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
                                 </a>
 
+                                <?php
+                                    $SalePrice = $pd->Price;  
+                                    $get_time_sale = ProductController::get_sale_pd($pd->idProduct); 
+                                ?>
+
+                                @if($get_time_sale)
+                                    <?php $SalePrice = $pd->Price - ($pd->Price/100) * $get_time_sale->Percent; ?>
+                                    <div class="product-countdown">
+                                        <div data-countdown="{{$get_time_sale->SaleEnd}}"></div>
+                                    </div>
+                                    @if($pd->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>
+                                    @else <span class="sticker-new label-sale">-{{$get_time_sale->Percent}}%</span>
+                                    @endif
+                                @elseif($pd->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>;
+                                @endif
+
                                 <div class="action-links">
                                     <ul>
-                                        <li><a class="quick-view-pd" data-id="{{$pd->idProduct}}" data-tooltip="tooltip"
-                                                data-placement="left" title="Xem nhanh"><i class="icon-eye"></i></a>
-                                        </li>
+                                        <li><a class="quick-view-pd" data-id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Xem nhanh"><i class="icon-eye"></i></a></li> 
                                     </ul>
                                 </div>
                             </div>
                             <div class="product-content">
-                                <h4 class="product-name"><a
-                                        href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">{{$pd->ProductName}}</a>
-                                </h4>
+                                <!-- <ul class="rating">
+                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                    <li class="rating-on"><i class="fa fa-star-o"></i></li>
+                                </ul> -->
+                                <h4 class="product-name"><a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">{{$pd->ProductName}}</a></h4>
                                 <div class="price-box">
-                                    <span class="current-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                    @if($SalePrice < $pd->Price)
+                                        <span class="old-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                        <span class="current-price">{{number_format(round($SalePrice,-3),0,',','.')}}đ</span>
+                                    @else
+                                        <span class="current-price">{{number_format($pd->Price,0,',','.')}}đ</span>
+                                    @endif
                                 </div>
                                 <p>{!!$pd->ShortDes!!}</p>
 
                                 <ul class="action-links">
-                                    <li><a class="add-to-wishlist" data-id="{{$pd->idProduct}}" data-tooltip="tooltip"
-                                            data-placement="left" title="Thêm vào danh sách yêu thích"><i
-                                                class="icon-heart"></i></a></li>
+                                    <!-- <li><a href="javascript:void(0);" class="add-cart" data-tooltip="tooltip" data-placement="top" title="Add to cart"> Add to cart </a></li> -->
+                                    <li><a class="add-to-wishlist" data-id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="Thêm vào danh sách yêu thích"><i class="icon-heart"></i></a></li>
+                                    <li><a class="add-to-compare" data-idcat="{{$pd->idCategory}}" id="{{$pd->idProduct}}" data-tooltip="tooltip" data-placement="left" title="So sánh"><i class="icon-sliders"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                         @endforeach
                     </div>
                 </div>
+
 
 
                 <!--Pagination Start-->

@@ -156,6 +156,38 @@ use App\Http\Controllers\ContactController;
 Route::get('/contact','ContactController@contact');
 Route::post('/contact', 'ContactController@send')->name('contact.send');
 
+//Sale
+Route::get('/manage-sale','ProductController@manage_sale');
+Route::get('/add-sale','ProductController@add_sale');
+Route::get('/edit-sale/{idSale}/{idProduct}','ProductController@edit_sale');
+Route::get('/delete-sale/{idSale}','ProductController@delete_sale');
+Route::post('/submit-add-sale','ProductController@submit_add_sale');
+Route::post('/submit-edit-sale/{idSale}/{idProduct}','ProductController@submit_edit_sale');
+
+//Voucher
+Route::get('/manage-voucher','ProductController@manage_voucher');
+Route::get('/add-voucher','ProductController@add_voucher');
+Route::get('/edit-voucher/{idVoucher}','ProductController@edit_voucher');
+Route::get('/delete-voucher/{idVoucher}','ProductController@delete_voucher');
+Route::post('/submit-add-voucher','ProductController@submit_add_voucher');
+Route::post('/submit-edit-voucher/{idVoucher}','ProductController@submit_edit_voucher');
 
 
 
+// Admin chat routes
+Route::get('/admin/chat', function () {
+    return view('admin.chat.index');
+});
+
+// Chat web routes (sử dụng session đúng cách)
+Route::get('/admin/api/chat/threads', [\App\Http\Controllers\ChatController::class, 'threads']);
+Route::get('/admin/api/chat/{threadId}/messages', [\App\Http\Controllers\ChatController::class, 'listMessages']);
+Route::post('/admin/api/chat/{threadId}/mark-read', [\App\Http\Controllers\ChatController::class, 'markAsRead']);
+Route::get('/admin/api/chat/unread-count', [\App\Http\Controllers\ChatController::class, 'unreadCount']);
+Route::get('/admin/api/chat/thread-unread-counts', [\App\Http\Controllers\ChatController::class, 'getThreadUnreadCounts']);
+Route::post('/admin/api/chat/{threadId}/admin-reply', [\App\Http\Controllers\ChatController::class, 'adminReply']);
+
+// Product Reviews web routes (để đảm bảo session hoạt động đúng)
+Route::post('/api/reviews', [\App\Http\Controllers\ProductReviewController::class, 'submitReview']);
+Route::post('/api/reviews/{reviewId}/helpful', [\App\Http\Controllers\ProductReviewController::class, 'markHelpful']);
+Route::get('/api/products/{productId}/can-review', [\App\Http\Controllers\ProductReviewController::class, 'canReview']);

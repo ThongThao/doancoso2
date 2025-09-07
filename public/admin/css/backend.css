@@ -4680,7 +4680,8 @@ button.bg-light-gray:focus {
   display: table-cell !important; }
 
 .d-flex {
-  display: flex !important; }
+  display: flex !important; 
+  gap: 20px;}
 
 .d-inline-flex {
   display: inline-flex !important; }
@@ -19365,21 +19366,19 @@ span.avatar-status {
   float: right;
   text-align: right;
   padding: .75rem 1rem;
-  margin: 0 1.33rem 1.33rem .3rem;
+  margin: 0 0 1.33rem .3rem;
   clear: both;
   word-break: break-word;
   color: #fff;
-  background: #32BDEA;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-  -webkit-box-shadow: 0 2px 4px 0 #50b5ff;
   -moz-box-shadow: 0 2px 4px 0 #50b5ff;
   -ms-box-shadow: 0 2px 4px 0 #50b5ff;
   -o-box-shadow: 0 2px 4px 0 #50b5ff;
-  box-shadow: 0 2px 4px 0 #50b5ff; }
+ }
   .chat-message > p {
     margin: 0; }
 

@@ -41,13 +41,13 @@
                         <div class="my-account-order account-wrapper">
                             <h4 class="account-title mb-15">Đơn Đặt Hàng</h4>
                             <div class="row pt-30 pb-30 mb-25" style="border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5; justify-content: space-evenly;">
-                                <a class="col-xl-2 col-md-2 text-center view-hover text-primary" style="position:relative;">
+                                <a href="{{URL::to('/ordered')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
                                     <i class="fa fa-envelope" style="font-size:24px;"></i>
                                     <div>Tất cả</div>
                                     @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->count() > 0)
                                     <span class="qty-ordered">{{App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->count()}}</span> @endif
                                 </a>
-                                <a href="{{URL::to('/order-waiting')}}" class="col-xl-2 col-md-2 text-center view-hover" style="position:relative;">
+                                <a class="col-xl-2 col-md-2 text-center view-hover text-primary" style="position:relative;">
                                     <i class="fa fa-inbox" style="font-size:24px;"></i>
                                     <div>Chờ xác nhận</div>
                                     @if(App\Models\Bill::where('idCustomer',Session::get('idCustomer'))->where('Status','0')->count() > 0)
@@ -79,7 +79,6 @@
                                             <th class="no">Mã ĐH</th>
                                             <th class="name">Tên người nhận</th>
                                             <th class="date">Ngày đặt</th>
-                                            <th class="status">Trạng thái</th>
                                             <th class="total">Tổng tiền</th>
                                             <th class="action text-center">Thao tác</th>
                                         </tr>
@@ -89,25 +88,13 @@
                                         <tr>
                                             <td>{{$bill->idBill}}</td>
                                             <td>{{$bill->CustomerName}}</td>
-                                            <td>{{$bill->created_at}}</td>           
-
-                                            @if($bill->Status == 0) <td>Chờ xác nhận...</td>
-                                            @elseif($bill->Status == 1) <td>Đang giao</td>
-                                            @elseif($bill->Status == 2) <td>Đã giao</td>
-                                            @else <td>Đã hủy</td> @endif
+                                            <td>{{$bill->created_at}}</td>
 
                                             <td>{{number_format($bill->TotalBill,0,',','.')}}đ</td>
-
-                                            <form action="{{URL::to('/confirm-bill/'.$bill->idBill)}}" method="POST"> @csrf
                                             <td class="d-flex justify-content-center">
                                                 <a class="view-hover h3 mr-2" href="{{URL::to('/ordered-info/'.$bill->idBill)}}" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xem chi tiết"><i class="fa fa-eye"></i></a>
-                                                @if($bill->Status == 0)
-                                                <a class="view-hover h3 ml-2 delete-bill-btn" data-toggle="modal" data-target="#modal-delete-bill" data-id="{{$bill->idBill}}"><i class="fa fa-trash"></i></a>                                
-                                                @endif
-                                                <!-- <button class="view-hover h3" style=" border:none; background-color: transparent;" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xác nhận hoàn thành"><i class="fa fa-check-circle"></i></button>
-                                                <input type="hidden" name="Status" value="2"> -->
+                                                <a class="view-hover h3 ml-2 delete-bill-btn" data-toggle="modal" data-target="#modal-delete-bill" data-id="{{$bill->idBill}}"><i class="fa fa-trash"></i></a>
                                             </td>
-                                            </form>
                                         </tr>
                                         @endforeach
                                     </tbody>

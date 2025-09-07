@@ -6,6 +6,7 @@
 <div class="content-page">
     <div class="container-fluid">
         <div class="row">
+
         <div class="col-lg-12">
             <div class="iq-edit-list-data">
                 <div class="tab-content">
@@ -34,7 +35,15 @@
                                         <div class="col-md-12">
                                             <div class="profile-img-edit">
                                                 <div class="crm-profile-img-edit">
-                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/admin/images/user/12.png" alt="profile-pic">
+                                                    @if(Session::get('Avatar') != NULL)
+                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/storage/admin/images/user/<?php echo Session::get('Avatar')?>" alt="profile-pic">
+                                                    @else
+                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/admin/images/user/12.jpg" alt="profile-pic">
+                                                    @endif
+                                                    <div class="crm-p-image bg-primary">
+                                                        <i class="las la-pen upload-button"></i>
+                                                        <input class="file-upload" id="image" name="Avatar" onchange="loadPreview(this)" type="file" accept="image/*">
+                                                    </div>
                                                 </div>                                          
                                             </div>
                                         </div>
@@ -91,6 +100,26 @@
     });
 </script>
 
-
+<script>
+    function loadPreview(input){
+        //$('.replace-avt').remove();
+        var data = $(input)[0].files; //this file data
+        $.each(data, function(index, file){
+            if(/(\.|\/)(gif|jpeg|png|jpg|svg)$/i.test(file.type) && file.size < 2000000 ){
+                var fRead = new FileReader();
+                fRead.onload = (function(file){
+                    return function(e) {
+                        $('.replace-avt').attr('src', e.target.result);
+                    };
+                })(file);
+                fRead.readAsDataURL(file);
+                $('.alert-img').html($('#image').val().replace(/^.*[\\\/]/, ''));
+            }else{
+                document.querySelector('#image').value = '';
+                $('.alert-img').html("Tệp hình ảnh phải có định dạng .gif, .jpeg, .png, .jpg, .svg dưới 2MB");
+            }
+        });
+    }
+</script>
 
 @endsection
