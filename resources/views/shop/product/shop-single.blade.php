@@ -768,6 +768,7 @@
         });
     }
 
+
     // Create review HTML
     function createReviewHTML(review) {
         const customerName = review.customer ? review.customer.CustomerName : review.customer_name;

@@ -26,6 +26,181 @@
       <link rel="stylesheet" href="{{asset('public/admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
       <link rel="stylesheet" href="{{asset('public/admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
       <link rel="stylesheet" href="{{asset('public/admin/vendor/remixicon/fonts/remixicon.css')}}">
+      
+      <!-- Custom Payment Badge Styles -->
+      <style>
+        .payment-badge {
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          padding: 0.5rem 0.8rem !important;
+          border-radius: 15px !important;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          min-width: 90px;
+          text-align: center;
+          display: inline-block;
+          border: 1px solid transparent;
+        }
+        
+        /* VNPay - Pastel Blue */
+        .badge-primary.payment-badge {
+          background-color: #e3f2fd !important;
+          border-color: #bbdefb !important;
+          color: #1976d2 !important;
+        }
+        
+        /* VietQR - Pastel Cyan */
+        .badge-info.payment-badge {
+          background-color: #e0f7fa !important;
+          border-color: #b2ebf2 !important;
+          color: #00838f !important;
+        }
+        
+        /* Đã thanh toán - Pastel Green */
+        .badge-success.payment-badge {
+          background-color: #e8f5e8 !important;
+          border-color: #c8e6c9 !important;
+          color: #2e7d32 !important;
+        }
+        
+        /* Khi nhận hàng - Pastel Orange */
+        .badge-warning.payment-badge {
+          background-color: #fff3e0 !important;
+          border-color: #ffcc02 !important;
+          color: #f57c00 !important;
+        }
+        
+        /* Hover Effects */
+        .payment-badge:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+          transition: all 0.2s ease;
+        }
+        
+        /* Hover color intensification */
+        .badge-primary.payment-badge:hover {
+          background-color: #bbdefb !important;
+        }
+        
+        .badge-info.payment-badge:hover {
+          background-color: #b2ebf2 !important;
+        }
+        
+        .badge-success.payment-badge:hover {
+          background-color: #c8e6c9 !important;
+        }
+        
+        .badge-warning.payment-badge:hover {
+          background-color: #ffe0b2 !important;
+        }
+        
+        /* Status Badge Styles */
+        .status-badge {
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          padding: 0.5rem 0.8rem !important;
+          border-radius: 15px !important;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          min-width: 100px;
+          text-align: center;
+          display: inline-block;
+          border: 1px solid transparent;
+        }
+        
+        /* Chờ xác nhận - Pastel Orange */
+        .badge-warning.status-badge {
+          background-color: #fff8e1 !important;
+          border-color: #ffcc02 !important;
+          color: #f57c00 !important;
+        }
+        
+        /* Đang giao - Pastel Blue */
+        .badge-info.status-badge {
+          background-color: #e3f2fd !important;
+          border-color: #bbdefb !important;
+          color: #1976d2 !important;
+        }
+        
+        /* Đã giao - Pastel Green */
+        .badge-success.status-badge {
+          background-color: #e8f5e8 !important;
+          border-color: #c8e6c9 !important;
+          color: #2e7d32 !important;
+        }
+        
+        /* Đã hủy - Pastel Red */
+        .badge-danger.status-badge {
+          background-color: #ffebee !important;
+          border-color: #ffcdd2 !important;
+          color: #d32f2f !important;
+        }
+        
+        /* Chưa giao - Pastel Purple */
+        .badge-secondary.status-badge {
+          background-color: #f3e5f5 !important;
+          border-color: #e1bee7 !important;
+          color: #7b1fa2 !important;
+        }
+        
+        /* Status Badge Hover Effects */
+        .status-badge:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+          transition: all 0.2s ease;
+        }
+        
+        .badge-warning.status-badge:hover {
+          background-color: #fff3e0 !important;
+        }
+        
+        .badge-info.status-badge:hover {
+          background-color: #bbdefb !important;
+        }
+        
+        .badge-success.status-badge:hover {
+          background-color: #c8e6c9 !important;
+        }
+        
+        .badge-danger.status-badge:hover {
+          background-color: #ffcdd2 !important;
+        }
+        
+        .badge-secondary.status-badge:hover {
+          background-color: #e1bee7 !important;
+        }
+        
+        /* Center align badge columns */
+        .badge-column {
+          text-align: center !important;
+          vertical-align: middle !important;
+        }
+        
+        .badge-column .payment-badge,
+        .badge-column .status-badge {
+          margin: 0 auto;
+        }
+        
+        /* Center align all table headers */
+        table th {
+          text-align: center !important;
+          vertical-align: middle !important;
+        }
+        
+        /* Center align all table cells */
+        table td {
+          text-align: center !important;
+          vertical-align: middle !important;
+        }
+        
+        /* Exception for action columns - keep left aligned */
+        .list-action,
+        .list-action * {
+          text-align: center !important;
+        }
+      </style>
     </head>
   <body class="  ">
     <!-- loader Start -->
@@ -438,7 +613,7 @@
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        
-                                        <img src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" class="img-fluid rounded" alt="user">
+                                        <img  src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" class="img-fluid rounded" alt="user">
                                        
                                   </a>
                                   <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">

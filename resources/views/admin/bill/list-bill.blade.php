@@ -34,16 +34,26 @@
                                 <td>{{$bill->idBill}}</td>
                                 <td>{{$bill->username}}</td>
                                 <td>{{$bill->CusPhone}}</td>
-                                <td>@if($bill->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
+                                <td class="badge-column">
+                                    @if($bill->Payment == 'vnpay') 
+                                        <span class="badge badge-primary payment-badge">VNPay</span>
+                                    @elseif($bill->Payment == 'casso_vietqr')
+                                        <span class="badge badge-info payment-badge">VietQR</span>
+                                    @elseif($bill->Payment == 'paid')
+                                        <span class="badge badge-success payment-badge">Đã thanh toán</span>
+                                    @else 
+                                        <span class="badge badge-warning payment-badge">Khi nhận hàng</span>
+                                    @endif
+                                </td>
                                 <td>{{$bill->created_at}}</td>
 
                                 @if($bill->ReceiveDate != null) <td>{{$bill->ReceiveDate}}</td>
-                                @else <td class="text-center"><div class="align-items-center badge badge-warning">Chưa giao</div></td> @endif
+                                @else <td class="badge-column"><span class="badge badge-secondary status-badge">Chưa giao</span></td> @endif
                                 
-                                @if($bill->Status == 0) <td><div class=" align-items-center badge badge-warning">Chờ xác nhận</div></td>
-                                @elseif($bill->Status == 1) <td><div class=" align-items-center badge badge-info">Đang giao</div></td>
-                                @elseif($bill->Status == 2) <td><div class=" align-items-center badge badge-success">Đã giao</div></td>
-                                @else <td><div class=" align-items-center badge badge-success">Đã hủy</div></td> @endif
+                                @if($bill->Status == 0) <td class="badge-column"><span class="badge badge-warning status-badge">Chờ xác nhận</span></td>
+                                @elseif($bill->Status == 1) <td class="badge-column"><span class="badge badge-info status-badge">Đang giao</span></td>
+                                @elseif($bill->Status == 2) <td class="badge-column"><span class="badge badge-success status-badge">Đã giao</span></td>
+                                @else <td class="badge-column"><span class="badge badge-danger status-badge">Đã hủy</span></td> @endif
 
                                 <td>
                                     <form action="{{URL::to('/confirm-bill/'.$bill->idBill)}}" method="POST"> @csrf

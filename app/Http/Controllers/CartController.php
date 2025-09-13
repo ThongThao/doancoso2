@@ -285,7 +285,11 @@ class CartController extends Controller
         $data = $request->all();
         $Bill = new Bill();
 
-        if($data['checkout'] == 'vnpay'){
+        if($data['checkout'] == 'casso_vietqr'){
+            // Chuyển hướng đến Casso payment sẽ được xử lý bởi JavaScript
+            return redirect()->back()->with('error', 'Phương thức thanh toán này được xử lý bởi JavaScript');
+        }
+        else if($data['checkout'] == 'vnpay'){
             $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
             $vnp_Returnurl = "http://localhost/ericshop/success-order";
             $vnp_TmnCode = "135HNKES";//Mã website tại VNPAY 

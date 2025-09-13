@@ -100,7 +100,16 @@ class BillController extends Controller
         // Xác nhận đơn hàng
         public function confirm_bill(Request $request, $idBill){  
             if($request->Status == 2){
-                Bill::find($idBill)->update(['ReceiveDate' => now(),'Status' => $request->Status]); 
+                // Lấy thông tin đơn hàng
+                $bill = Bill::find($idBill);
+                
+                // Cập nhật trạng thái hoàn thành và đánh dấu đã thanh toán cho đơn COD
+                $updateData = ['ReceiveDate' => now(), 'Status' => $request->Status];
+                if($bill->Payment == 'cash') {
+                    $updateData['Payment'] = 'paid'; // Đánh dấu đã thanh toán cho COD
+                }
+                
+                $bill->update($updateData);
                 
                 $BillInfo = BillInfo::where('idBill',$idBill)->get();
                 foreach($BillInfo as $key => $bi){

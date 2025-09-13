@@ -34,9 +34,19 @@
                                 <td>{{$bill->idBill}}</td>
                                 <td>{{$bill->username}}</td>
                                 <td>{{$bill->CusPhone}}</td>
-                                <td>@if($bill->Payment == 'vnpay') VNPay @else Khi nhận hàng @endif</td>
+                                <td class="badge-column">
+                                    @if($bill->Payment == 'vnpay') 
+                                        <span class="badge badge-primary payment-badge">VNPay</span>
+                                    @elseif($bill->Payment == 'casso_vietqr')
+                                        <span class="badge badge-info payment-badge">VietQR</span>
+                                    @elseif($bill->Payment == 'paid')
+                                        <span class="badge badge-success payment-badge">Đã thanh toán</span>
+                                    @else 
+                                        <span class="badge badge-warning payment-badge">Khi nhận hàng</span>
+                                    @endif
+                                </td>
                                 <td>{{$bill->created_at}}</td>
-                                <td><div class=" align-items-center badge badge-warning">{{$bill->AdminName}}</div></td>
+                                <td class="badge-column"><span class="badge badge-info status-badge">{{$bill->AdminName}}</span></td>
                                 <td>{{$bill->TimeConfirm}}</td>
 
                                 <td>

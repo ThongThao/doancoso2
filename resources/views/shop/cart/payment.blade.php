@@ -108,9 +108,9 @@
                         </label>
                     </li>
                     <li class="cus-radio payment-radio">
-                        <input type="radio" name="checkout" value="vnpay" id="vnpay" >
-                        <label for="vnpay">
-                            <span>VNPay</span>
+                        <input type="radio" name="checkout" value="casso_vietqr" id="casso_vietqr" >
+                        <label for="casso_vietqr">
+                            <span>Chuyển khoản qua VietQR</span>
                         </label>
                     </li>
                 </ul>                   
@@ -164,6 +164,70 @@
 </div>
 <!--Cart End-->
 </form>
+
+<!-- Modal VietQR -->
+<div class="modal fade" id="VietQRModal" tabindex="-1" aria-labelledby="VietQRModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="VietQRModalLabel">Thanh toán qua VietQR</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div id="qr-loading" class="d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Đang tạo mã QR...</span>
+                    </div>
+                    <p class="mt-2">Đang tạo mã QR thanh toán...</p>
+                </div>
+                
+                <div id="qr-content" class="d-none">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="qr-code-container">
+                                <img id="qr-image" src="" alt="VietQR Code" class="img-fluid" style="max-width: 300px;">
+                                <p class="text-muted mt-2">Quét mã QR để thanh toán</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="payment-info">
+                                <h6>Thông tin chuyển khoản</h6>
+                                <div class="bank-info p-3 border rounded">
+                                    <p><strong>Số tài khoản:</strong> <span id="account-number"></span></p>
+                                    <p><strong>Tên tài khoản:</strong> <span id="account-name"></span></p>
+                                    <p><strong>Số tiền:</strong> <span id="payment-amount"></span></p>
+                                    <p><strong>Nội dung:</strong> <span id="payment-description"></span></p>
+                                </div>
+                                
+                                <div class="payment-status mt-3">
+                                    <div id="payment-checking">
+                                        <div class="spinner-border spinner-border-sm text-success" role="status"></div>
+                                        <span class="ml-2">Đang kiểm tra thanh toán...</span>
+                                    </div>
+                                    <div id="payment-success" class="d-none text-success">
+                                        <i class="fa fa-check-circle"></i>
+                                        <span class="ml-2">Thanh toán thành công!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="qr-error" class="d-none">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        <span id="error-message">Có lỗi xảy ra khi tạo mã QR</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel-payment">Hủy thanh toán</button>
+                <button type="button" class="btn btn-primary" id="check-payment-manual" data-order-id="">Kiểm tra lại</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal thêm địa chỉ -->
 <form id="form-insert-address">
@@ -409,5 +473,189 @@
     });
 </script>
 
+<script>
+$(document).ready(function(){
+    let paymentCheckInterval;
+    let currentOrderId = null;
+    
+    // Override form submission to handle Casso VietQR payment
+    $('#payment-form').on('submit', function(e) {
+        const selectedPayment = $('input[name="checkout"]:checked').val();
+        
+        if (selectedPayment === 'casso_vietqr') {
+            e.preventDefault();
+            handleCassoPayment();
+        }
+        // For cash payment, let the form submit normally
+    });
+    
+    function handleCassoPayment() {
+        // Validate address selection
+        const selectedAddress = $('input[name="address_rdo"]:checked').val();
+        if (!selectedAddress) {
+            alert('Vui lòng chọn địa chỉ nhận hàng');
+            return;
+        }
+        
+        // Validate terms checkbox
+        if (!$('#disabled').is(':checked')) {
+            alert('Vui lòng đồng ý với điều khoản và điều kiện');
+            return;
+        }
+        
+        // Show loading modal
+        $('#VietQRModal').modal('show');
+        showQRLoading();
+        
+        // Prepare payment data
+        const formData = {
+            TotalBill: $('.totalBillVal').val(),
+            address_rdo: selectedAddress,
+            Voucher: $('#VoucherCode').val() || null,
+            _token: $('input[name="_token"]').val()
+        };
+        
+        // Create VietQR payment
+        $.ajax({
+            url: "{{ route('casso.create.vietqr') }}",
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    currentOrderId = response.order_id;
+                    showQRContent(response);
+                    startPaymentCheck(response.order_id);
+                } else {
+                    showQRError(response.message || 'Không thể tạo mã QR thanh toán');
+                }
+            },
+            error: function(xhr) {
+                let errorMessage = 'Lỗi hệ thống';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                showQRError(errorMessage);
+            }
+        });
+    }
+    
+    function showQRLoading() {
+        $('#qr-loading').removeClass('d-none');
+        $('#qr-content').addClass('d-none');
+        $('#qr-error').addClass('d-none');
+    }
+    
+    function showQRContent(data) {
+        $('#qr-loading').addClass('d-none');
+        $('#qr-content').removeClass('d-none');
+        $('#qr-error').addClass('d-none');
+        
+        // Set QR image
+        $('#qr-image').attr('src', data.qr_data_url);
+        
+        // Set bank info
+        $('#account-number').text(data.bank_info.account_no);
+        $('#account-name').text(data.bank_info.account_name);
+        $('#payment-amount').text(formatCurrency(data.amount));
+        $('#payment-description').text(data.description);
+        
+        // Set order ID for manual check
+        $('#check-payment-manual').attr('data-order-id', data.order_id);
+        
+        // Show payment checking status
+        $('#payment-checking').removeClass('d-none');
+        $('#payment-success').addClass('d-none');
+    }
+    
+    function showQRError(message) {
+        $('#qr-loading').addClass('d-none');
+        $('#qr-content').addClass('d-none');
+        $('#qr-error').removeClass('d-none');
+        $('#error-message').text(message);
+    }
+    
+    function startPaymentCheck(orderId) {
+        paymentCheckInterval = setInterval(function() {
+            checkPaymentStatus(orderId);
+        }, 3000); // Check every 3 seconds
+    }
+    
+    function stopPaymentCheck() {
+        if (paymentCheckInterval) {
+            clearInterval(paymentCheckInterval);
+            paymentCheckInterval = null;
+        }
+    }
+    
+    function checkPaymentStatus(orderId) {
+        $.ajax({
+            url: "{{ url('/casso/check-payment') }}/" + orderId,
+            method: 'GET',
+            success: function(response) {
+                if (response.success && response.status === 'completed') {
+                    stopPaymentCheck();
+                    showPaymentSuccess();
+                    
+                    // Redirect to success page after 2 seconds
+                    setTimeout(function() {
+                        window.location.href = response.redirect_url || "{{ route('success.order') }}";
+                    }, 2000);
+                }
+                // If pending, continue checking
+            },
+            error: function(xhr) {
+                console.error('Payment check error:', xhr);
+            }
+        });
+    }
+    
+    function showPaymentSuccess() {
+        $('#payment-checking').addClass('d-none');
+        $('#payment-success').removeClass('d-none');
+    }
+    
+    // Manual payment check
+    $('#check-payment-manual').on('click', function() {
+        const orderId = $(this).attr('data-order-id');
+        if (orderId) {
+            checkPaymentStatus(orderId);
+        }
+    });
+    
+    // Cancel payment
+    $('#cancel-payment').on('click', function() {
+        if (currentOrderId) {
+            $.ajax({
+                url: "{{ url('/casso/cancel-payment') }}/" + currentOrderId,
+                method: 'POST',
+                data: {
+                    _token: $('input[name="_token"]').val()
+                },
+                success: function(response) {
+                    stopPaymentCheck();
+                    $('#VietQRModal').modal('hide');
+                    currentOrderId = null;
+                }
+            });
+        } else {
+            stopPaymentCheck();
+            $('#VietQRModal').modal('hide');
+        }
+    });
+    
+    // Clean up when modal is closed
+    $('#VietQRModal').on('hidden.bs.modal', function () {
+        stopPaymentCheck();
+        currentOrderId = null;
+    });
+    
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
+});
+</script>
 
 @endsection

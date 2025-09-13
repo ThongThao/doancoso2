@@ -134,9 +134,15 @@
                                         <h3 class="text-primary font-weight-700">{{number_format($total_bill,0,',','.')}}đ</h3>
                                     </div>
                                 </div>
-                                @if($address->Payment == 'vnpay')
+                                @if($address->Payment == 'vnpay' || $address->Payment == 'casso_vietqr' || $address->Payment == 'paid')
                                 <div class="col-lg-3 paid_tag">
-                                    <div class="h3 p-3 mb-0 text-primary">Đã thanh toán</div>
+                                    @if($address->Payment == 'vnpay')
+                                        <span class="badge badge-primary payment-badge h5 p-3 mb-0">VNPay</span>
+                                    @elseif($address->Payment == 'casso_vietqr')
+                                        <span class="badge badge-info payment-badge h5 p-3 mb-0">VietQR</span>
+                                    @else
+                                        <span class="badge badge-success payment-badge h5 p-3 mb-0">Đã thanh toán</span>
+                                    @endif
                                 </div>
                                 @endif
                             </div>

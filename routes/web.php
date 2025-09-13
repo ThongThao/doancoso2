@@ -34,7 +34,7 @@ Route::post('/search-suggestions','ProductController@search_suggestions');
 //Cart
 Route::get('/cart','CartController@show_cart');
 Route::get('/empty-cart','CartController@empty_cart');
-Route::get('/success-order','CartController@success_order');
+Route::get('/success-order','CartController@success_order')->name('success.order');
 Route::get('/payment','CartController@payment');
 Route::delete('/delete-pd-cart/{idCart}','CartController@delete_pd_cart');
 Route::get('/delete-cart','CartController@delete_cart');
@@ -43,6 +43,12 @@ Route::post('/buy-now','CartController@buy_now');
 Route::post('/update-qty-cart','CartController@update_qty_cart');
 Route::post('/check-voucher','CartController@check_voucher');
 Route::post('/submit-payment','CartController@submit_payment');
+
+//Casso Payment
+Route::post('/casso/create-vietqr','CassoPaymentController@createVietQRPayment')->name('casso.create.vietqr');
+Route::get('/casso/check-payment/{orderId}','CassoPaymentController@checkPaymentStatus')->name('casso.check.payment');
+Route::post('/casso/cancel-payment/{orderId}','CassoPaymentController@cancelPayment')->name('casso.cancel.payment');
+Route::post('/casso/webhook','CassoPaymentController@webhook')->name('casso.webhook');
 
 //Bill
 Route::get('/ordered','BillController@ordered');
