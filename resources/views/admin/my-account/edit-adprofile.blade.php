@@ -36,9 +36,9 @@
                                             <div class="profile-img-edit">
                                                 <div class="crm-profile-img-edit">
                                                     @if(Session::get('Avatar') != NULL)
-                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/storage/admin/images/user/<?php echo Session::get('Avatar')?>" alt="profile-pic">
+                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="storage/admin/images/user/<?php echo Session::get('Avatar')?>" alt="profile-pic">
                                                     @else
-                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="public/admin/images/user/12.jpg" alt="profile-pic">
+                                                        <img class="crm-profile-pic rounded-circle avatar-100 replace-avt" src="admin/images/user/12.jpg" alt="profile-pic">
                                                     @endif
                                                     <div class="crm-p-image bg-primary">
                                                         <i class="las la-pen upload-button"></i>

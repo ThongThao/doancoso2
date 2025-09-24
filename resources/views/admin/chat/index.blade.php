@@ -2,7 +2,7 @@
 
 @section('content_dash')
 <?php use Illuminate\Support\Facades\Session; ?>
-<link rel="stylesheet" href="{{ asset('public/admin/css/admin-chat.css') }}">
+<link rel="stylesheet" href="{{ asset('admin/css/admin-chat.css') }}">
 
 <div class="content-page">
 <div class="container-fluid">
@@ -122,7 +122,7 @@ function resolveAvatarUrl(rawPath) {
 	
 	// Kiểm tra các đường dẫn phổ biến cho avatar
 	const possiblePaths = [
-    "{{asset('public/storage/admin/images/customer')}}/" + rawPath
+    "{{asset('storage/admin/images/customer')}}/" + rawPath
 ];
 
 	console.log('Avatar paths to try:', possiblePaths); // Debug

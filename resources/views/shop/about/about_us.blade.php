@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/banner/banner1.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/banner/banner1.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Giới thiệu</h2>
@@ -20,7 +20,7 @@
         <div class="row flex-row-reverse">
             <div class="col-lg-6">
                 <div class="img-about" >
-                <img src="public/ericshop/images/about1.png" alt="About Us Image" class="img-fluid" >
+                <img src="ericshop/images/about1.png" alt="About Us Image" class="img-fluid" >
                 </div>
             </div>
             <div class="col-lg-6" style="text-align: justify;">
@@ -41,10 +41,10 @@
                     Chúng tôi hy vọng rằng, bằng cách chia sẻ niềm đam mê và tư vấn chân thành, chúng tôi có thể trở thành người bạn đồng hành tin 
                     cậy trong hành trình tìm kiếm phong cách và sự tự tin.</p>
             <div>
-                <img src="public/ericshop/images/about2.png" alt="About Us Image" class="img-fluid" >
+                <img src="ericshop/images/about2.png" alt="About Us Image" class="img-fluid" >
             </div>
             <div style="margin-top: 10px;">
-                <img src="public/ericshop/images/about3.png" alt="About Us Image" class="img-fluid" >
+                <img src="ericshop/images/about3.png" alt="About Us Image" class="img-fluid" >
             </div>
         </div>
     </div>

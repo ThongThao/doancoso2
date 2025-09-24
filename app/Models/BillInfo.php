@@ -11,4 +11,16 @@ class BillInfo extends Model
     protected $fillable = ['idBill','idProduct','AttributeProduct','Price','QuantityBuy','idProAttr'];
     protected $table = 'billinfo';
     public $incrementing = false;
+
+    // Relationship with product
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'idProduct', 'idProduct');
+    }
+
+    // Relationship with bill
+    public function bill()
+    {
+        return $this->belongsTo(Bill::class, 'idBill', 'idBill');
+    }
 }

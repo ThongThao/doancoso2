@@ -31,7 +31,7 @@
                             <tr>
                                 <td>{{$blog->idBlog}}</td>
                                 <td>
-                                    <img src="{{asset('public/storage/admin/images/blog/'.$blog->BlogImage)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
+                                    <img src="{{asset('storage/admin/images/blog/'.$blog->BlogImage)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
                                     {{$blog->BlogTitle}}
                                 </td>
                                 <td>{{$blog->created_at}}</td>

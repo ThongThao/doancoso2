@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\ProductReview;
 use App\Models\Product;
 use App\Models\Customer;
@@ -220,5 +221,127 @@ class ProductReviewController extends Controller
             'can_review' => $canReview,
             'reason' => $canReview ? '' : 'Bạn chỉ có thể đánh giá sản phẩm đã mua và chưa đánh giá trước đó.'
         ]);
+    }
+
+    // ===== ADMIN REVIEW MANAGEMENT =====
+
+    // Kiểm tra đăng nhập admin
+    private function checkAdminLogin(){
+        $idAdmin = Session::get('idAdmin');
+        if($idAdmin == false) return Redirect::to('admin')->send();
+    }
+
+    // Hiển thị danh sách tất cả reviews
+    public function manageReviews(){
+        $this->checkAdminLogin();
+        
+        $reviews = ProductReview::with(['product:idProduct,ProductName', 'customer:idCustomer,CustomerName,username'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+            
+        return view('admin.reviews.manage-reviews', compact('reviews'));
+    }
+
+    // Hiển thị reviews chờ duyệt
+    public function pendingReviews(){
+        $this->checkAdminLogin();
+        
+        $reviews = ProductReview::with(['product:idProduct,ProductName', 'customer:idCustomer,CustomerName,username'])
+            ->where('is_approved', false)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+            
+        return view('admin.reviews.pending-reviews', compact('reviews'));
+    }
+
+    // Duyệt review
+    public function approveReview($id){
+        $this->checkAdminLogin();
+        
+        $review = ProductReview::find($id);
+        if($review) {
+            $review->is_approved = true;
+            $review->save();
+            
+            Session::put('message', 'Đã duyệt đánh giá thành công!');
+        } else {
+            Session::put('error', 'Không tìm thấy đánh giá!');
+        }
+        
+        return redirect()->back();
+    }
+
+    // Từ chối review
+    public function rejectReview($id){
+        $this->checkAdminLogin();
+        
+        $review = ProductReview::find($id);
+        if($review) {
+            $review->is_approved = false;
+            $review->save();
+            
+            Session::put('message', 'Đã từ chối đánh giá!');
+        } else {
+            Session::put('error', 'Không tìm thấy đánh giá!');
+        }
+        
+        return redirect()->back();
+    }
+
+    // Xóa review
+    public function deleteReview($id){
+        $this->checkAdminLogin();
+        
+        $review = ProductReview::find($id);
+        if($review) {
+            // Xóa ảnh nếu có
+            if($review->images && is_array($review->images)) {
+                foreach($review->images as $image) {
+                    if(Storage::exists('public/reviews/' . $image)) {
+                        Storage::delete('public/reviews/' . $image);
+                    }
+                }
+            }
+            
+            $review->delete();
+            Session::put('message', 'Đã xóa đánh giá thành công!');
+        } else {
+            Session::put('error', 'Không tìm thấy đánh giá!');
+        }
+        
+        return redirect()->back();
+    }
+
+    // Đánh dấu review nổi bật
+    public function toggleFeatured($id){
+        $this->checkAdminLogin();
+        
+        $review = ProductReview::find($id);
+        if($review) {
+            $review->is_featured = !$review->is_featured;
+            $review->save();
+            
+            $status = $review->is_featured ? 'nổi bật' : 'bình thường';
+            Session::put('message', "Đã đánh dấu đánh giá là {$status}!");
+        } else {
+            Session::put('error', 'Không tìm thấy đánh giá!');
+        }
+        
+        return redirect()->back();
+    }
+
+    // Xem chi tiết review
+    public function viewReview($id){
+        $this->checkAdminLogin();
+        
+        $review = ProductReview::with(['product:idProduct,ProductName,ProductSlug', 'customer:idCustomer,CustomerName,username,Email'])
+            ->find($id);
+            
+        if(!$review) {
+            Session::put('error', 'Không tìm thấy đánh giá!');
+            return redirect()->to('/manage-reviews');
+        }
+        
+        return view('admin.reviews.view-review', compact('review'));
     }
 }

@@ -1,6 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\AttributeValueController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CassoPaymentController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\OrderConfirmationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +30,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Home
-Route::get('/','HomeController@index');
-Route::get('/home','HomeController@index');
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/home', [HomeController::class, 'index']);
+//Admin
+Route::get('/ericshop/admin', [AdminController::class, 'show_login']);
 
 //Product
 Route::get('/shop-single/{ProductSlug}','ProductController@show_product_details');
@@ -86,9 +104,8 @@ Route::post('/edit-profile','CustomerController@edit_profile');
 Route::post('/submit-change-password','CustomerController@submit_change_password');
 Route::post('/submit-compare','CustomerController@submit_compare');
 
-//Admin
-Route::get('/admin','AdminController@show_login');
-Route::get('/dashboard','AdminController@show_dashboard');
+
+Route::get('/dashboard', [AdminController::class, 'show_dashboard']);
 Route::get('/admin-logout','AdminController@admin_logout');
 Route::get('/my-adprofile','AdminController@my_adprofile');
 Route::get('/edit-adprofile','AdminController@edit_adprofile');
@@ -98,7 +115,7 @@ Route::get('/add-staffs','AdminController@add_staffs');
 Route::get('/delete-staff/{idAdmin}','AdminController@delete_staff');
 Route::get('/delete-customer/{idCustomer}','AdminController@delete_customer');
 Route::get('/manage-customers','AdminController@manage_customers');
-Route::post('/admin-login','AdminController@admin_login');
+Route::post('/admin-login', [AdminController::class, 'admin_login']);
 Route::post('/submit-edit-adprofile','AdminController@submit_edit_adprofile');
 Route::post('/submit-change-adpassword','AdminController@submit_change_adpassword');
 Route::post('/submit-add-staffs','AdminController@submit_add_staffs');
@@ -106,6 +123,8 @@ Route::post('/statistic-by-date','AdminController@statistic_by_date');
 Route::post('/chart-7days','AdminController@chart_7days');
 Route::post('/statistic-by-date-order','AdminController@statistic_by_date_order');
 Route::post('/topPro-sort-by-date','AdminController@topPro_sort_by_date');
+Route::get('/export-statistics-excel', [AdminController::class, 'exportStatisticsExcel']);
+Route::get('/export-statistics-pdf', [AdminController::class, 'exportStatisticsPdf']);
 
 //Brand
 Route::get('/manage-brand','BrandController@manage_brand');
@@ -193,7 +212,25 @@ Route::get('/admin/api/chat/unread-count', [\App\Http\Controllers\ChatController
 Route::get('/admin/api/chat/thread-unread-counts', [\App\Http\Controllers\ChatController::class, 'getThreadUnreadCounts']);
 Route::post('/admin/api/chat/{threadId}/admin-reply', [\App\Http\Controllers\ChatController::class, 'adminReply']);
 
+// Admin Notifications API
+Route::get('/admin/api/notifications/unread-count', [\App\Http\Controllers\AdminNotificationController::class, 'getUnreadCount']);
+Route::get('/admin/api/notifications', [\App\Http\Controllers\AdminNotificationController::class, 'getNotifications']);
+Route::post('/admin/api/notifications/{id}/mark-read', [\App\Http\Controllers\AdminNotificationController::class, 'markAsRead']);
+Route::post('/admin/api/notifications/mark-all-read', [\App\Http\Controllers\AdminNotificationController::class, 'markAllAsRead']);
+
 // Product Reviews web routes (để đảm bảo session hoạt động đúng)
 Route::post('/api/reviews', [\App\Http\Controllers\ProductReviewController::class, 'submitReview']);
 Route::post('/api/reviews/{reviewId}/helpful', [\App\Http\Controllers\ProductReviewController::class, 'markHelpful']);
 Route::get('/api/products/{productId}/can-review', [\App\Http\Controllers\ProductReviewController::class, 'canReview']);
+
+// Admin Review Management Routes
+Route::get('/manage-reviews', [\App\Http\Controllers\ProductReviewController::class, 'manageReviews']);
+Route::get('/pending-reviews', [\App\Http\Controllers\ProductReviewController::class, 'pendingReviews']);
+Route::get('/view-review/{id}', [\App\Http\Controllers\ProductReviewController::class, 'viewReview']);
+Route::post('/approve-review/{id}', [\App\Http\Controllers\ProductReviewController::class, 'approveReview']);
+Route::post('/reject-review/{id}', [\App\Http\Controllers\ProductReviewController::class, 'rejectReview']);
+Route::post('/delete-review/{id}', [\App\Http\Controllers\ProductReviewController::class, 'deleteReview']);
+Route::post('/toggle-featured-review/{id}', [\App\Http\Controllers\ProductReviewController::class, 'toggleFeatured']);
+
+// Order Confirmation Routes
+Route::get('/confirm-order/{billId}', [\App\Http\Controllers\OrderConfirmationController::class, 'confirmOrder']);

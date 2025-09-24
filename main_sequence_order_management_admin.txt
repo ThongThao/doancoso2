@@ -1,0 +1,22 @@
+sequenceDiagram
+    title Order Management (Admin)
+
+    participant Admin
+    participant AdminPanel
+    participant BillController
+    participant Database
+    participant EmailService
+    participant Customer
+
+    Admin->>AdminPanel: 1. accessOrderManagement()
+    AdminPanel->>BillController: 2. list_bill(status, page)
+    BillController->>Database: 3. getPendingOrders()
+    Database->>BillController: 4. return orderList
+    BillController->>AdminPanel: 5. displayOrderList(orders)
+    Admin->>AdminPanel: 6. selectOrder(orderId)
+    AdminPanel->>BillController: 7. bill_info(orderId)
+    BillController->>Database: 8. getOrderDetails(orderId)
+    Admin->>BillController: 9. confirm_bill(orderId)
+    BillController->>Database: 10. updateOrderStatus(orderId, "confirmed")
+    BillController->>EmailService: 11. sendOrderConfirmation(orderData)
+    EmailService->>Customer: 12. deliverConfirmationEmail()

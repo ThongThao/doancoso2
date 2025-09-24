@@ -114,11 +114,9 @@ class CassoService
                             // Tìm order ID trong description của giao dịch
                             $transactionDesc = $transaction['description'];
                             
-                            // Tìm pattern DH + timestamp + customer_id
                             if (preg_match('/DH\d+/', $transactionDesc, $matches)) {
                                 $orderIdInTransaction = $matches[0];
                                 
-                                // So sánh với order ID đang tìm
                                 if (strpos($description, $orderIdInTransaction) !== false) {
                                     return [
                                         'success' => true,
@@ -128,7 +126,6 @@ class CassoService
                                 }
                             }
                             
-                            // Backup: kiểm tra bằng cách tìm description chứa order info
                             if (strpos($transactionDesc, $description) !== false ||
                                 strpos($description, $transactionDesc) !== false) {
                                 return [

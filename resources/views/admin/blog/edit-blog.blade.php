@@ -43,7 +43,7 @@
                                         <div class="text-danger alert-img"></div>
                                         <div class="d-flex flex-wrap" id="image-list">
                                             <div id="image-item-0" class="image-item">
-                                                <img src="{{asset('public/storage/admin/images/blog/'.$blog->BlogImage)}}" class="img-fluid rounded avatar-100 mr-3 mt-2">
+                                                <img src="{{asset('storage/admin/images/blog/'.$blog->BlogImage)}}" class="img-fluid rounded avatar-100 mr-3 mt-2">
                                             </div>
                                         </div>
                                     </div>

@@ -9583,7 +9583,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .btn-outline-primary {
-  background-color: #fff;
+  background-color: #000000;
   border-color: var(--primary-color);
   color: var(--primary-color);
   line-height: 30px;
@@ -9592,7 +9592,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .btn-outline-primary:hover {
-  background-color: var(--primary-color);;
+  background-color: gray;
   color: #fff;
   border-color: var(--primary-color);
 }

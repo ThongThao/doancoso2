@@ -1,0 +1,21 @@
+sequenceDiagram
+    title VietQR Payment Process
+
+    participant Customer
+    participant PaymentPage
+    participant CassoPaymentController
+    participant CassoService
+    participant BankAPI
+    participant Database
+
+    Customer->>PaymentPage: 1. selectVietQRPayment()
+    PaymentPage->>CassoPaymentController: 2. createVietQRPayment(orderData)
+    CassoPaymentController->>CassoService: 3. generateQRCode(amount, orderInfo)
+    CassoService->>BankAPI: 4. requestQRGeneration()
+    BankAPI->>CassoService: 5. return qrCodeData
+    CassoService->>CassoPaymentController: 6. return qrInfo
+    CassoPaymentController->>PaymentPage: 7. displayQRCode(qrData)
+    Customer->>BankAPI: 8. scanAndPay(qrCode)
+    BankAPI->>CassoService: 9. webhook(paymentData)
+    CassoService->>Database: 10. updateOrderStatus(orderId, "paid")
+    CassoService->>Customer: 11. redirectToSuccessPage()

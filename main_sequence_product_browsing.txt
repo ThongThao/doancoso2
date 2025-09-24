@@ -1,0 +1,19 @@
+sequenceDiagram
+    title Product Browsing & Search
+
+    participant Customer
+    participant ProductPage
+    participant ProductController
+    participant Database
+    participant SearchEngine
+
+    Customer->>ProductPage: 1. visitStore()
+    ProductPage->>ProductController: 2. show_all_product()
+    ProductController->>Database: 3. getProducts(filters)
+    Database->>ProductController: 4. return productList
+    ProductController->>ProductPage: 5. displayProducts(products)
+    Customer->>ProductPage: 6. searchProducts(keyword)
+    ProductPage->>SearchEngine: 7. fullTextSearch(keyword)
+    SearchEngine->>Database: 8. executeSearchQuery()
+    Database->>SearchEngine: 9. return searchResults
+    SearchEngine->>ProductPage: 10. displaySearchResults()

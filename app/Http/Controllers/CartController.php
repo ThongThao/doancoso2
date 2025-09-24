@@ -13,6 +13,8 @@ use App\Models\Cart;
 use App\Models\Bill;
 use App\Models\BillHistory;
 use App\Models\BillInfo;
+use App\Services\AdminNotificationService;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
@@ -156,6 +158,15 @@ class CartController extends Controller
             $BillHistory->AdminName = 'System';
             $BillHistory->Status = 1;
             $BillHistory->save();
+
+            // Tạo thông báo cho admin về đơn hàng mới
+            $notificationService = new AdminNotificationService();
+            $notificationService->createNewOrderNotification($get_Bill->idBill);
+
+            // Gửi email hóa đơn ngay cho thanh toán VNPay
+            $emailService = new EmailService();
+            $emailService->sendInvoiceEmail($get_Bill->idBill);
+            
             return view("shop.cart.success-order")->with(compact('list_category','list_brand'));
         }
         else if($request->vnp_TransactionStatus && $request->vnp_TransactionStatus != '00') 
@@ -361,11 +372,11 @@ class CartController extends Controller
             $get_address = AddressCustomer::find($data['address_rdo']);
             $Bill->idCustomer = Session::get('idCustomer');
             $Bill->TotalBill = $data['TotalBill'];
-            $Bill->Voucher = $data['Voucher'];
             $Bill->Address = $get_address->Address;
             $Bill->PhoneNumber = $get_address->PhoneNumber;
             $Bill->CustomerName = $get_address->CustomerName;
             $Bill->Payment = 'cash';
+            $Bill->Status = 0; // Chờ xác nhận cho đơn COD
     
             $Bill->save();
             $get_Bill = Bill::where('created_at', now())->where('idCustomer',Session::get('idCustomer'))->first();
@@ -389,6 +400,15 @@ class CartController extends Controller
             }
     
             Cart::where('idCustomer',Session::get('idCustomer'))->delete();
+
+            // Tạo thông báo cho admin về đơn hàng mới
+            $notificationService = new AdminNotificationService();
+            $notificationService->createNewOrderNotification($get_Bill->idBill);
+
+            // Gửi email xác nhận đơn hàng cho thanh toán COD
+            $emailService = new EmailService();
+            $emailService->sendOrderConfirmationEmail($get_Bill->idBill);
+            
             return Redirect::to('success-order')->send();
         }
     }

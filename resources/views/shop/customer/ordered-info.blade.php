@@ -4,7 +4,7 @@
 <?php use Illuminate\Support\Facades\Session; ?>
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(../public/ericshop/images/oso.png);">
+<div class="page-banner" style="background-image: url(../ericshop/images/oso.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Chi Tiết Đơn Hàng</h2>
@@ -54,7 +54,7 @@
                     <tr class="product-item">
                         <?php $image = json_decode($bill_info->ImageName)[0]; ?>
                         <td class="image">
-                            <a href="{{URL::to('/shop-single/'.$bill_info->ProductSlug)}}"><img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt=""></a>
+                            <a href="{{URL::to('/shop-single/'.$bill_info->ProductSlug)}}"><img src="{{asset('storage/admin/images/product/'.$image)}}" alt=""></a>
                         </td>
                         <td class="product">
                             <a href="{{URL::to('/shop-single/'.$bill_info->ProductSlug)}}">{{$bill_info->ProductName}}</a>

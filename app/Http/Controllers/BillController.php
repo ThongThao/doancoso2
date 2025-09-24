@@ -12,6 +12,8 @@ use App\Models\BillHistory;
 use App\Models\BillInfo;
 use App\Models\Cart;
 use App\Models\Statistic;
+use App\Services\EmailService;
+use App\Services\AdminNotificationService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
@@ -99,6 +101,9 @@ class BillController extends Controller
 
         // Xác nhận đơn hàng
         public function confirm_bill(Request $request, $idBill){  
+            $oldBill = Bill::find($idBill);
+            $oldStatus = $oldBill->Status;
+            
             if($request->Status == 2){
                 // Lấy thông tin đơn hàng
                 $bill = Bill::find($idBill);
@@ -115,6 +120,12 @@ class BillController extends Controller
                 foreach($BillInfo as $key => $bi){
                     DB::update('update product set Sold = Sold + ? where idProduct = ?',[$bi->QuantityBuy,$bi->idProduct]);
                 }
+
+                // Gửi email hóa đơn cho đơn hàng COD khi đã giao
+                if($bill->Payment == 'cash' || $bill->Payment == 'paid') {
+                    $emailService = new EmailService();
+                    $emailService->sendInvoiceEmail($idBill);
+                }
             }else{
                 Bill::find($idBill)->update(['Status' => $request->Status]);
                 $BillHistory = new BillHistory();
@@ -123,6 +134,10 @@ class BillController extends Controller
                 $BillHistory->Status = $request->Status;
                 $BillHistory->save();
             } 
+
+            // Tạo thông báo thay đổi trạng thái cho admin
+            $notificationService = new AdminNotificationService();
+            $notificationService->createOrderStatusChangeNotification($idBill, $oldStatus, $request->Status);
             
             return redirect()->back();
         }

@@ -1,0 +1,31 @@
+sequenceDiagram
+    title Statistics & Reporting System
+
+    participant Admin
+    participant AdminController
+    participant Database
+    participant ChartService
+    participant StatisticService
+
+    Admin->>AdminController: 1. show_dashboard()
+    AdminController->>StatisticService: 2. getDashboardStats()
+    StatisticService->>Database: 3. getTotalOrders()
+    StatisticService->>Database: 4. getTotalRevenue()
+    StatisticService->>Database: 5. getTotalCustomers()
+    StatisticService->>Database: 6. getTotalProducts()
+    Database->>StatisticService: 7. return statisticsData
+    StatisticService->>AdminController: 8. return dashboardStats
+    Admin->>AdminController: 9. statistic_by_date(startDate, endDate)
+    AdminController->>StatisticService: 10. getRevenueByDateRange()
+    StatisticService->>Database: 11. SELECT revenue WHERE date BETWEEN
+    Database->>StatisticService: 12. return revenueData
+    Admin->>AdminController: 13. chart_7days()
+    AdminController->>ChartService: 14. generateWeeklyChart()
+    ChartService->>Database: 15. getLast7DaysData()
+    Database->>ChartService: 16. return weeklyData
+    ChartService->>AdminController: 17. return chartData
+    Admin->>AdminController: 18. topPro_sort_by_date(date)
+    AdminController->>StatisticService: 19. getTopProducts(date)
+    StatisticService->>Database: 20. SELECT products ORDER BY sold DESC
+    Database->>StatisticService: 21. return topProductsData
+    StatisticService->>AdminController: 22. return topProducts

@@ -13,7 +13,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
                                     <div class="icon iq-icon-box-2 bg-info-light">
-                                        <img src="public/admin/images/product/1.png" class="img-fluid" alt="image">
+                                        <img src="admin/images/product/1.png" class="img-fluid" alt="image">
                                     </div>
                                     <div>
                                         <p class="mb-2">Tổng Doanh Thu</p>
@@ -33,7 +33,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
                                     <div class="icon iq-icon-box-2 bg-success-light">
-                                        <img src="public/admin/images/product/3.png" class="img-fluid" alt="image">
+                                        <img src="admin/images/product/3.png" class="img-fluid" alt="image">
                                     </div>
                                     <div>
                                         <p class="mb-2">Tổng Sản Phầm Bán Ra</p>
@@ -55,7 +55,7 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4 card-total-sale">
                                     <div class="icon iq-icon-box-2 bg-info-light">
-                                        <img src="public/admin/images/product/2.png" class="img-fluid" alt="image">
+                                        <img src="admin/images/product/2.png" class="img-fluid" alt="image">
                                     </div>
                                     <div>
                                         <p class="mb-2">Tổng Đơn Hàng</p>
@@ -74,6 +74,14 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                         <div class="header-title">
                             <h4 class="card-title">Doanh Thu Cửa Hàng</h4>
+                        </div>
+                        <div class="export-buttons mr-2">
+                            <button type="button" class="btn btn-sm btn-success mr-1" id="export-excel-btn" data-toggle="tooltip" title="Xuất Excel">
+                                <i class="fas fa-file-excel"></i> Excel
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger mr-1" id="export-pdf-btn" data-toggle="tooltip" title="Xuất PDF">
+                                <i class="fas fa-file-pdf"></i> PDF
+                            </button>
                         </div>
                         <form class="col-lg-6 p-0"> @csrf
                         <div class="row">
@@ -132,7 +140,7 @@
                                     <div class="card-body">
                                         <div class="bg-warning-light rounded">
                                             <?php $image = json_decode($topProduct->ImageName)[0];?>
-                                            <img src="{{asset('public/storage/admin/images/product/'.$image)}}" class="style-img img-fluid m-auto p-3" alt="image">
+                                            <img src="{{asset('storage/admin/images/product/'.$image)}}" class="style-img img-fluid m-auto p-3" alt="image">
                                         </div>
                                         <div class="style-text text-left mt-3">
                                             <h5 class="mb-1 limit-2-lines">{{$topProduct->ProductName}}</h5>
@@ -160,7 +168,7 @@
                         <div class="d-flex align-items-top">
                             <div class="iq-avatar d-flex align-items-center">
                                 <?php $image = json_decode($topProduct_AllTime->ImageName)[0];?>
-                                <img src="{{asset('public/storage/admin/images/product/'.$image)}}" class="p-0 avatar-100 style-img img-fluid m-auto rounded" alt="image">
+                                <img src="{{asset('storage/admin/images/product/'.$image)}}" class="p-0 avatar-100 style-img img-fluid m-auto rounded" alt="image">
                             </div>
                             <div class="style-text text-left">
                                 <h5 class="mb-2 limit-2-lines">{{$topProduct_AllTime->ProductName}}</h5>
@@ -172,6 +180,105 @@
                     @endforeach
                 </div>
             </div>   
+        </div>
+
+        <!-- Review Statistics Row -->
+        <div class="row">
+            <!-- Top Rated Products -->
+            <div class="col-lg-6">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Top 3 Sản Phẩm Được Đánh Giá Tốt Nhất</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if(count($top_rated_products) > 0)
+                            @foreach($top_rated_products as $key => $product)
+                                <div class="d-flex align-items-center mb-3 pb-3 {{ $key < count($top_rated_products) - 1 ? 'border-bottom' : '' }}">
+                                    <div class="iq-avatar">
+                                        <?php $image = json_decode($product->ImageName)[0];?>
+                                        <img src="{{asset('storage/admin/images/product/'.$image)}}" 
+                                             class="avatar-80 rounded" alt="image">
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-1 limit-2-lines">{{$product->ProductName}}</h6>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <div class="rating-stars">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= round($product->avg_rating))
+                                                        <span class="text-warning">⭐</span>
+                                                    @else
+                                                        <span class="text-muted">☆</span>
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                            <span class="badge badge-success ml-2">{{number_format($product->avg_rating, 1)}}/5</span>
+                                        </div>
+                                        <small class="text-muted">{{$product->review_count}} đánh giá</small>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="badge badge-primary">#{{$key + 1}}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-center py-4">
+                                <i class="las la-star text-muted" style="font-size: 3rem;"></i>
+                                <p class="text-muted mb-0">Chưa có sản phẩm nào được đánh giá</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Worst Rated Products -->
+            <div class="col-lg-6">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Top 3 Sản Phẩm Cần Cải Thiện</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if(count($worst_rated_products) > 0)
+                            @foreach($worst_rated_products as $key => $product)
+                                <div class="d-flex align-items-center mb-3 pb-3 {{ $key < count($worst_rated_products) - 1 ? 'border-bottom' : '' }}">
+                                    <div class="iq-avatar">
+                                        <?php $image = json_decode($product->ImageName)[0];?>
+                                        <img src="{{asset('storage/admin/images/product/'.$image)}}" 
+                                             class="avatar-80 rounded" alt="image">
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <h6 class="mb-1 limit-2-lines">{{$product->ProductName}}</h6>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <div class="rating-stars">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    @if($i <= round($product->avg_rating))
+                                                        <span class="text-warning">⭐</span>
+                                                    @else
+                                                        <span class="text-muted">☆</span>
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                            <span class="badge badge-warning ml-2">{{number_format($product->avg_rating, 1)}}/5</span>
+                                        </div>
+                                        <small class="text-muted">{{$product->review_count}} đánh giá</small>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="badge badge-secondary">#{{$key + 1}}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="text-center py-4">
+                                <i class="las la-star text-muted" style="font-size: 3rem;"></i>
+                                <p class="text-muted mb-0">Chưa có sản phẩm nào được đánh giá</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -285,6 +392,25 @@
                     $('.list-topPro').html(data);
                 }
             });
+        });
+
+        // Export functions
+        $('#export-excel-btn').on("click", function(){
+            var DateFrom = $('#DateFrom').val() || '';
+            var DateTo = $('#DateTo').val() || '';
+            var Days = $('#chart-by-days').val() || 'lastweek';
+            
+            var url = APP_URL + '/export-statistics-excel?DateFrom=' + DateFrom + '&DateTo=' + DateTo + '&Days=' + Days;
+            window.open(url, '_blank');
+        });
+
+        $('#export-pdf-btn').on("click", function(){
+            var DateFrom = $('#DateFrom').val() || '';
+            var DateTo = $('#DateTo').val() || '';
+            var Days = $('#chart-by-days').val() || 'lastweek';
+            
+            var url = APP_URL + '/export-statistics-pdf?DateFrom=' + DateFrom + '&DateTo=' + DateTo + '&Days=' + Days;
+            window.open(url, '_blank');
         });
     });
 </script>

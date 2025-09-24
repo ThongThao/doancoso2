@@ -1,0 +1,24 @@
+sequenceDiagram
+    title Inventory & Product Management
+
+    participant Admin
+    participant AdminPanel
+    participant ProductController
+    participant Database
+    participant ImageService
+    participant InventoryService
+
+    Admin->>AdminPanel: 1. accessProductManagement()
+    AdminPanel->>ProductController: 2. manage_products()
+    ProductController->>Database: 3. getAllProducts(pagination)
+    Admin->>ProductController: 4. add_product()
+    ProductController->>AdminPanel: 5. showProductForm()
+    Admin->>ProductController: 6. submit_add_product(productData)
+    ProductController->>+ProductController: 7. validateProductData()
+    ProductController-->>-ProductController: 
+    ProductController->>ImageService: 8. uploadProductImages(images)
+    ImageService->>ProductController: 9. return imagePaths
+    ProductController->>Database: 10. insertProduct(productData)
+    ProductController->>InventoryService: 11. initializeStock(productId, quantity)
+    InventoryService->>Database: 12. updateInventory(productId, quantity)
+    ProductController->>Admin: 13. redirectWithSuccess()

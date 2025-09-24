@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/oso.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/oso.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Đơn đặt hàng</h2>

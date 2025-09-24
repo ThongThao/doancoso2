@@ -1,0 +1,22 @@
+sequenceDiagram
+    title Shopping Cart Management
+
+    participant Customer
+    participant ProductPage
+    participant CartController
+    participant Database
+    participant Session
+
+    Customer->>ProductPage: 1. selectProduct(productId)
+    ProductPage->>+ProductPage: 2. chooseQuantity(qty)
+    ProductPage-->>-ProductPage: 
+    ProductPage->>CartController: 3. add_to_cart(productId, qty)
+    CartController->>Database: 4. checkProductStock(productId)
+    Database->>CartController: 5. return stockQuantity
+    CartController->>Session: 6. saveCartData(cartItems)
+    CartController->>+CartController: 7. calculateSubtotal()
+    CartController-->>-CartController: 
+    Customer->>CartController: 8. viewCart()
+    CartController->>+CartController: 9. update_qty_cart(itemId, newQty)
+    CartController-->>-CartController: 
+    CartController->>Customer: 10. displayCartSummary()

@@ -176,6 +176,8 @@ class CustomerController extends Controller
             $address->PhoneNumber = $data['PhoneNumber'];
 
             $address->save();
+            
+            return response()->json(['success' => true, 'message' => 'Thêm địa chỉ thành công']);
         }
 
         // Sửa địa chỉ nhận hàng
@@ -190,12 +192,15 @@ class CustomerController extends Controller
             $address->PhoneNumber = $data['PhoneNumber'];
 
             $address->save();
+            
+            return response()->json(['success' => true, 'message' => 'Cập nhật địa chỉ thành công']);
         }
 
         // Hiện danh sách địa chỉ nhận hàng
         public function fetch_address(){
             $list_address = AddressCustomer::where('idCustomer', Session::get('idCustomer'))->get();
             $output = '';
+            $total_addresses = $list_address->count();
 
             foreach($list_address as $key => $address){
                 $output .= '<li class="cus-radio align-items-center justify-content-between">
@@ -206,9 +211,14 @@ class CustomerController extends Controller
                                     <span>'.$address->Address.'</span>
                                 </label>
                                 <div>
-                                    <button type="button" data-toggle="modal" data-target="#EditAddressModal" class="edit-address btn btn-outline-primary" data-id="'.$address->idAddress.'" data-name="'.$address->CustomerName.'" data-phone="'.$address->PhoneNumber.'" data-address="'.$address->Address.'">Sửa</button>
-                                    <button type="button" class="dlt-address btn btn-outline-primary ml-2" data-id="'.$address->idAddress.'">Xóa</button>
-                                </div>     
+                                    <button type="button" data-toggle="modal" data-target="#EditAddressModal" class="edit-address btn btn-outline-primary" data-id="'.$address->idAddress.'" data-name="'.$address->CustomerName.'" data-phone="'.$address->PhoneNumber.'" data-address="'.$address->Address.'">Sửa</button>';
+                
+                // Chỉ hiển thị nút xóa nếu có nhiều hơn 1 địa chỉ
+                if($total_addresses > 1) {
+                    $output .= '    <button type="button" class="dlt-address btn btn-outline-danger ml-2" data-id="'.$address->idAddress.'" onclick="return confirm(\'Bạn có chắc muốn xóa địa chỉ này?\')">Xóa</button>';
+                }
+                
+                $output .= '    </div>     
                             </li>';
             }
             echo $output;
@@ -217,7 +227,25 @@ class CustomerController extends Controller
         // Xóa địa chỉ nhận hàng
         public function delete_address($idAddress){
             $this->checkLogin();
+            $idCustomer = Session::get('idCustomer');
+            
+            // Kiểm tra xem khách hàng có ít nhất 2 địa chỉ không
+            $total_addresses = AddressCustomer::where('idCustomer', $idCustomer)->count();
+            
+            if($total_addresses <= 1) {
+                return response()->json(['success' => false, 'message' => 'Không thể xóa địa chỉ cuối cùng! Bạn cần có ít nhất 1 địa chỉ.']);
+            }
+            
+            // Kiểm tra địa chỉ có thuộc về khách hàng này không
+            $address = AddressCustomer::where('idAddress', $idAddress)->where('idCustomer', $idCustomer)->first();
+            
+            if(!$address) {
+                return response()->json(['success' => false, 'message' => 'Địa chỉ không tồn tại hoặc không thuộc về bạn!']);
+            }
+            
             AddressCustomer::destroy($idAddress);
+            
+            return response()->json(['success' => true, 'message' => 'Xóa địa chỉ thành công']);
         }
 
         // Thêm vào danh sách yêu thích

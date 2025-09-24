@@ -61,7 +61,7 @@
                                                 <th class="text-center" scope="row">{{$key + 1}}</th>
                                                 <td class="row" style="border-bottom:0;">
                                                         <?php $image = json_decode($bill_info->ImageName)[0]; ?>
-                                                        <img class="avatar-70 rounded" src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                                        <img class="avatar-70 rounded" src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                                         <div class="ml-2" style="flex:1;">
                                                             <h6 class="mb-0">{{$bill_info->ProductName}}</h6>
                                                             <p class="mb-0">Mã sản phẩm: {{$bill_info->idProduct}}</p>
@@ -137,11 +137,11 @@
                                 @if($address->Payment == 'vnpay' || $address->Payment == 'casso_vietqr' || $address->Payment == 'paid')
                                 <div class="col-lg-3 paid_tag">
                                     @if($address->Payment == 'vnpay')
-                                        <span class="badge badge-primary payment-badge h5 p-3 mb-0">VNPay</span>
+                                        <span class="tag-paid h5 p-3 mb-0">Đã thanh toán</span>
                                     @elseif($address->Payment == 'casso_vietqr')
-                                        <span class="badge badge-info payment-badge h5 p-3 mb-0">VietQR</span>
+                                        <span class="tag-paid h5 p-3 mb-0">Đã thanh toán</span>
                                     @else
-                                        <span class="badge badge-success payment-badge h5 p-3 mb-0">Đã thanh toán</span>
+                                        <span class="tag-paid h5 p-3 mb-0">Đã thanh toán</span>
                                     @endif
                                 </div>
                                 @endif

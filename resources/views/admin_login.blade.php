@@ -7,12 +7,12 @@
       <title>Admin | Login</title>
       
       <!-- Favicon -->
-      <link rel="shortcut icon" href="{{asset('public/admin/images/favicon.ico')}}" />
-      <link rel="stylesheet" href="{{asset('public/admin/css/backend-plugin.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/css/backend.css?v=1.0.0')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/remixicon/fonts/remixicon.css')}}">  </head>
+      <link rel="shortcut icon" href="{{asset('admin/images/favicon.ico')}}" />
+      <link rel="stylesheet" href="{{asset('admin/css/backend-plugin.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/css/backend.css?v=1.0.0')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/remixicon/fonts/remixicon.css')}}">  </head>
   <body class=" ">
     <!-- loader Start -->
     <div id="loading">
@@ -72,20 +72,20 @@
       </div>
     
     <!-- Backend Bundle JavaScript -->
-    <script src="{{asset('public/admin/js/backend-bundle.min.js')}}"></script>
+    <script src="{{asset('admin/js/backend-bundle.min.js')}}"></script>
     
     <!-- Table Treeview JavaScript -->
-    <script src="{{asset('public/admin/js/table-treeview.js')}}"></script>
+    <script src="{{asset('admin/js/table-treeview.js')}}"></script>
     
     <!-- Chart Custom JavaScript -->
-    <script src="{{asset('public/admin/js/customizer.js')}}"></script>
+    <script src="{{asset('admin/js/customizer.js')}}"></script>
     
     <!-- Chart Custom JavaScript -->
-    <script async src="{{asset('public/admin/js/chart-custom.js')}}"></script>
+    <script async src="{{asset('admin/js/chart-custom.js')}}"></script>
     
     <!-- app JavaScript -->
-    <script src="{{asset('public/admin/js/app.js')}}"></script>
+    <script src="{{asset('admin/js/app.js')}}"></script>
 
-    <script src="{{asset('public/admin/js/form-validate.js')}}"></script>
+    <script src="{{asset('admin/js/form-validate.js')}}"></script>
   </body>
 </html>

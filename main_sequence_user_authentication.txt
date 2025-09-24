@@ -1,0 +1,20 @@
+sequenceDiagram
+    title User Authentication Flow
+
+    participant Customer
+    participant LoginForm
+    participant CustomerController
+    participant Database
+    participant Session
+
+    Customer->>LoginForm: 1. enterCredentials(email, password)
+    LoginForm->>CustomerController: 2. submit_login(email, password)
+    CustomerController->>+CustomerController: 3. validateInput(email, password)
+    CustomerController-->>-CustomerController: 
+    CustomerController->>Database: 4. findUserByEmail(email)
+    Database->>CustomerController: 5. return userData
+    CustomerController->>+CustomerController: 6. verifyPassword(password, hash)
+    CustomerController-->>-CustomerController: 
+    CustomerController->>Session: 7. createSession(userId)
+    Session->>CustomerController: 8. return sessionId
+    CustomerController->>Customer: 9. redirect("/dashboard")

@@ -9,9 +9,15 @@ use App\Models\Bill;
 use App\Models\BillInfo;
 use App\Models\Statistic;
 use App\Models\Product;
+use App\Models\ProductReview;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use App\Services\ReportExportService;
+use App\Exports\StatisticsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 session_start();
 
 class AdminController extends Controller
@@ -53,7 +59,33 @@ class AdminController extends Controller
     $list_topProduct_AllTime = Product::join('productimage','productimage.idProduct','=','product.idProduct')
         ->whereRaw('Sold > 0')->orderBy('Sold','DESC')->take(5)->get();
 
-    return view("admin.dashboard")->with(compact('total_revenue','total_sell','list_topProduct','list_topProduct_AllTime','total_bill'));
+    // Top 3 sản phẩm có đánh giá tốt nhất (rating cao nhất)
+    $top_rated_products = Product::join('productimage','productimage.idProduct','=','product.idProduct')
+        ->join('product_reviews', 'product_reviews.product_id', '=', 'product.idProduct')
+        ->where('product_reviews.is_approved', true)
+        ->select('product.idProduct', 'ProductName', 'ImageName')
+        ->selectRaw('AVG(product_reviews.rating) as avg_rating')
+        ->selectRaw('COUNT(product_reviews.id) as review_count')
+        ->groupBy('product.idProduct', 'ProductName', 'ImageName')
+        ->having('review_count', '>=', 2) // Ít nhất 2 đánh giá
+        ->orderBy('avg_rating', 'DESC')
+        ->take(3)
+        ->get();
+
+    // Top 3 sản phẩm có đánh giá tệ nhất (rating thấp nhất)
+    $worst_rated_products = Product::join('productimage','productimage.idProduct','=','product.idProduct')
+        ->join('product_reviews', 'product_reviews.product_id', '=', 'product.idProduct')
+        ->where('product_reviews.is_approved', true)
+        ->select('product.idProduct', 'ProductName', 'ImageName')
+        ->selectRaw('AVG(product_reviews.rating) as avg_rating')
+        ->selectRaw('COUNT(product_reviews.id) as review_count')
+        ->groupBy('product.idProduct', 'ProductName', 'ImageName')
+        ->having('review_count', '>=', 2) // Ít nhất 2 đánh giá
+        ->orderBy('avg_rating', 'ASC')
+        ->take(3)
+        ->get();
+
+    return view("admin.dashboard")->with(compact('total_revenue','total_sell','list_topProduct','list_topProduct_AllTime','total_bill','top_rated_products','worst_rated_products'));
 }
 
 
@@ -373,5 +405,63 @@ class AdminController extends Controller
         $output .= '</ul>';
         
         echo $output;
+    }
+
+    // Xuất báo cáo Excel
+    public function exportStatisticsExcel(Request $request)
+    {
+        $this->checkLogin();
+        $this->checkPostion();
+
+        $dateFrom = $request->get('DateFrom');
+        $dateTo = $request->get('DateTo');
+        $days = $request->get('Days');
+
+        $fileName = 'bao-cao-thong-ke-' . date('Y-m-d-H-i-s') . '.xlsx';
+
+        return Excel::download(new StatisticsExport($dateFrom, $dateTo, $days), $fileName);
+    }
+
+    // Xuất báo cáo PDF
+    public function exportStatisticsPdf(Request $request)
+    {
+        $this->checkLogin();
+        $this->checkPostion();
+
+        $dateFrom = $request->get('DateFrom');
+        $dateTo = $request->get('DateTo');
+        $days = $request->get('Days');
+
+        $reportService = new ReportExportService();
+        $data = $reportService->getStatisticsData($dateFrom, $dateTo, $days);
+        $periodName = $reportService->getPeriodName($days, $dateFrom, $dateTo);
+
+        // Cấu hình DOMPDF
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isRemoteEnabled', true);
+        $options->set('isHtml5ParserEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Render view thành HTML
+        $html = view('admin.reports.statistics-pdf', compact('data', 'reportService', 'periodName'))->render();
+
+        // Load HTML vào DOMPDF
+        $dompdf->loadHtml($html);
+
+        // Thiết lập kích thước và hướng giấy
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render PDF
+        $dompdf->render();
+
+        // Tạo tên file
+        $fileName = 'bao-cao-thong-ke-' . date('Y-m-d-H-i-s') . '.pdf';
+
+        // Trả về PDF để download
+        return response($dompdf->output())
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
     }
 }

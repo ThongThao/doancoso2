@@ -20344,8 +20344,11 @@ input[type=number] {
   justify-content: center;
   align-items: center;
   transform: rotate(-30deg);
-  border: 5px solid #32BDEA;
+  border:5px solid #ff8c8c;
   border-radius: 5px;
   right: -60%;
   top: -55%;
+}
+.tag-paid {
+  color:  #ff8c8c;
 }

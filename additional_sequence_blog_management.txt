@@ -1,0 +1,32 @@
+sequenceDiagram
+    title Blog Management System
+
+    participant Admin
+    participant BlogController
+    participant Database
+    participant ImageService
+    participant Customer
+    participant BlogPage
+
+    Admin->>BlogController: 1. manage_blog()
+    BlogController->>Database: 2. getAllBlogs(pagination)
+    Database->>BlogController: 3. return blogList
+    Admin->>BlogController: 4. add_blog()
+    BlogController->>Admin: 5. showBlogForm()
+    Admin->>BlogController: 6. submit_add_blog(title, content, images)
+    BlogController->>+BlogController: 7. validateBlogData()
+    BlogController-->>-BlogController: 
+    BlogController->>ImageService: 8. uploadBlogImages(images)
+    ImageService->>BlogController: 9. return imagePaths
+    BlogController->>Database: 10. insertBlog(blogData)
+    BlogController->>Admin: 11. redirectWithSuccess()
+    Customer->>BlogPage: 12. visitBlog()
+    BlogPage->>BlogController: 13. show_blog()
+    BlogController->>Database: 14. getPublishedBlogs()
+    Database->>BlogController: 15. return blogList
+    BlogPage->>Customer: 16. displayBlogs()
+    Customer->>BlogPage: 17. readBlogPost(blogSlug)
+    BlogPage->>BlogController: 18. blog_details(blogSlug)
+    BlogController->>Database: 19. getBlogBySlug(slug)
+    Database->>BlogController: 20. return blogDetails
+    BlogController->>BlogPage: 21. displayBlogContent()

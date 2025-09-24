@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/banner/banner-shop.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/banner/banner-shop.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Giỏ Hàng</h2>
@@ -39,7 +39,7 @@
                     <tr class="product-item">
                         <?php $image = json_decode($pd_cart->ImageName)[0]; ?>
                         <td class="image">
-                            <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}"><img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt=""></a>
+                            <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}"><img src="{{asset('storage/admin/images/product/'.$image)}}" alt=""></a>
                         </td>
                         <td class="product">
                             <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}">{{$pd_cart->ProductName}}</a>
@@ -122,7 +122,7 @@
                             <div class="product-image">
                                 <?php $image = json_decode($product->ImageName)[0];?>
                                 <a href="{{URL::to('/shop-single/'.$product->ProductSlug)}}">
-                                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                    <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                 </a>
                                 @if($product->QuantityTotal == '0') <span class="sticker-new soldout-title">Hết hàng</span>;
                                 @endif

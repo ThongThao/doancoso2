@@ -1,0 +1,23 @@
+sequenceDiagram
+    title Product Review System
+
+    participant Customer
+    participant ProductPage
+    participant ProductReviewController
+    participant Database
+    participant AdminNotificationService
+    participant Admin
+
+    Customer->>ProductPage: 1. accessReviewSection()
+    ProductPage->>ProductReviewController: 2. canReview(customerId, productId)
+    ProductReviewController->>Database: 3. checkPurchaseHistory(customerId, productId)
+    Database->>ProductReviewController: 4. return purchaseStatus
+    Customer->>ProductReviewController: 5. submitReview(rating, comment)
+    ProductReviewController->>+ProductReviewController: 6. validateReviewData()
+    ProductReviewController-->>-ProductReviewController: 
+    ProductReviewController->>Database: 7. saveReview(reviewData, status="pending")
+    ProductReviewController->>AdminNotificationService: 8. notifyNewReview()
+    AdminNotificationService->>Admin: 9. sendReviewNotification()
+    Admin->>ProductReviewController: 10. approveReview(reviewId)
+    ProductReviewController->>Database: 11. updateReviewStatus(reviewId, "approved")
+    ProductReviewController->>Customer: 12. notifyReviewApproved()

@@ -10,7 +10,7 @@
 <form method="POST" action="{{URL::to('/submit-payment')}}" id="payment-form">
     @csrf
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/banner/banner-shop.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/banner/banner-shop.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Thanh toán</h2>
@@ -57,7 +57,7 @@
                     <tr class="product-item">
                         <?php $image = json_decode($pd_cart->ImageName)[0]; ?>
                         <td class="image">
-                            <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}"><img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt=""></a>
+                            <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}"><img src="{{asset('storage/admin/images/product/'.$image)}}" alt=""></a>
                         </td>
                         <td class="product">
                             <a href="{{URL::to('/shop-single/'.$pd_cart->ProductSlug)}}">{{$pd_cart->ProductName}}</a>
@@ -301,7 +301,7 @@
     </div>
 </form>
 
-<script src="{{asset('public/ericshop/js/jquery.validate.min.js')}}"></script>
+<script src="{{asset('ericshop/js/jquery.validate.min.js')}}"></script>
 
 <script>
     $(document).ready(function(){  
@@ -328,14 +328,26 @@
                         var _token = $('input[name="_token"]').val();
           
                         $.ajax({
-                            url: APP_URL + '/delete-address/'+idAddress,
+                            url: '{{url("/delete-address")}}/' + idAddress,
                             method: 'DELETE',
                             data: {idAddress:idAddress,_token:_token},
                             xhrFields: {
                                 withCredentials: true
                             },
                             success:function(data){
-                                fetch_address();
+                                if(data.success) {
+                                    fetch_address();
+                                    // Show success message
+                                    if(data.message) {
+                                        alert(data.message);
+                                    }
+                                } else {
+                                    // Show error message from server
+                                    alert(data.message || 'Không thể xóa địa chỉ');
+                                }
+                            },
+                            error:function(xhr, status, error){
+                                alert('Có lỗi xảy ra: ' + error);
                             }
                         });
                     });
@@ -386,7 +398,7 @@
                                 var Address = $('#form-edit-address #Address').val();
                                 var _token = $('input[name="_token"]').val();
                                 $.ajax({
-                                    url: APP_URL + '/edit-address/'+idAddress,
+                                    url: '{{url("/edit-address")}}/' + idAddress,
                                     method: 'POST',
                                     data: {idAddress:idAddress,CustomerName:CustomerName,PhoneNumber:PhoneNumber,Address:Address,_token:_token},
                                     xhrFields: {
@@ -395,6 +407,13 @@
                                     success:function(data){
                                         $('#EditAddressModal').modal('hide');
                                         fetch_address();
+                                        // Show success message
+                                        if(data.message) {
+                                            alert(data.message);
+                                        }
+                                    },
+                                    error:function(xhr, status, error){
+                                        alert('Có lỗi xảy ra: ' + error);
                                     }
                                 });
                             }
@@ -454,6 +473,15 @@
                     success:function(data){
                         $('#AddressModal').modal('hide');
                         fetch_address();
+                        // Reset form
+                        $('#form-insert-address')[0].reset();
+                        // Show success message
+                        if(data.message) {
+                            alert(data.message);
+                        }
+                    },
+                    error:function(xhr, status, error){
+                        alert('Có lỗi xảy ra: ' + error);
                     }
                 });
             }

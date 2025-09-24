@@ -10,41 +10,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('public/ericshop/images/shortlogo.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('ericshop/images/shortlogo.png')}}">
 
     <!-- CSS
 	============================================ -->
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/vendor/bootstrap.min.css')}}">
 
     <!-- Icon Font CSS -->
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/vendor/plazaicon.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/vendor/themify-icons.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/vendor/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/vendor/plazaicon.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/vendor/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/vendor/font-awesome.min.css')}}">
 
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/plugins/animate.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/plugins/swiper-bundle.min.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/plugins/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/plugins/animate.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/plugins/swiper-bundle.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/plugins/select2.min.css')}}">
 
     <!-- Helper CSS -->
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/helper.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/dataTables.bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/responsive.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/helper.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/responsive.bootstrap.min.css')}}">
 
     <!-- Main Style CSS -->
-    <link rel="stylesheet" href="{{asset('public/ericshop/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('ericshop/css/style.css')}}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@600&display=swap');
     </style>
     <!-- Modernizer JS -->
-    <script src="{{asset('public/ericshop/js/vendor/modernizr-3.6.0.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/vendor/modernizr-3.6.0.min.js')}}"></script>
     <!-- jQuery JS -->
-    <script src="{{asset('public/ericshop/js/vendor/jquery-3.3.1.min.js')}}"
+    <script src="{{asset('ericshop/js/vendor/jquery-3.3.1.min.js')}}"
         integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous">
         </script>
-    <script src="{{asset('public/ericshop/js/jquery.preloadinator.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/jquery.preloadinator.min.js')}}"></script>
 
 
 
@@ -78,7 +78,7 @@
                     <div class="row align-items-center">
                         <div class="col-lg-2">
                             <div class="header-logo">
-                                <a href="{{URL::to('/home')}}"><img src="{{asset('public/ericshop/images/logoo.png')}}"
+                                <a href="{{URL::to('/home')}}"><img src="{{asset('ericshop/images/logoo.png')}}"
                                         alt=""></a>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
                                         @if(Session::get('AvatarCus') != '')
                                         <a href="#" role="button" data-toggle="dropdown"><img style="border-radius:50%;"
                                                 width="140px" height="50px"
-                                                src="{{asset('public/storage/admin/images/customer/'.Session::get('AvatarCus'))}}"
+                                                src="{{asset('storage/admin/images/customer/'.Session::get('AvatarCus'))}}"
                                                 alt=""></a>
                                         @else <a href="#" role="button" data-toggle="dropdown"><i
                                                 class="icon-users"></i></a> @endif
@@ -196,7 +196,7 @@
                                                     <div class="cart-img">
                                                         <?php $image = json_decode($cart->ImageName)[0]; ?>
                                                         <a href="{{URL::to('shop-single/'.$cart->ProductSlug)}}"><img
-                                                                src="{{asset('public/storage/admin/images/product/'.$image)}}"
+                                                                src="{{asset('storage/admin/images/product/'.$image)}}"
                                                                 alt=""></a>
                                                         <span class="pro-quantity">{{$cart->QuantityBuy}}</span>
                                                     </div>
@@ -234,7 +234,7 @@
                                         <ul class="dropdown-menu" style="height:250px; width:250px;">
                                             <li
                                                 style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-                                                <img src="{{asset('public/ericshop/images/no_cart.png')}}" alt=""
+                                                <img src="{{asset('ericshop/images/no_cart.png')}}" alt=""
                                                     style="width: 80%;" class="product-image">
                                                 <span class="mt-10 d-block text-align-center">Giỏ hàng trống</span>
                                             </li>
@@ -257,7 +257,7 @@
                 <div class="row align-items-center">
                     <div class="col-6">
                         <div class="header-logo">
-                            <a href="{{URL::to('/home')}}"><img src="{{asset('public/ericshop/images/logo/logo.png')}}"
+                            <a href="{{URL::to('/home')}}"><img src="{{asset('ericshop/images/logo/logo.png')}}"
                                     alt=""></a>
                         </div>
                     </div>
@@ -269,7 +269,7 @@
                                     @if(Session::get('AvatarCus') != '')
                                     <a href="#" role="button" data-toggle="dropdown" style="top:-3px;"><img
                                             style="border-radius:50%;" width="24px" height="24px"
-                                            src="{{asset('public/storage/admin/images/customer/'.Session::get('AvatarCus'))}}"
+                                            src="{{asset('storage/admin/images/customer/'.Session::get('AvatarCus'))}}"
                                             alt=""></a>
                                     @else <a href="#" role="button" data-toggle="dropdown"><i
                                             class="icon-users"></i></a> @endif
@@ -310,7 +310,7 @@
                                                 <div class="cart-img">
                                                     <?php $image = json_decode($cart->ImageName)[0]; ?>
                                                     <a href="{{URL::to('shop-single/'.$cart->ProductSlug)}}"><img
-                                                            src="{{asset('public/storage/admin/images/product/'.$image)}}"
+                                                            src="{{asset('storage/admin/images/product/'.$image)}}"
                                                             alt=""></a>
                                                     <span class="pro-quantity">{{$cart->QuantityBuy}}</span>
                                                 </div>
@@ -347,7 +347,7 @@
                                     <ul class="dropdown-menu" style="height:250px; width:250px;">
                                         <li
                                             style="height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-                                            <img src="{{asset('public/ericshop/images/no_cart.png')}}" alt=""
+                                            <img src="{{asset('ericshop/images/no_cart.png')}}" alt=""
                                                 style="width: 80%;" class="product-image">
                                             <span class="mt-10 d-block text-align-center">Giỏ hàng trống</span>
                                         </li>
@@ -469,7 +469,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="footer-widget">
                                 <a class="footer-logo" href="#"><img
-                                        src="{{asset('public/ericshop/images/logoo.png')}}" alt=""></a>
+                                        src="{{asset('ericshop/images/logoo.png')}}" alt=""></a>
                                 <div class="footer-widget-text">
                                     <p>Nếu bạn chưa từng đi giày thể thao thì bạn hãy nên thử đi một lần, tôi tin rằng
                                         bạn sẽ rất “bảnh” nếu biết chọn lấy 1 đôi giày tốt. </p>
@@ -555,32 +555,32 @@
 
 
     <!-- Bootstrap JS -->
-    <script src="{{asset('public/ericshop/js/vendor/popper.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/vendor/bootstrap.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/vendor/popper.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/vendor/bootstrap.min.js')}}"></script>
 
     <!-- Plugins JS -->
-    <script src="{{asset('public/ericshop/js/plugins/swiper-bundle.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/plugins/jquery.countdown.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/plugins/jquery.elevateZoom.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/plugins/select2.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/plugins/ajax-contact.js')}}"></script>
+    <script src="{{asset('ericshop/js/plugins/swiper-bundle.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/plugins/jquery.countdown.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/plugins/jquery.elevateZoom.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/plugins/select2.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/plugins/ajax-contact.js')}}"></script>
 
 
     <!--====== Use the minified version files listed below for better performance and remove the files listed above ======-->
     <!-- <script src="assets/js/plugins.min.js"></script> -->
 
     <!-- Main JS -->
-    <script src="{{asset('public/ericshop/js/main.js')}}"></script>
+    <script src="{{asset('ericshop/js/main.js')}}"></script>
 
 
     <!-- Google Map js -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ5y0EF8dE6qwc03FcbXHJfXr4vEa7z54"></script>
-    <script src="{{asset('public/ericshop/js/map-script.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/form-validate.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('public/ericshop/js/responsive.bootstrap.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/map-script.js')}}"></script>
+    <script src="{{asset('ericshop/js/form-validate.js')}}"></script>
+    <script src="{{asset('ericshop/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('ericshop/js/responsive.bootstrap.min.js')}}"></script>
 
     <!-- Modal quick view JS -->
     <script>
@@ -1173,7 +1173,7 @@
       <div id="chat-header">
         <div style="display: flex; align-items: center;">
           <div class="logo">
-            <img src="{{asset('public/admin/images/logo.png')}}" alt="Logo" style="width: 20px; height: 20px;">
+            <img src="{{asset('admin/images/logo.png')}}" alt="Logo" style="width: 20px; height: 20px;">
           </div>
           <div>
             <div style="font-weight: 600;">Tư vấn khách hàng</div>
@@ -1352,7 +1352,7 @@
           avatar.className = `chat-avatar ${from}`;
           
           if (from === 'admin') {
-            avatar.innerHTML = '<img src="{{asset("public/admin/images/logo.png")}}" alt="Admin">';
+            avatar.innerHTML = '<img src="{{asset("admin/images/logo.png")}}" alt="Admin">';
           } else {
             avatar.textContent = customerId ? 'B' : 'G';
           }

@@ -19,13 +19,13 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
       <!-- Favicon -->
-      <link rel="shortcut icon" href="{{asset('public/admin/images/favicon.ico')}}" />
-      <link rel="stylesheet" href="{{asset('public/admin/css/backend-plugin.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/css/backend.css?v=1.0.0')}}">
+      <link rel="shortcut icon" href="{{asset('admin/images/favicon.ico')}}" />
+      <link rel="stylesheet" href="{{asset('admin/css/backend-plugin.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/css/backend.css?v=1.0.0')}}">
       
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
-      <link rel="stylesheet" href="{{asset('public/admin/vendor/remixicon/fonts/remixicon.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css')}}">
+      <link rel="stylesheet" href="{{asset('admin/vendor/remixicon/fonts/remixicon.css')}}">
       
       <!-- Custom Payment Badge Styles -->
       <style>
@@ -216,7 +216,7 @@
       <div class="iq-sidebar  sidebar-default ">
           <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
               <a href="{{URL::to('/dashboard')}}" class="header-logo">
-              <img src="{{asset('public/admin/images/logo.png')}}" class="img-fluid rounded-normal light-logo" alt="logo">
+              <img src="{{asset('admin/images/logo.png')}}" class="img-fluid rounded-normal light-logo" alt="logo">
                   <h5 class="logo-title light-logo ml-2">Admin</h5>
               </a>
               <div class="iq-menu-bt-sidebar ml-0">
@@ -415,6 +415,28 @@
                       </li>
                       
                                   <li class=" ">
+                          <a href="#reviews" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                          <svg class="svg-icon" id="p-dash9" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="12 7 12 12"></polyline><circle cx="12" cy="17" r="1"></circle>
+                              </svg>
+                              <span class="ml-4">Quản Lý Đánh Giá</span>
+                             
+                          </a>
+                          <ul id="reviews" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                <li class="{{ Request::is('manage-reviews') ? 'active' : '' }}">
+                                    <a href="{{URL::to('/manage-reviews')}}">
+                                        <i class="las la-minus"></i><span>Tất cả đánh giá</span>
+                                    </a>
+                                </li>
+                                <li class="{{ Request::is('pending-reviews') ? 'active' : '' }}">
+                                    <a href="{{URL::to('/pending-reviews')}}">
+                                        <i class="las la-minus"></i><span>Đánh giá chờ duyệt</span>
+                                    </a>
+                                </li>
+
+                          </ul>
+                      </li>
+                      <li class=" ">
                           <a href="#otherpage" class="collapsed" data-toggle="collapse" aria-expanded="false">
                           <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
@@ -515,6 +537,27 @@
                           </ul>
                       </li>
                       <li class=" ">
+                          <a href="#reviews-staff" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                          <svg class="svg-icon" id="p-dash9" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="12 7 12 12"></polyline><circle cx="12" cy="17" r="1"></circle>
+                              </svg>
+                              <span class="ml-4">Quản Lý Đánh Giá</span>
+                             
+                          </a>
+                          <ul id="reviews-staff" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                                <li class="{{ Request::is('manage-reviews') ? 'active' : '' }}">
+                                    <a href="{{URL::to('/manage-reviews')}}">
+                                        <i class="las la-minus"></i><span>Tất cả đánh giá</span>
+                                    </a>
+                                </li>
+                                <li class="{{ Request::is('pending-reviews') ? 'active' : '' }}">
+                                    <a href="{{URL::to('/pending-reviews')}}">
+                                        <i class="las la-minus"></i><span>Đánh giá chờ duyệt</span>
+                                    </a>
+                                </li>
+                          </ul>
+                      </li>
+                      <li class=" ">
                           <a href="#otherpage" class="collapsed" data-toggle="collapse" aria-expanded="false">
                           <svg class="svg-icon" id="p-dash8" width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
@@ -548,7 +591,7 @@
                   <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
                       <i class="ri-menu-line wrapper-menu"></i>
                       <a href="{{URL::to('/dashboard')}}" class="header-logo">
-                          <img src="{{asset('public/admin/images/logo.png')}}" class="img-fluid rounded-normal" alt="logo">
+                          <img src="{{asset('admin/images/logo.png')}}" class="img-fluid rounded-normal" alt="logo">
                           <h5 class="logo-title ml-3">Dashboard</h5>
       
                       </a>
@@ -597,33 +640,56 @@
                                   </a>
                               </li>
                               <li class="nav-item nav-icon dropdown">
-                                  <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton"
-                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <a href="#" class="search-toggle dropdown-toggle position-relative" id="notificationDropdown"
+                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Thông báo">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                           stroke-linejoin="round" class="feather feather-bell">
                                           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                                           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                                       </svg>
-                                      <span class="bg-primary "></span>
+                                      <span id="notification-badge" class="badge badge-danger position-absolute" style="top: 8px; right: -8px; min-width: 18px; height: 18px; font-size: 10px; display: none; line-height: 18px; border-radius: 50%; padding: 0;">0</span>
                                   </a>
+                                  <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="notificationDropdown" style="width: 350px; max-height: 400px;">
+                                      <div class="card shadow-none m-0">
+                                          <div class="card-header d-flex justify-content-between align-items-center">
+                                              <div class="header-title">
+                                                  <h5 class="card-title mb-0">Thông báo</h5>
+                                              </div>
+                                              <small>
+                                                  <a href="#" id="mark-all-read" class="badge badge-light">Đánh dấu tất cả đã đọc</a>
+                                              </small>
+                                          </div>
+                                          <div class="card-body p-0" style="max-height: 300px; overflow-y: auto;">
+                                              <div id="notification-list">
+                                                  <div class="text-center p-3">
+                                                      <i class="las la-bell text-muted" style="font-size: 2rem;"></i>
+                                                      <p class="text-muted mb-0">Chưa có thông báo mới</p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="card-footer text-center">
+                                              <a href="{{URL::to('/list-bill')}}" class="text-primary">Xem tất cả đơn hàng</a>
+                                          </div>
+                                      </div>
+                                  </div>
                               </li>
                 
                               <li class="nav-item nav-icon dropdown caption-content">
                                   <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton4"
                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                        
-                                        <img  src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" class="img-fluid rounded" alt="user">
+                                        <img  src="{{asset('storage/admin/images/user/'.Session::get('Avatar'))}}" class="img-fluid rounded" alt="user">
                                        
                                   </a>
                                   <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton">
                                       <div class="card shadow-none m-0">
                                           <div class="card-body p-0 text-center">
                                               <div class="media-body profile-detail text-center">
-                                                  <img src="{{asset('public/admin/images/page-img/profile-bg.jpg')}}" alt="profile-bg"
+                                                  <img src="{{asset('admin/images/page-img/profile-bg.jpg')}}" alt="profile-bg"
                                                       class="rounded-top img-fluid mb-4">
                                                  
-                                                  <img src="{{asset('public/storage/admin/images/user/'.Session::get('Avatar'))}}" alt="profile-img"
+                                                  <img src="{{asset('storage/admin/images/user/'.Session::get('Avatar'))}}" alt="profile-img"
                                                       class="rounded profile-img img-fluid avatar-70">
                                                   
                                               </div>
@@ -652,27 +718,27 @@
     <!-- Wrapper End-->
 
 <!-- Backend Bundle JavaScript -->
-<script src="{{asset('public/admin/js/backend-bundle.min.js')}}"></script>
+<script src="{{asset('admin/js/backend-bundle.min.js')}}"></script>
 
 <!-- Table Treeview JavaScript -->
-<script src="{{asset('public/admin/js/table-treeview.js')}}"></script>
+<script src="{{asset('admin/js/table-treeview.js')}}"></script>
 
 <!-- Chart Custom JavaScript -->
-<script src="{{asset('public/admin/js/customizer.js')}}"></script>
+<script src="{{asset('admin/js/customizer.js')}}"></script>
 
 <!-- Chart Custom JavaScript -->
-<script async src="{{asset('public/admin/js/chart-custom.js')}}"></script>
+<script async src="{{asset('admin/js/chart-custom.js')}}"></script>
 
 <!-- app JavaScript -->
-<script src="{{asset('public/admin/js/app.js')}}"></script>
+<script src="{{asset('admin/js/app.js')}}"></script>
 
-<script src="{{asset('public/admin/js/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('admin/js/ckeditor/ckeditor.js')}}"></script>
 
-<link rel="stylesheet" type="text/css" href="{{asset('public/admin/datetimepicker-master/jquery.datetimepicker.css')}}">
-<script src="{{asset('public/admin/datetimepicker-master/jquery.js')}}"></script>
-<script src="{{asset('public/admin/datetimepicker-master/build/jquery.datetimepicker.full.min.js')}}"></script>
-<script src="{{asset('public/admin/js/moment.js')}}"></script>
-<script src="{{asset('public/admin/js/form-validate.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('admin/datetimepicker-master/jquery.datetimepicker.css')}}">
+<script src="{{asset('admin/datetimepicker-master/jquery.js')}}"></script>
+<script src="{{asset('admin/datetimepicker-master/build/jquery.datetimepicker.full.min.js')}}"></script>
+<script src="{{asset('admin/js/moment.js')}}"></script>
+<script src="{{asset('admin/js/form-validate.js')}}"></script>
 
 <script type="text/javascript">
     function ChangeToSlug()
@@ -840,6 +906,25 @@ style.textContent = `
     animation: pulse 2s infinite;
     transition: all 0.3s ease;
 }
+
+/* Notification styles */
+.notification-item {
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item:last-child {
+    border-bottom: none !important;
+}
+
+#notification-badge {
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
 `;
 document.head.appendChild(style);
 
@@ -875,7 +960,263 @@ startChatAutoUpdate();
 // Initial load
 document.addEventListener('DOMContentLoaded', function() {
     updateChatUnreadBadge();
+    updateNotificationBadge();
 });
+
+// ===== NOTIFICATION SYSTEM =====
+
+// Global variables for notification auto-update
+let lastNotificationCount = 0;
+let notificationUpdateInterval = null;
+
+// Update notification badge
+function updateNotificationBadge() {
+    fetch('{{ url('admin/api/notifications/unread-count') }}')
+        .then(r => r.json())
+        .then(data => {
+            const badge = document.getElementById('notification-badge');
+            if (badge) {
+                const count = data.unread_count || 0;
+                
+                // Detect changes and show notification
+                if (count > lastNotificationCount && lastNotificationCount > 0) {
+                    showNewOrderNotification(count - lastNotificationCount);
+                }
+                lastNotificationCount = count;
+                
+                if (count > 0) {
+                    badge.textContent = count > 99 ? '99+' : count;
+                    badge.style.display = 'inline-block';
+                    
+                    // Add pulse effect for new notifications
+                    badge.style.animation = 'none';
+                    badge.offsetHeight; // Trigger reflow
+                    badge.style.animation = 'pulse 2s infinite';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error updating notification badge:', error);
+        });
+}
+
+// Load notifications in dropdown
+function loadNotifications() {
+    fetch('{{ url('admin/api/notifications') }}')
+        .then(r => r.json())
+        .then(data => {
+            const notificationList = document.getElementById('notification-list');
+            if (notificationList) {
+                if (data.notifications && data.notifications.length > 0) {
+                    let html = '';
+                    data.notifications.forEach(notification => {
+                        const timeAgo = formatTimeAgo(notification.created_at);
+                        const iconClass = notification.type === 'new_order' ? 'las la-shopping-cart' : 'las la-bell';
+                        const iconColor = notification.type === 'new_order' ? 'text-success' : 'text-info';
+                        
+                        html += `
+                            <div class="notification-item p-3 border-bottom" data-notification-id="${notification.id}">
+                                <div class="d-flex">
+                                    <div class="mr-3">
+                                        <i class="${iconClass} ${iconColor}" style="font-size: 1.5rem;"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">${notification.title}</h6>
+                                        <p class="mb-1 text-muted small">${notification.message}</p>
+                                        <small class="text-muted">${timeAgo}</small>
+                                        ${notification.data && notification.data.url ? `
+                                            <a href="${notification.data.url}" class="btn btn-sm btn-outline-primary mt-2" onclick="markNotificationAsRead(${notification.id})">
+                                                Xem chi tiết
+                                            </a>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    notificationList.innerHTML = html;
+                } else {
+                    notificationList.innerHTML = `
+                        <div class="text-center p-3">
+                            <i class="las la-bell text-muted" style="font-size: 2rem;"></i>
+                            <p class="text-muted mb-0">Chưa có thông báo mới</p>
+                        </div>
+                    `;
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error loading notifications:', error);
+        });
+}
+
+// Format time ago
+function formatTimeAgo(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diff = now - date;
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(diff / 3600000);
+    const days = Math.floor(diff / 86400000);
+    
+    if (minutes < 1) return 'Vừa xong';
+    if (minutes < 60) return `${minutes} phút trước`;
+    if (hours < 24) return `${hours} giờ trước`;
+    return `${days} ngày trước`;
+}
+
+// Show notification for new orders
+function showNewOrderNotification(newCount) {
+    // Browser notification
+    if (Notification.permission === 'granted') {
+        new Notification(`${newCount} đơn hàng mới`, {
+            body: 'Bạn có đơn hàng mới cần xử lý',
+            icon: '{{ asset("admin/images/logo.png") }}',
+            tag: 'new-order-notification'
+        });
+    }
+    
+    // Toast notification
+    showNotificationToast(`Có ${newCount} đơn hàng mới`, 'Bạn có đơn hàng mới cần xử lý');
+}
+
+// Show toast notification
+function showNotificationToast(title, message) {
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #007bff;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 9999;
+        font-size: 14px;
+        max-width: 300px;
+        animation: slideInRight 0.3s ease;
+    `;
+    
+    toast.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 5px;">${title}</div>
+        <div style="font-size: 12px; opacity: 0.9;">${message}</div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 4000);
+}
+
+// Mark notification as read
+function markNotificationAsRead(notificationId) {
+    fetch(`{{ url('admin/api/notifications') }}/${notificationId}/mark-read`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            updateNotificationBadge();
+            loadNotifications();
+        }
+    })
+    .catch(error => {
+        console.error('Error marking notification as read:', error);
+    });
+}
+
+// Mark all notifications as read
+function markAllNotificationsAsRead() {
+    fetch('{{ url('admin/api/notifications/mark-all-read') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            updateNotificationBadge();
+            loadNotifications();
+        }
+    })
+    .catch(error => {
+        console.error('Error marking all notifications as read:', error);
+    });
+}
+
+// Start notification auto-update
+function startNotificationAutoUpdate() {
+    // Clear existing interval if any
+    if (notificationUpdateInterval) {
+        clearInterval(notificationUpdateInterval);
+    }
+    
+    // Update notifications every 10 seconds
+    notificationUpdateInterval = setInterval(updateNotificationBadge, 10000);
+    
+    console.log('Notification auto-update started (10 second intervals)');
+}
+
+// Stop notification auto-update
+function stopNotificationAutoUpdate() {
+    if (notificationUpdateInterval) {
+        clearInterval(notificationUpdateInterval);
+        notificationUpdateInterval = null;
+        console.log('Notification auto-update stopped');
+    }
+}
+
+// Add event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Notification dropdown click
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    if (notificationDropdown) {
+        notificationDropdown.addEventListener('click', function() {
+            setTimeout(() => {
+                loadNotifications();
+            }, 100);
+        });
+    }
+    
+    // Mark all read button
+    const markAllReadBtn = document.getElementById('mark-all-read');
+    if (markAllReadBtn) {
+        markAllReadBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            markAllNotificationsAsRead();
+        });
+    }
+    
+    // Request notification permission
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+    
+    // Start auto-update
+    startNotificationAutoUpdate();
+});
+
+// Expose functions globally
+window.updateNotificationBadge = updateNotificationBadge;
+window.loadNotifications = loadNotifications;
+window.markNotificationAsRead = markNotificationAsRead;
+window.startNotificationAutoUpdate = startNotificationAutoUpdate;
+window.stopNotificationAutoUpdate = stopNotificationAutoUpdate;
+
 </script>
 
 </body>

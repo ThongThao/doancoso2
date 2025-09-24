@@ -1,0 +1,36 @@
+sequenceDiagram
+    title Notification & Communication System
+
+    participant System
+    participant NotificationService
+    participant AdminNotificationService
+    participant EmailService
+    participant Customer
+    participant Admin
+
+    System->>NotificationService: 1. createNotification(type, data)
+    NotificationService->>+NotificationService: 2. determineRecipients(type)
+    NotificationService-->>-NotificationService: 
+    NotificationService->>+NotificationService: 3. formatNotificationMessage()
+    NotificationService-->>-NotificationService: 
+    NotificationService->>AdminNotificationService: 4. sendAdminNotification()
+    AdminNotificationService->>Database: 5. INSERT INTO admin_notifications
+    AdminNotificationService->>Admin: 6. displayRealTimeNotification()
+    Admin->>AdminNotificationService: 7. getUnreadCount()
+    AdminNotificationService->>Database: 8. COUNT unread notifications
+    Database->>AdminNotificationService: 9. return unreadCount
+    Admin->>AdminNotificationService: 10. markAsRead(notificationId)
+    AdminNotificationService->>Database: 11. UPDATE notification SET read = 1
+    NotificationService->>EmailService: 12. sendCustomerEmail(template, data)
+    EmailService->>+EmailService: 13. loadEmailTemplate(template)
+    EmailService-->>-EmailService: 
+    EmailService->>+EmailService: 14. populateTemplateData(data)
+    EmailService-->>-EmailService: 
+    EmailService->>+EmailService: 15. sendEmail(to, subject, body)
+    EmailService-->>-EmailService: 
+    EmailService->>Customer: 16. deliverEmail()
+    System->>NotificationService: 17. sendBulkNotification(userList, message)
+    NotificationService->>EmailService: 18. prepareBulkEmail()
+    EmailService->>+EmailService: 19. sendBulkEmail(recipients)
+    EmailService-->>-EmailService: 
+    EmailService->>NotificationService: 20. return sendStatus

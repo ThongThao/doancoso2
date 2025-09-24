@@ -33,7 +33,7 @@
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <?php $image = json_decode($product->ImageName)[0];?>
-                                        <img src="{{asset('public/storage/admin/images/product/'.$image)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
+                                        <img src="{{asset('storage/admin/images/product/'.$image)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
                                         <div>{{$product->ProductName}}</div>        
                                     </div>
                                 </td>

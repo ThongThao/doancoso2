@@ -32,7 +32,7 @@
                                 <label>Sản phẩm</label>                    
                                 <div class="d-flex align-items-center mb-3">
                                     <?php $image = json_decode($sale_product->ImageName)[0];?>
-                                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
+                                    <img src="{{asset\('storage/admin/images/product/'.$image)}}" class="img-fluid rounded avatar-50 mr-3" alt="image">
                                     <div style="color:#000;">{{$sale_product->ProductName}}</div>
                                 </div>
                             </div>

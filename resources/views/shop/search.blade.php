@@ -3,7 +3,7 @@
 
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/banner/banner-shop.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/banner/banner-shop.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Tìm Kiếm Sản Phẩm</h2>
@@ -78,7 +78,7 @@
                         <div class="product-image">
                             <?php $image = json_decode($pd->ImageName)[0]; ?>
                             <a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">
-                                <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                <img src="{{asset\('storage/admin/images/product/'.$image)}}" alt="">
                             </a>
                             <div class="action-links">
                                 <ul>
@@ -105,7 +105,7 @@
                 <div class="product-image">
                     <?php $image = json_decode($pd->ImageName)[0]; ?>
                     <a href="{{URL::to('/shop-single/'.$pd->ProductSlug)}}">
-                        <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                        <img src="{{asset\('storage/admin/images/product/'.$image)}}" alt="">
                     </a>
                     <div class="action-links">
                         <ul>
@@ -224,7 +224,7 @@
 
                     <!--Sidebar Size Start-->
                     <div class="sidebar-banner">
-                        <a href="#"><img src="public/ericshop/images/banner-top-pd.png" alt=""></a>
+                        <a href="#"><img src="ericshop/images/banner-top-pd.png" alt=""></a>
                     </div>
                     <!--Sidebar Size End-->
 
@@ -240,7 +240,7 @@
                     <div class="product-image">
                         <?php $image = json_decode($top_pd->ImageName)[0]; ?>
                         <a href="{{URL::to('/shop-single/'.$top_pd->ProductSlug)}}">
-                            <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                            <img src="{{asset\('storage/admin/images/product/'.$image)}}" alt="">
                         </a>
                     </div>
                     <div class="product-content">

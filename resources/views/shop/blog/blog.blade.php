@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(public/ericshop/images/banner/banner-blog.png);">
+<div class="page-banner" style="background-image: url(ericshop/images/banner/banner-blog.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Tin Tức</h2>
@@ -23,7 +23,7 @@
             <div class="col-lg-4 col-md-6 mb-30">
                 <div class="single-blog">
                     <div class="blog-image">
-                        <a href="{{URL::to('/blog/'.$blog->BlogSlug)}}"><img src="{{asset('public/storage/admin/images/blog/'.$blog->BlogImage)}}" alt=""></a>
+                        <a href="{{URL::to('/blog/'.$blog->BlogSlug)}}"><img src="{{asset('storage/admin/images/blog/'.$blog->BlogImage)}}" alt=""></a>
                     </div>
                     <div class="blog-content">
                         <h5 class="title"><a href="{{URL::to('/blog/'.$blog->BlogSlug)}}" class="new-block">{{$blog->BlogTitle}}</a></h5>

@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(../public/ericshop/images/banner/banner-shop.png)">
+<div class="page-banner" style="background-image: url(../ericshop/images/banner/banner-shop.png)">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Chi tiết sản phẩm</h2>
@@ -32,7 +32,7 @@
             <div class="col-lg-6 col-md-8">
                 <div class="shop-image">
                     <div class="shop-single-preview-image">
-                        <img class="product-zoom" src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                        <img class="product-zoom" src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                         
                         @if($get_time_sale) 
                             @if($product->QuantityTotal == '0') <span class="sticker-new label-sale">HẾT HÀNG</span>
@@ -43,8 +43,8 @@
                         <div class="swiper-wrapper">
                             @foreach(json_decode($product->ImageName) as $img)
                             <div class="swiper-slide single-product-thumb">
-                                <a class="active" href="#" data-image="{{asset('public/storage/admin/images/product/'.$img)}}">
-                                    <img src="{{asset('public/storage/admin/images/product/'.$img)}}" alt="">
+                                <a class="active" href="#" data-image="{{asset('storage/admin/images/product/'.$img)}}">
+                                    <img src="{{asset('storage/admin/images/product/'.$img)}}" alt="">
                                 </a>
                             </div>
                             @endforeach
@@ -152,12 +152,12 @@
                         <p>Phương thức thanh toán</p>
 
                         <ul class="payment-options">
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-1.svg')}}" alt=""></li>
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-2.svg')}}" alt=""></li>
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-3.svg')}}" alt=""></li>
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-4.svg')}}" alt=""></li>
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-5.svg')}}" alt=""></li>
-                            <li><img src="{{asset('public/ericshop/images/payment-icon/payment-7.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-1.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-2.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-3.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-4.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-5.svg')}}" alt=""></li>
+                            <li><img src="{{asset('ericshop/images/payment-icon/payment-7.svg')}}" alt=""></li>
                         </ul>
                     </div>
 
@@ -319,7 +319,7 @@
                             <div class="product-image">
                                 <?php $image = json_decode($related_product->ImageName)[0];?>
                                 <a href="{{URL::to('/shop-single/'.$related_product->ProductSlug)}}">
-                                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                    <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                 </a>
 
                                 <?php
@@ -568,22 +568,22 @@
         <div class="brand-active swiper-container">
             <div class="swiper-wrapper">
                 <div class="single-brand swiper-slide">
-                    <img src="{{asset('public/ericshop/images/brand/brand-1.jpg')}}" alt="">
+                    <img src="{{asset('ericshop/images/brand/brand-1.jpg')}}" alt="">
                 </div>
                 <div class="single-brand swiper-slide">
-                    <img src="{{asset('public/ericshop/images/brand/brand-2.jpg')}}" alt="">
+                    <img src="{{asset('ericshop/images/brand/brand-2.jpg')}}" alt="">
                 </div>
                 <div class="single-brand swiper-slide">
-                            <img src="{{asset('public/ericshop/images/brand/brand-3.jpg')}}" alt="">
+                            <img src="{{asset('ericshop/images/brand/brand-3.jpg')}}" alt="">
                 </div>
                 <div class="single-brand swiper-slide">
-                    <img src="{{asset('public/ericshop/images/brand/brand-4.jpg')}}" alt="">
+                    <img src="{{asset('ericshop/images/brand/brand-4.jpg')}}" alt="">
                 </div>
                 <div class="single-brand swiper-slide">
-                    <img src="{{asset('public/ericshop/images/brand/brand-5.jpg')}}" alt="">
+                    <img src="{{asset('ericshop/images/brand/brand-5.jpg')}}" alt="">
                 </div>
                 <div class="single-brand swiper-slide">
-                    <img src="{{asset('public/ericshop/images/brand/brand-6.jpg')}}" alt="">
+                    <img src="{{asset('ericshop/images/brand/brand-6.jpg')}}" alt="">
                 </div>
             </div>
         </div>
@@ -773,7 +773,7 @@
     function createReviewHTML(review) {
         const customerName = review.customer ? review.customer.CustomerName : review.customer_name;
         const customerAvatar = review.customer && review.customer.Avatar ? 
-            `{{asset('public/storage/admin/images/customer')}}/${review.customer.Avatar}` : 
+            `{{asset('storage/admin/images/customer')}}/${review.customer.Avatar}` : 
             'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="%23ccc"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>';
         
         const reviewDate = new Date(review.created_at).toLocaleDateString('vi-VN');

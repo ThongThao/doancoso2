@@ -10,7 +10,7 @@
                 <div class="card car-transparent">
                     <div class="card-body p-0">
                         <div class="profile-image position-relative">
-                        <img src="public/admin/images/page-img/profile.png" class="img-fluid rounded w-100" alt="profile-image">
+                        <img src="admin/images/page-img/profile.png" class="img-fluid rounded w-100" alt="profile-image">
                         </div>
                     </div>
                 </div>
@@ -24,9 +24,9 @@
                             <div class="profile-img position-relative">
                           
                                     @if(Session::get('Avatar') != NULL)
-                                        <img src="public/storage/admin/images/user/<?php echo Session::get('Avatar')?>" class="img-fluid rounded avatar-110" alt="profile-image">
+                                        <img src="storage/admin/images/user/<?php echo Session::get('Avatar')?>" class="img-fluid rounded avatar-110" alt="profile-image">
                                     @else
-                                        <img src="public/admin/images/user/12.png" class="img-fluid rounded avatar-110" alt="profile-image">
+                                        <img src="admin/images/user/12.png" class="img-fluid rounded avatar-110" alt="profile-image">
                                     @endif
                            
                             </div>

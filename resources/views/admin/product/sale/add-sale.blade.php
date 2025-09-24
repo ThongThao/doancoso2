@@ -93,7 +93,7 @@
                     <div class="product-image mb-3" id="product-image-{{$product->idProduct}}">
 
                         <?php $image = json_decode($product->ImageName)[0];?>
-                        <label for="chk-pd-{{$product->idProduct}}"><img src="{{asset('public/storage/admin/images/product/'.$image)}}" class="rounded w-100 img-fluid"/></label>
+                        <label for="chk-pd-{{$product->idProduct}}"><img src="{{asset\('storage/admin/images/product/'.$image)}}" class="rounded w-100 img-fluid"/></label>
 
                         <div class="product-title">
                             <div class="product-name">
@@ -161,7 +161,7 @@
                 $(document).ready(function(){
                     $("#confirm").click(function(){
                         if($(".list-product > #product-list-item-"+product_id).length < 1)
-                        $(".list-product").append('<div class="product-item col-md-2" id=product-list-item-'+ product_id +'><div class="product-image" id=product-list-image-'+ product_id +'><img src="public/storage/admin/images/product/'+ product_img +'" class="rounded w-100 img-fluid"><div class="product-title"><div class="product-name"><span>'+product_name+'</span></div></div></div></div>');
+                        $(".list-product").append('<div class="product-item col-md-2" id=product-list-item-'+ product_id +'><div class="product-image" id=product-list-image-'+ product_id +'><img src="storage/admin/images/product/'+ product_img +'" class="rounded w-100 img-fluid"><div class="product-title"><div class="product-name"><span>'+product_name+'</span></div></div></div></div>');
                     })
                 })
             }

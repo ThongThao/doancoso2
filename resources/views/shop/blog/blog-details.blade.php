@@ -2,7 +2,7 @@
 @section('content')
 
 <!--Page Banner Start-->
-<div class="page-banner" style="background-image: url(../public/ericshop/images/banner/banner-blog.png);">
+<div class="page-banner" style="background-image: url(../ericshop/images/banner/banner-blog.png);">
     <div class="container">
         <div class="page-banner-content text-center">
             <h2 class="title">Chi Tiết Bài Viết</h2>
@@ -36,7 +36,7 @@
                         <li>
                             <div class="single-post">
                                 <div class="post-thumb">
-                                    <a href="{{URL::to('/blog/'.$new_blog->BlogSlug)}}"><img src="{{asset('public/storage/admin/images/blog/'.$new_blog->BlogImage)}}" alt=""></a>
+                                    <a href="{{URL::to('/blog/'.$new_blog->BlogSlug)}}"><img src="{{asset('storage/admin/images/blog/'.$new_blog->BlogImage)}}" alt=""></a>
                                 </div>
                                 <div class="post-content">
                                     <div class="post-title"><a class="two-line" href="{{URL::to('/blog/'.$new_blog->BlogSlug)}}">{{$new_blog->BlogTitle}}</a></div>

@@ -7,7 +7,7 @@
     <div class="swiper-container slider-active">
         <div class="swiper-wrapper">
             <!--Single Slider Start-->
-            <div class="single-slider swiper-slide animation-style-01" style="background-image: url('public/ericshop/images/slider/ERICBanner.png');">
+            <div class="single-slider swiper-slide animation-style-01" style="background-image: url('{{asset('ericshop/images/slider/ERICBanner.png')}}');">
                 <div class="container">
                     <div class="slider-content">
                         <ul class="slider-btn" >
@@ -19,7 +19,7 @@
             <!--Single Slider End-->
 
             <!--Single Slider Start-->
-            <div class="single-slider swiper-slide animation-style-01" style="background-image: url('public/ericshop/images/slider/ERICBanner2.png');">
+            <div class="single-slider swiper-slide animation-style-01" style="background-image: url('{{asset('ericshop/images/slider/ERICBanner2.png')}}');">
                 <div class="container" style="text-align:right;">
                     <div class="slider-content">
                         <ul class="slider-btn" style=" padding-top: 400px; padding-right: 250px;animation-delay: 0.5s;">
@@ -53,7 +53,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="single-shipping">
                     <div class="shipping-icon">
-                        <img src="public/ericshop/images/shipping-icon/Free-Delivery.png" alt="">
+                        <img src="ericshop/images/shipping-icon/Free-Delivery.png" alt="">
                     </div>
                     <div class="shipping-content">
                         <h5 class="title">Miễn Phí Vận Chuyển</h5>
@@ -64,7 +64,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="single-shipping">
                     <div class="shipping-icon">
-                        <img src="public/ericshop/images/shipping-icon/Online-Order.png" alt="">
+                        <img src="ericshop/images/shipping-icon/Online-Order.png" alt="">
                     </div>
                     <div class="shipping-content">
                         <h5 class="title">Đặt Hàng Online</h5>
@@ -75,7 +75,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="single-shipping">
                     <div class="shipping-icon">
-                        <img src="public/ericshop/images/shipping-icon/Freshness.png" alt="">
+                        <img src="ericshop/images/shipping-icon/Freshness.png" alt="">
                     </div>
                     <div class="shipping-content">
                         <h5 class="title">Hiện Đại</h5>
@@ -86,7 +86,7 @@
             <div class="col-lg-3 col-sm-6">
                 <div class="single-shipping">
                     <div class="shipping-icon">
-                        <img src="public/ericshop/images/shipping-icon/247.png" alt="">
+                        <img src="ericshop/images/shipping-icon/247.png" alt="">
                     </div>
                     <div class="shipping-content">
                         <h5 class="title">Hỗ Trợ 24/7</h5>
@@ -118,7 +118,7 @@
                             <div class="product-image">
                                 <?php $image = json_decode($new_pd->ImageName)[0];?>
                                 <a href="{{URL::to('/shop-single/'.$new_pd->ProductSlug)}}">
-                                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                    <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                 </a>
 
                               
@@ -160,7 +160,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <div class="about-image">
-                    <img src="public/ericshop/images/banner/banner_home.png" alt="">
+                        <img src="ericshop/images/banner/banner_home.png" alt="">
                 </div>
             </div>
             <div class="col-lg-6">
@@ -217,7 +217,7 @@
                                     <div class="product-image">
                                         <?php $image = json_decode($bestsellers_pd->ImageName)[0];?>
                                         <a href="{{URL::to('/shop-single/'.$bestsellers_pd->ProductSlug)}}">
-                                            <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                            <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                         </a>
 
                                        
@@ -259,7 +259,7 @@
                                     <div class="product-image">
                                         <?php $image = json_decode($featured_pd->ImageName)[0];?>
                                         <a href="{{URL::to('/shop-single/'.$featured_pd->ProductSlug)}}">
-                                            <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                                            <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                                         </a>
 
                                        
@@ -300,7 +300,7 @@
             <div class="product-image">
                 <?php $image = json_decode($featured_pd->ImageName)[0];?>
                 <a href="{{URL::to('/shop-single/'.$featured_pd->ProductSlug)}}">
-                    <img src="{{asset('public/storage/admin/images/product/'.$image)}}" alt="">
+                    <img src="{{asset('storage/admin/images/product/'.$image)}}" alt="">
                 </a>
 
                 <div class="action-links">
@@ -358,7 +358,7 @@
                     <div class="swiper-slide">
                         <div class="single-blog">
                             <div class="blog-image">
-                                <a href="{{URL::to('/blog/'.$blog->BlogSlug)}}"><img src="{{asset('public/storage/admin/images/blog/'.$blog->BlogImage)}}" alt=""></a>
+                                <a href="{{URL::to('/blog/'.$blog->BlogSlug)}}"><img src="{{asset('storage/admin/images/blog/'.$blog->BlogImage)}}" alt=""></a>
                             </div>
                             <div class="blog-content">
                                 <h4 class="title"><a href="{{URL::to('/blog/'.$blog->BlogSlug)}}">{{$blog->BlogTitle}}</a></h4>

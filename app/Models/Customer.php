@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     public $timestamp = false;
-    protected $fillable = ['username','password','PhoneNumber','CustomerName','Avatar'];
+    protected $fillable = ['username','password','PhoneNumber','CustomerName','Avatar','Email'];
     protected $primaryKey = 'idCustomer';
     protected $table = 'customer';
 }

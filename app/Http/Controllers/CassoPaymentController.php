@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 use App\Services\CassoService;
+use App\Services\AdminNotificationService;
+use App\Services\EmailService;
 use App\Models\Bill;
 use App\Models\BillInfo;
 use App\Models\BillHistory;
@@ -227,6 +229,14 @@ class CassoPaymentController extends Controller
             Cart::where('idCustomer', $pendingOrder['customer_id'])->delete();
 
             DB::commit();
+
+            // Tạo thông báo cho admin về đơn hàng mới
+            $notificationService = new AdminNotificationService();
+            $notificationService->createNewOrderNotification($bill->idBill);
+
+            // Gửi email hóa đơn ngay cho thanh toán QR
+            $emailService = new EmailService();
+            $emailService->sendInvoiceEmail($bill->idBill);
 
             return [
                 'success' => true,

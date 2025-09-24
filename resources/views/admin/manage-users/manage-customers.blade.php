@@ -29,10 +29,10 @@
                             <tr>
                                 @if($customer->Avatar)
                                 <td class="text-center"><img class="rounded img-fluid avatar-40"
-                                        src="public/storage/admin/images/customer/{{$customer->Avatar}}" alt="profile"></td>
+                                        src="storage/admin/images/customer/{{$customer->Avatar}}" alt="profile"></td>
                                 @else
                                 <td class="text-center"><img class="rounded img-fluid avatar-40"
-                                        src="public/ericshop/images/customer/1.png" alt="profile"></td>
+                                        src="ericshop/images/customer/1.png" alt="profile"></td>
                                 @endif
                                 <td>{{$customer->username}}</td>
                                 <td>{{$customer->CustomerName}}</td>
